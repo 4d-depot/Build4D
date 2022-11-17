@@ -31,8 +31,8 @@ $customSettings is an object that contains the following parameters:
 | Attributes | Type | Description |
 |---|---|---|        
 |\_validInstance | Boolean | True if the instanciated object can be used for build. False if a condition is not filled (e.g. project doesn't exist).|
-|projectFile | File | Project file.|
-|projectPackage | Folder | Folder of the project package.|
+|\_projectFile | File | Project file|
+|\_projectPackage | Folder | Folder of the project package.|
 |\_isCurrentProject | Boolean | True if the project is the current one.|
 |\_isDefaultDestinationFolder | Boolean | True if the destination folder is the one computed automatically.|
 |settings | Object | Root object containing all settings for target build. Can be overriden by a constructor's parameter. The structure of the $settings object is described in each class corresponding to the target.|
@@ -99,7 +99,7 @@ Function _deletePaths($paths : Collection) -> $status : Boolean
 
 | Parameter | Type | in/out | Description |
 |---|---|---|---|
-| $paths | Collection of text | in | List of folders and files to delete |
+| $paths | Collection of texts | in | List of folders and files to delete |
 | $status | Boolean | out |  True if all paths have been correctly removed. If not, an error log is created with "path" information. |
 
 Deletes folders and files from the destination structure.
@@ -107,7 +107,7 @@ Deletes folders and files from the destination structure.
 <h3 id="function-includePaths">Function _includePaths</h3>
 
 ```4D
-Function _includePaths($paths : Collection) -> $status : Boolean
+Function _includePaths($pathsObj : Collection) -> $status : Boolean
 ```
 
 | Parameter | Type | in/out | Description |
