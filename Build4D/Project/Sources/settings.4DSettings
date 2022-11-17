@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="42">
+	<com.4d>
+		<general component_classStore_name="Build4D"/>
+		<compiler>
+			<options compilation_path="1" syntax_file="true" target="all"/>
+		</compiler>
+	</com.4d>
+</preferences>

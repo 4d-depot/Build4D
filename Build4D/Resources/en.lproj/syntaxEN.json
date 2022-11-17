@@ -1,0 +1,78 @@
+{
+	"_method_": {},
+	"cs.Build4D": {
+		"Component": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_core": {
+			"new()": {
+				"Syntax": "**.new**( *target* : Text; *customSettings* : Object )",
+				"Params": [
+					[
+						"target",
+						"Text",
+						"->"
+					],
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"CompiledProject": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		}
+	},
+	"Component": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"_core": {},
+	"CompiledProject": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	}
+}

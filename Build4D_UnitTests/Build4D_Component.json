@@ -1,0 +1,22 @@
+{
+    "buildName":"Build4D",
+    "destinationFolder":"ComponentToDeliver/",
+    "packedProject":true,
+    "obfuscated4DZ":false,
+    "includePaths":
+    [
+        {
+            "source":"/RESOURCES/",
+            "destination":"./"
+        }
+    ],
+    "deletePaths":
+    [
+    ],
+    "signApplication":{
+        "macSignature":false,
+        "macCertificate":"",
+        "adHocSignature":true
+    },
+    "notarize":false
+}

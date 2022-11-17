@@ -1,0 +1,28 @@
+# Data folder
+[dD][aA][tT][aA]/
+
+# Derived data
+DerivedData/
+
+# Libraries
+Libraries/
+
+# User preferences
+userPreferences.*/
+
+# Other
+Project/Trash
+Settings/buildApp.4DSettings
+
+# System files
+.DS_Store
+ehthumbs.db
+Thumbs.db
+
+# Working files and folders
+*.4dbase/
+UT_*.log
+Build_*.log
+Artifacts/
+Test/
+Build/

@@ -1,0 +1,175 @@
+name: Unit Tests & Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:          
+
+  Unit-tests-on-windows:
+    name: Unit Tests on Windows
+    runs-on: windows-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Download latest 4D release"
+        run: |
+          curl http://4d.fuzeau.net/windows/4D.zip -o 4D.zip -s
+      - name: "Unzip latest 4D release"
+        run: |
+          unzip -q 4D.zip
+      - name: "Run Project Unit Tests"
+        run: |
+          ./4D/4D.exe --project ${{ github.workspace }}\Project\Build4D_DF.4DProject --headless --dataless --user-param "test"
+      - name: "List package content"
+        run: |
+          dir
+      - name: "Diagnostic log"
+        run: |
+          cat ${{ github.workspace }}\Data\Logs\4DDiagnosticLog_1.txt
+      - name: "Unit Tests logs"
+        run: |
+          cat UT_run.log
+      - name: "Start timestamp"
+        run: |
+          cat UT_start.log
+      - name: "End timestamp"
+        run: |
+          cat UT_end.log
+      - name: "Run Component Unit Tests"
+        run: |
+          ./4D/4D.exe --project ${{ github.workspace }}\UnitTests\Build4D_ComponentUT\Project\Build4D_ComponentUT.4DProject --headless --dataless
+      - name: "List package content"
+        run: |
+          dir
+      - name: "Unit Tests logs"
+        run: |
+          cat UT_run.log
+      - name: "Start timestamp"
+        run: |
+          cat UT_start.log
+      - name: "End timestamp"
+        run: |
+          cat UT_end.log
+      - name: "Check errors file existence"
+        id: check_error_file
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "UT_errors.log"
+      - name: "Unit Tests FAILURE"
+        if: steps.check_error_file.outputs.files_exists == 'true'
+        run: |
+          cat UT_errors.log
+          exit 1
+      - name: "Unit Tests SUCCESS"
+        if: steps.check_error_file.outputs.files_exists == 'false'
+        run: |
+          exit 0
+          
+  Unit-tests-on-macos:
+    name: Unit Tests on macOS
+    needs: [Unit-tests-on-windows]
+    runs-on: macOS-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Download latest 4D release"
+        run: |
+          curl http://4d.fuzeau.net/macos/4D.zip -o 4D.zip -s
+      - name: "Unzip latest 4D release"
+        run: |
+          unzip -q 4D.zip
+      - name: "Run Project Unit Tests"
+        run: |
+          ./4D.app/Contents/MacOS/4D --project ${{ github.workspace }}/Project/Build4D_DF.4DProject --headless --dataless --user-param "test"
+      - name: "List package content"
+        run: |
+          ls -la
+      - name: "Diagnostic log"
+        run: |
+          cat ${{ github.workspace }}/Data/Logs/4DDiagnosticLog_1.txt
+      - name: "Unit Tests logs"
+        run: |
+          cat UT_run.log
+      - name: "Start timestamp"
+        run: |
+          cat UT_start.log
+      - name: "End timestamp"
+        run: |
+          cat UT_end.log
+      - name: "Run Component Unit Tests"
+        run: |
+          ./4D.app/Contents/MacOS/4D --project ${{ github.workspace }}/UnitTests/Build4D_ComponentUT/Project/Build4D_ComponentUT.4DProject --headless --dataless
+      - name: "List package content"
+        run: |
+          ls -la
+      - name: "Unit Tests logs"
+        run: |
+          cat UT_run.log
+      - name: "Start timestamp"
+        run: |
+          cat UT_start.log
+      - name: "End timestamp"
+        run: |
+          cat UT_end.log
+      - name: "Check errors file existence"
+        id: check_error_file
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "UT_errors.log"
+      - name: "Unit Tests FAILURE"
+        if: steps.check_error_file.outputs.files_exists == 'true'
+        run: |
+          cat UT_errors.log
+          exit 1
+      - name: "Unit Tests SUCCESS"
+        if: steps.check_error_file.outputs.files_exists == 'false'
+        run: |
+          exit 0
+
+  Build:
+    name: Build
+    needs: [Unit-tests-on-macos]
+    runs-on: macOS-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Download latest 4D release"
+        run: |
+          curl http://4d.fuzeau.net/macos/4D.zip -o 4D.zip -s
+      - name: "Unzip latest 4D release"
+        run: |
+          unzip -q 4D.zip
+      - name: "Run Build"
+        run: |
+          ./4D.app/Contents/MacOS/4D --project ${{ github.workspace }}/Project/Build4D_DF.4DProject --headless --dataless --user-param "build"
+      - name: "List package content"
+        run: |
+          ls -la
+      - name: "Build logs"
+        run: |
+          cat Build_run.log
+      - name: "Start timestamp"
+        run: |
+          cat Build_start.log
+      - name: "End timestamp"
+        run: |
+          cat Build_end.log
+      - name: "Check errors file existence"
+        id: check_error_file
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "Build_errors.log"
+      - name: "Unit Tests FAILURE"
+        if: steps.check_error_file.outputs.files_exists == 'true'
+        run: |
+          cat Build_errors.log
+          exit 1
+      - name: "Unit Tests SUCCESS"
+        if: steps.check_error_file.outputs.files_exists == 'false'
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Build4D.4dbase"
+          path: ./Artifacts/Build4D.4dbase
