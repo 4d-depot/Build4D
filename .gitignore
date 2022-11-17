@@ -26,3 +26,5 @@ Build_*.log
 Artifacts/
 Test/
 Build/
+Build4D_UnitTests_Build/
+Build4D_External_Build/

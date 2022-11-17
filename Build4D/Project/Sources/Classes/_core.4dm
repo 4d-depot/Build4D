@@ -21,11 +21,11 @@ Class constructor($target : Text; $customSettings : Object)
 		
 		This._validInstance:=True
 		This._isCurrentProject:=True
-		This.projectFile:=File(Structure file(*); fk platform path)
+		This._projectFile:=File(Structure file(*); fk platform path)
 		If (($settings#Null) && ($settings.projectFile#Null) && ($settings.projectFile#""))
 			This._isCurrentProject:=False
-			This.projectFile:=This._resolvePath($settings.projectFile; Folder("/PACKAGE/"; *))
-			If (Not(This.projectFile.exists))
+			This._projectFile:=This._resolvePath($settings.projectFile; Folder("/PACKAGE/"; *))
+			If (Not(This._projectFile.exists))
 				This._validInstance:=False
 				This._log(New object(\
 					"function"; "Class constuctor"; \
@@ -34,19 +34,19 @@ Class constructor($target : Text; $customSettings : Object)
 			End if 
 		End if 
 		
-		This.projectPackage:=This.projectFile.parent.parent
+		This._projectPackage:=This._projectFile.parent.parent
 		
 		If (This._validInstance)
 			This._overrideSettings($settings)
 			If ((This.settings.buildName=Null) || (This.settings.buildName=""))
-				This.settings.buildName:=This.projectFile.name
+				This.settings.buildName:=This._projectFile.name
 				This._log(New object(\
 					"function"; "Settings checking"; \
 					"message"; "Build name automatically defined."; \
 					"severity"; Information message))
 			End if 
 			If (This.settings.destinationFolder=Null)
-				This.settings.destinationFolder:=This.projectPackage.parent.folder(This.projectFile.name+"_Build/")
+				This.settings.destinationFolder:=This._projectPackage.parent.folder(This._projectFile.name+"_Build/")
 				This._isDefaultDestinationFolder:=True
 				This._log(New object(\
 					"function"; "Settings checking"; \
@@ -71,7 +71,7 @@ Function _overrideSettings($settings : Object)
 		Case of 
 			: ($entry.key="destinationFolder")
 				//$settings.destinationFolder:=($settings.destinationFolder="@/") ? $settings.destinationFolder : $settings.destinationFolder+"/"
-				This.settings.destinationFolder:=This._resolvePath($settings.destinationFolder; This.projectPackage)
+				This.settings.destinationFolder:=This._resolvePath($settings.destinationFolder; This._projectPackage)
 				If (Not(OB Instance of(This.settings.destinationFolder; 4D.Folder)))
 					This._validInstance:=False
 				Else 
@@ -152,9 +152,9 @@ Function _compileProject() : Boolean
 		var $compilation : Object
 		
 		If (Undefined(This.settings.compilerOptions))
-			$compilation:=(This._isCurrentProject) ? Compile project : Compile project(This.projectFile)
+			$compilation:=(This._isCurrentProject) ? Compile project : Compile project(This._projectFile)
 		Else 
-			$compilation:=(This._isCurrentProject) ? Compile project(This.settings.compilerOptions) : Compile project(This.projectFile; This.settings.compilerOptions)
+			$compilation:=(This._isCurrentProject) ? Compile project(This.settings.compilerOptions) : Compile project(This._projectFile; This.settings.compilerOptions)
 		End if 
 		
 		If ($compilation.success)
@@ -190,7 +190,7 @@ Function _createStructure() : Boolean
 			$destinationFolder.create()
 		End if 
 		
-		This.projectFile.parent.copyTo($destinationFolder; fk overwrite)
+		This._projectFile.parent.copyTo($destinationFolder; fk overwrite)
 		
 		// Remove source methods
 		$deletePaths:=New collection
@@ -204,7 +204,7 @@ Function _createStructure() : Boolean
 			$deletePaths:=$destinationFolder.files(fk recursive).query("extension =:1"; ".4DM")  // Table Form, Form and Form object methods
 			If (($deletePaths.length>0) || (This._deletePaths($deletePaths)))
 				// Copy Libraries folder
-				$librariesFolder:=This.projectPackage.folder("Libraries")
+				$librariesFolder:=This._projectPackage.folder("Libraries")
 				If (($librariesFolder.exists) && ($librariesFolder.files.length))
 					$librariesFolder.copyTo($destinationFolder; fk overwrite)
 				End if 
@@ -230,7 +230,7 @@ Function _includePaths($pathsObj : Collection) : Boolean
 			Else 
 				Case of 
 					: (Value type($pathObj.source)=Is text)
-						$sourcePath:=This._resolvePath($pathObj.source; This.projectPackage)
+						$sourcePath:=This._resolvePath($pathObj.source; This._projectPackage)
 					: ((OB Instance of($pathObj.source; 4D.Folder)) || (OB Instance of($pathObj.source; 4D.File)))
 						$sourcePath:=$pathObj.source
 					Else 
