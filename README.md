@@ -13,6 +13,6 @@ Welcome to Build4D! This 4D project allows you to compile, build and sign:
 
 Several classes are available. For more details, please refer to the class documentation:
 
-* [CompiledProject](./Documentation/Classes/CompiledProject.md)
-* [Component](./Documentation/Classes/Component.md)
-* [_core](./Documentation/Classes/_core.md)
+* [CompiledProject](./Build4D/Documentation/Classes/CompiledProject.md)
+* [Component](./Build4D/Documentation/Classes/Component.md)
+* [_core](./Build4D/Documentation/Classes/_core.md)
