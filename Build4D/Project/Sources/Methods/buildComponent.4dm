@@ -4,14 +4,17 @@
 var $build : cs.Component
 var $settings : Object
 var $success : Boolean
+var $targets : Collection
 
 File("/PACKAGE/Build_start.log").setText(Timestamp)
 File("/PACKAGE/Build_failed.log").delete()
 File("/PACKAGE/Build_end.log").delete()
 
+$targets:=(Is macOS) ? New collection("x86_64_generic"; "arm64_macOS_lib") : New collection("x86_64_generic")
+
 $settings:=New object(\
 "buildName"; "Build4D"; \
-"compilerOptions"; New object("targets"; New collection("x86_64_generic"; "arm64_macOS_lib")); \
+"compilerOptions"; New object("targets"; $targets); \
 "destinationFolder"; "../Build4D_UnitTests/Build4D_UnitTests/Components/"; \
 "includePaths"; New collection(New object("source"; "Documentation/"))\
 )

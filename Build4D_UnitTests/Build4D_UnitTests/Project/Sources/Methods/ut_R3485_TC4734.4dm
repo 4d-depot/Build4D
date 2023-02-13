@@ -18,7 +18,7 @@ $settings.buildName:="Build4D"
 
 $build:=cs.Build4D.CompiledProject.new($settings)
 
-$destinationFolder:=$build.projectPackage.parent.folder($build.projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
+$destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
 ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(Current project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+" (https://dev.azure.com/4dimension/4D/_workitems/edit/4734)")
 
 $success:=$build.build()
@@ -29,7 +29,7 @@ $compiledProject:=$build.settings.destinationFolder.file($build.settings.buildNa
 ASSERT($compiledProject.exists; "(Current project) Compiled project should exist: "+$compiledProject.platformPath+$link)
 
 // Cleanup build folder
-$build.projectPackage.parent.folder($build.projectFile.name+"_Build").delete(fk recursive)
+$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 
 // MARK:- External project
 
@@ -37,7 +37,7 @@ $settings.projectFile:=Storage.settings.externalProjectFile
 
 $build:=cs.Build4D.CompiledProject.new($settings)
 
-$destinationFolder:=Storage.settings.externalProjectRootFolder.parent.folder($build.projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
+$destinationFolder:=Storage.settings.externalProjectRootFolder.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
 ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+" (https://dev.azure.com/4dimension/4D/_workitems/edit/4734)")
 
 $success:=$build.build()
@@ -48,5 +48,5 @@ $compiledProject:=$build.settings.destinationFolder.file($build.settings.buildNa
 ASSERT($compiledProject.exists; "(External project) Compiled project should exist: "+$compiledProject.platformPath+$link)
 
 // Cleanup build folder
-Storage.settings.externalProjectRootFolder.parent.folder($build.projectFile.name+"_Build").delete(fk recursive)
+Storage.settings.externalProjectRootFolder.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 

@@ -40,7 +40,7 @@ If (Is macOS)
 	End if 
 	
 	// Cleanup build folder
-	$build.projectPackage.parent.folder($build.projectFile.name+"_Build").delete(fk recursive)
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 	
 	// MARK:- External project
 	
@@ -69,5 +69,5 @@ If (Is macOS)
 	End if 
 	
 	// Cleanup build folder
-	$build.projectPackage.parent.folder($build.projectFile.name+"_Build").delete(fk recursive)
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 End if 
