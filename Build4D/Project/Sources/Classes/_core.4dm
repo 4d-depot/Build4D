@@ -3,61 +3,56 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	var $settings : Object
 	
-	If (Application version<"1940")
-		ALERT("Minimum version to use this component is 4D v19 R4!")
-	Else 
-		
-		This.logs:=New collection
-		This.settings:=New object()
-		This.settings.includePaths:=New collection
-		This.settings.deletePaths:=New collection
-		
-		If (File("/RESOURCES/"+$target+".json").exists)
-			This._overrideSettings(JSON Parse(File("/RESOURCES/"+$target+".json").getText()))  // Loads target default settings
-		End if 
-		This._isDefaultDestinationFolder:=False
-		
-		$settings:=($customSettings#Null) ? $customSettings : New object()
-		
-		This._validInstance:=True
-		This._isCurrentProject:=True
-		This._projectFile:=File(Structure file(*); fk platform path)
-		If (($settings#Null) && ($settings.projectFile#Null) && ($settings.projectFile#""))
-			This._isCurrentProject:=False
-			This._projectFile:=This._resolvePath($settings.projectFile; Folder("/PACKAGE/"; *))
-			If (Not(This._projectFile.exists))
-				This._validInstance:=False
-				This._log(New object(\
-					"function"; "Class constuctor"; \
-					"message"; "Project file doesn't exist, instanciated object is unusable."; \
-					"severity"; Error message))
-			End if 
-		End if 
-		
-		This._projectPackage:=This._projectFile.parent.parent
-		
-		If (This._validInstance)
-			This._overrideSettings($settings)
-			If ((This.settings.buildName=Null) || (This.settings.buildName=""))
-				This.settings.buildName:=This._projectFile.name
-				This._log(New object(\
-					"function"; "Settings checking"; \
-					"message"; "Build name automatically defined."; \
-					"severity"; Information message))
-			End if 
-			If (This.settings.destinationFolder=Null)
-				This.settings.destinationFolder:=This._projectPackage.parent.folder(This._projectFile.name+"_Build/")
-				This._isDefaultDestinationFolder:=True
-				This._log(New object(\
-					"function"; "Settings checking"; \
-					"message"; "Destination folder automatically defined."; \
-					"severity"; Information message))
-			End if 
+	This.logs:=New collection
+	This.settings:=New object()
+	This.settings.includePaths:=New collection
+	This.settings.deletePaths:=New collection
+	
+	If (File("/RESOURCES/"+$target+".json").exists)
+		This._overrideSettings(JSON Parse(File("/RESOURCES/"+$target+".json").getText()))  // Loads target default settings
+	End if 
+	This._isDefaultDestinationFolder:=False
+	
+	$settings:=($customSettings#Null) ? $customSettings : New object()
+	
+	This._validInstance:=True
+	This._isCurrentProject:=True
+	This._projectFile:=File(Structure file(*); fk platform path)
+	If (($settings#Null) && ($settings.projectFile#Null) && ($settings.projectFile#""))
+		This._isCurrentProject:=False
+		This._projectFile:=This._resolvePath($settings.projectFile; Folder("/PACKAGE/"; *))
+		If (Not(This._projectFile.exists))
+			This._validInstance:=False
 			This._log(New object(\
 				"function"; "Class constuctor"; \
-				"message"; "Class init successful."; \
+				"message"; "Project file doesn't exist, instanciated object is unusable."; \
+				"severity"; Error message))
+		End if 
+	End if 
+	
+	This._projectPackage:=This._projectFile.parent.parent
+	
+	If (This._validInstance)
+		This._overrideSettings($settings)
+		If ((This.settings.buildName=Null) || (This.settings.buildName=""))
+			This.settings.buildName:=This._projectFile.name
+			This._log(New object(\
+				"function"; "Settings checking"; \
+				"message"; "Build name automatically defined."; \
 				"severity"; Information message))
 		End if 
+		If (This.settings.destinationFolder=Null)
+			This.settings.destinationFolder:=This._projectPackage.parent.folder(This._projectFile.name+"_Build/")
+			This._isDefaultDestinationFolder:=True
+			This._log(New object(\
+				"function"; "Settings checking"; \
+				"message"; "Destination folder automatically defined."; \
+				"severity"; Information message))
+		End if 
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init successful."; \
+			"severity"; Information message))
 	End if 
 	
 	//MARK:-
@@ -70,7 +65,6 @@ Function _overrideSettings($settings : Object)
 	For each ($entry; $entries)
 		Case of 
 			: ($entry.key="destinationFolder")
-				//$settings.destinationFolder:=($settings.destinationFolder="@/") ? $settings.destinationFolder : $settings.destinationFolder+"/"
 				This.settings.destinationFolder:=This._resolvePath($settings.destinationFolder; This._projectPackage)
 				If (Not(OB Instance of(This.settings.destinationFolder; 4D.Folder)))
 					This._validInstance:=False
@@ -80,6 +74,19 @@ Function _overrideSettings($settings : Object)
 				
 			: ($entry.key="includePaths")
 				This.settings.includePaths:=This.settings.includePaths.concat($settings.includePaths)
+				
+			: ($entry.key="sourceAppFolder")
+				$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
+				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; Null)
+				If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder)) || (Not(This.settings.sourceAppFolder.exists))))
+					This._validInstance:=False
+					This._log(New object(\
+						"function"; "Source application folder checking"; \
+						"message"; "Source application folder doesn't exist"; \
+						"severity"; Error message); \
+						"sourceAppFolder"; $settings.sourceAppFolder)
+				End if 
+				
 			Else 
 				This.settings[$entry.key]:=$entry.value
 		End case 
@@ -114,7 +121,7 @@ Function _resolvePath($path : Text; $baseFolder : 4D.Folder) : Object
 			Case of 
 				: ($path="/4DCOMPONENTS/@")
 					$app:=(Is macOS) ? Folder(Application file; fk platform path).folder("Contents/Components") : File(Application file; fk platform path).parent.folder("Components")
-					$path:=$app.path+Substring($path; 15)
+					$absolutePath:=$app.path+Substring($path; 15)
 					
 				: (($path="") | ($path="/"))  // Base folder
 					$absolutePath:=$baseFolder.path
@@ -134,15 +141,16 @@ Function _resolvePath($path : Text; $baseFolder : 4D.Folder) : Object
 Function _checkDestinationFolder()->$result : Boolean
 	
 	$result:=True
-	If (Not(This.settings.destinationFolder.exists))
-		$result:=This.settings.destinationFolder.create()
-		If (Not($result))
-			This._log(New object(\
-				"function"; "Destination folder checking"; \
-				"message"; "Destination folder doesn't exist and can't be created"; \
-				"severity"; Error message); \
-				"destinationFolder"; This.settings.destinationFolder.path)
-		End if 
+	If (This.settings.destinationFolder.exists)  // Delete destination folder if exists
+		This.settings.destinationFolder.delete(fk recursive)
+	End if 
+	$result:=This.settings.destinationFolder.create()
+	If (Not($result))
+		This._log(New object(\
+			"function"; "Destination folder checking"; \
+			"message"; "Destination folder doesn't exist and can't be created"; \
+			"severity"; Error message); \
+			"destinationFolder"; This.settings.destinationFolder.path)
 	End if 
 	
 	//MARK:-
@@ -176,37 +184,37 @@ Function _compileProject() : Boolean
 	//MARK:-
 Function _createStructure() : Boolean
 	
-	var $destinationFolder; $librariesFolder : 4D.Folder
+	var $structureFolder; $librariesFolder : 4D.Folder
 	var $deletePaths : Collection
-	
+	var $result : Boolean
 	
 	If (This._validInstance)
 		
-		$destinationFolder:=This.settings.destinationFolder
+		$structureFolder:=This._structureFolder
 		
 		// Copy Project Folder
-		If ($destinationFolder.exists)  // Empty the destination folder
-			$destinationFolder.delete(fk recursive)
-			$destinationFolder.create()
+		If ($structureFolder.exists)  // Empty the structure folder
+			$structureFolder.delete(fk recursive)
 		End if 
+		$structureFolder.create()
 		
-		This._projectFile.parent.copyTo($destinationFolder; fk overwrite)
+		This._projectFile.parent.copyTo($structureFolder; fk overwrite)
 		
 		// Remove source methods
 		$deletePaths:=New collection
-		$deletePaths.push($destinationFolder.folder("Project/Sources/Classes/"))
-		$deletePaths.push($destinationFolder.folder("Project/Sources/DatabaseMethods/"))
-		$deletePaths.push($destinationFolder.folder("Project/Sources/Methods/"))
-		$deletePaths.push($destinationFolder.folder("Project/Sources/Triggers/"))
-		$deletePaths.push($destinationFolder.folder("Project/Trash/"))
+		$deletePaths.push($structureFolder.folder("Project/Sources/Classes/"))
+		$deletePaths.push($structureFolder.folder("Project/Sources/DatabaseMethods/"))
+		$deletePaths.push($structureFolder.folder("Project/Sources/Methods/"))
+		$deletePaths.push($structureFolder.folder("Project/Sources/Triggers/"))
+		$deletePaths.push($structureFolder.folder("Project/Trash/"))
 		
 		If (This._deletePaths($deletePaths))
-			$deletePaths:=$destinationFolder.files(fk recursive).query("extension =:1"; ".4DM")  // Table Form, Form and Form object methods
+			$deletePaths:=$structureFolder.files(fk recursive).query("extension =:1"; ".4DM")  // Table Form, Form and Form object methods
 			If (($deletePaths.length>0) || (This._deletePaths($deletePaths)))
 				// Copy Libraries folder
 				$librariesFolder:=This._projectPackage.folder("Libraries")
 				If (($librariesFolder.exists) && ($librariesFolder.files.length))
-					$librariesFolder.copyTo($destinationFolder; fk overwrite)
+					$librariesFolder.copyTo($structureFolder; fk overwrite)
 				End if 
 				return True
 			End if 
@@ -243,11 +251,11 @@ Function _includePaths($pathsObj : Collection) : Boolean
 			End if 
 			
 			If (Undefined($pathObj.destination))
-				$destinationPath:=This.settings.destinationFolder
+				$destinationPath:=This._structureFolder
 			Else 
 				Case of 
 					: (Value type($pathObj.destination)=Is text)
-						$destinationPath:=This._resolvePath($pathObj.destination; This.settings.destinationFolder)
+						$destinationPath:=This._resolvePath($pathObj.destination; This._structureFolder)
 					: (OB Instance of($pathObj.destination; 4D.Folder))
 						$destinationPath:=$pathObj.destination
 					Else 
@@ -312,7 +320,7 @@ Function _deletePaths($paths : Collection) : Boolean
 			
 			Case of 
 				: (Value type($path)=Is text)
-					$deletePath:=This._resolvePath($path; This.settings.destinationFolder)
+					$deletePath:=This._resolvePath($path; This._structureFolder)
 				: ((OB Instance of($path; 4D.Folder)) || (OB Instance of($path; 4D.File)))
 					$deletePath:=$path
 				Else 
@@ -349,18 +357,18 @@ Function _deletePaths($paths : Collection) : Boolean
 	//MARK:-
 Function _create4DZ() : Boolean
 	
-	var $destinationFolder : 4D.Folder
+	var $structureFolder : 4D.Folder
 	var $zipStructure : Object
 	var $return : Object
 	
 	If ((This._validInstance) && (This.settings.packedProject))
-		$destinationFolder:=This.settings.destinationFolder
+		$structureFolder:=This._structureFolder
 		$zipStructure:=New object
-		$zipStructure.files:=New collection($destinationFolder.folder("Project"))
+		$zipStructure.files:=New collection($structureFolder.folder("Project"))
 		$zipStructure.encryption:=(This.settings.obfuscated) ? -1 : ZIP Encryption none
-		$return:=ZIP Create archive($zipStructure; $destinationFolder.file(This.settings.buildName+".4DZ"))
+		$return:=ZIP Create archive($zipStructure; $structureFolder.file(This.settings.buildName+".4DZ"))
 		If ($return.success)
-			$destinationFolder.folder("Project").delete(Delete with contents)
+			$structureFolder.folder("Project").delete(Delete with contents)
 		Else 
 			This._log(New object(\
 				"function"; "Package compression"; \
@@ -370,6 +378,59 @@ Function _create4DZ() : Boolean
 			return False
 		End if 
 	End if 
+	return True
+	
+	//MARK:-
+Function _copySourceApp() : Boolean
+	var $sourceApp; $components4D; $destination; $copiedFolder : 4D.Folder
+	var $executable : 4D.File
+	
+	$sourceApp:=This.settings.sourceAppFolder
+	$destination:=This.settings.destinationFolder
+	
+	//TODO: check applications versions
+	
+	$sourceApp.copyTo($destination.parent; $destination.fullName)
+	
+	If (Application type#6)  //tool4d doesn't embed components
+		$components4D:=This._resolvePath("/4DCOMPONENTS/"; Null)
+		$copiedFolder:=(Is macOS) ? $components4D.copyTo($destination.folder("Contents")) : $components4D.copyTo($destination)
+	End if 
+	
+	If (Is macOS)
+		$executable:=$destination.file("Contents/MacOS/4D Volume Desktop")
+		$executable.rename(This.settings.buildName)
+	Else 
+		$executable:=$destination.file("4D Volume Desktop.4DE")
+		$executable.rename(This.settings.buildName+".exe")
+	End if 
+	
+	//TODO: add internal components
+	
+	return True
+	
+	//MARK:-
+Function _setAppOptions() : Boolean
+	var $appInfo : Object
+	var $infoFile : 4D.File
+	
+	$appInfo:=New object(\
+		"CFBundleDisplayName"; This.settings.buildName; \
+		"CFBundleExecutable"; This.settings.buildName\
+		)
+	
+	If (Is macOS)
+		$infoFile:=This.settings.destinationFolder.file("Contents/Info.plist")
+	Else 
+	End if 
+	$res:=$infoFile.setAppInfo($appInfo)
+	
+	return True
+	
+	//MARK:-
+Function _generateLicenses() : Boolean
+	//TODO: Licenses generation
+	//Create deployment license()
 	return True
 	
 	//MARK:-

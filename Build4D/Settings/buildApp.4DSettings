@@ -2,17 +2,18 @@
 <Preferences4D>
 
   <BuildApp>
-    <BuildCompiled>False</BuildCompiled>
+    <BuildCompiled>True</BuildCompiled>
     <IncludeAssociatedFolders>True</IncludeAssociatedFolders>
     <BuildComponent>True</BuildComponent>
-    <BuildApplicationSerialized>False</BuildApplicationSerialized>
+    <BuildApplicationSerialized>True</BuildApplicationSerialized>
     <RuntimeVL>
       <LastDataPathLookup>ByAppPath</LastDataPathLookup>
     </RuntimeVL>
     <SourcesFiles>
       <RuntimeVL>
         <RuntimeVLIncludeIt>True</RuntimeVLIncludeIt>
-        <RuntimeVLMacFolder>Macintosh HD:Applications:4D v0.0:4D Volume Desktop.app:</RuntimeVLMacFolder></RuntimeVL>
+        <RuntimeVLMacFolder>Macintosh HD:Applications:4D v0.0:4D Volume Desktop.app:</RuntimeVLMacFolder>
+        <RuntimeVLWinFolder>C:\Program Files\4D\4D v0.0\4D Volume Desktop\</RuntimeVLWinFolder></RuntimeVL>
       <CS>
         <ServerIncludeIt>False</ServerIncludeIt>
         <ClientMacIncludeIt>False</ClientMacIncludeIt>
@@ -30,7 +31,7 @@
       <HardLink></HardLink>
     </CS>
     <BuildApplicationName>Build4D</BuildApplicationName>
-    <BuildMacDestFolder>:Build:</BuildMacDestFolder>
+    <BuildMacDestFolder>::Test:</BuildMacDestFolder>
     <ArrayExcludedPluginName>
       <ItemsCount>0</ItemsCount>
     </ArrayExcludedPluginName>
@@ -46,14 +47,20 @@
     <Licenses>
       <ArrayLicenseMac>
         <ItemsCount>1</ItemsCount>
-        <Item1>Macintosh HD:Users:Damien:Library:Application Support:4D:Licenses:R-4UUD190UUS001BCKBT078EA.license4D</Item1>
+        <Item1>Macintosh HD:Users:Damien:Library:Application Support:4D:Licenses:4UUD200UUS0018PNC005EC7.license4D</Item1>
       </ArrayLicenseMac>
+      <ArrayLicenseWin>
+        <ItemsCount>2</ItemsCount>
+        <Item1>C:\ProgramData\4D\Licenses\R-4UUD200UUS0018PNC005EC7.license4D</Item1>
+        <Item2>C:\ProgramData\4D\Licenses\R-4DDP200UUS001APL8416796.license4D</Item2></ArrayLicenseWin>
     </Licenses>
     <SignApplication>
-      <MacSignature>True</MacSignature>
-      <MacCertificate>Damien FUZEAU</MacCertificate>
+      <MacSignature>False</MacSignature>
+      <MacCertificate></MacCertificate>
       <AdHocSign>True</AdHocSign>
     </SignApplication>
+    <BuildWinDestFolder>..\Build4D_Build\</BuildWinDestFolder>
   </BuildApp>
+
 
 </Preferences4D>

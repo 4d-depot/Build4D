@@ -9,6 +9,7 @@ Class constructor($customSettings : Object)
 		If (This._isDefaultDestinationFolder)
 			This.settings.destinationFolder:=This.settings.destinationFolder.folder("CompiledProject/"+This.settings.buildName+"/")
 		End if 
+		This._structureFolder:=This.settings.destinationFolder
 	End if 
 	
 	//MARK:-
@@ -28,4 +29,3 @@ Function build()->$success : Boolean
 			"Compiled project build successful."; \
 			"messageSeverity"; Information message))
 	End if 
-	

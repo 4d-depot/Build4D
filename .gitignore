@@ -12,7 +12,6 @@ userPreferences.*/
 
 # Other
 Project/Trash
-Settings/buildApp.4DSettings
 
 # System files
 .DS_Store
@@ -24,7 +23,9 @@ Thumbs.db
 UT_*.log
 Build_*.log
 Artifacts/
-Test/
-Build/
-Build4D_UnitTests_Build/
-Build4D_External_Build/
+zzz*.4dm
+
+# Build
+*Test/
+*buildApp.4DSettings
+*Build/
