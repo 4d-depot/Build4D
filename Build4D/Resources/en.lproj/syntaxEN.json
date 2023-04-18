@@ -87,7 +87,14 @@
 		},
 		"_inheritedFrom_": "_core"
 	},
-	"_core": {},
+	"_core": {
+		"logs": {
+			"Syntax": "logs : Collection"
+		},
+		"settings": {
+			"Syntax": "settings : Object"
+		}
+	},
 	"Component": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",

@@ -1,5 +1,11 @@
+property _validInstance; _isCurrentProject; _isDefaultDestinationFolder; _noError : Boolean
+property _projectFile : 4D.File
+property _projectPackage; _structureFolder : 4D.Folder
+property logs : Collection
+property settings : Object
+
 Class constructor($target : Text; $customSettings : Object)
-	ON ERR CALL("onError")
+	ON ERR CALL("onError"; ek global)
 	
 	var $settings : Object
 	
@@ -59,7 +65,7 @@ Class constructor($target : Text; $customSettings : Object)
 Function _overrideSettings($settings : Object)
 	
 	var $entries : Collection
-	var $entry : Object
+	var $entry; $currentAppInfo; $sourceAppInfo : Object
 	
 	$entries:=OB Entries($settings)
 	For each ($entry; $entries)
@@ -85,6 +91,18 @@ Function _overrideSettings($settings : Object)
 						"message"; "Source application folder doesn't exist"; \
 						"severity"; Error message); \
 						"sourceAppFolder"; $settings.sourceAppFolder)
+					
+				Else   // Versions checking
+					$sourceAppInfo:=(Is macOS) ? This.settings.sourceAppFolder.file("Contents/Info.plist").getAppInfo() : This.settings.sourceAppFolder.file("Resources/Info.plist").getAppInfo()
+					$currentAppInfo:=(Is macOS) ? Folder(Application file; fk platform path).file("Contents/Info.plist").getAppInfo() : File(Application file; fk platform path).parent.file("Resources/Info.plist").getAppInfo()
+					If (($sourceAppInfo.CFBundleVersion=Null) || ($currentAppInfo.CFBundleVersion=Null) || ($sourceAppInfo.CFBundleVersion#$currentAppInfo.CFBundleVersion))
+						This._validInstance:=False
+						This._log(New object(\
+							"function"; "Source application version checking"; \
+							"message"; "Source application version doesn't match to current application version"; \
+							"severity"; Error message); \
+							"sourceAppFolder"; $settings.sourceAppFolder)
+					End if 
 				End if 
 				
 			Else 
@@ -381,31 +399,8 @@ Function _create4DZ() : Boolean
 	return True
 	
 	//MARK:-
-Function _copySourceApp() : Boolean
-	var $sourceApp; $components4D; $destination; $copiedFolder : 4D.Folder
-	var $executable : 4D.File
-	
-	$sourceApp:=This.settings.sourceAppFolder
-	$destination:=This.settings.destinationFolder
-	
-	//TODO: check applications versions
-	
-	$sourceApp.copyTo($destination.parent; $destination.fullName)
-	
-	If (Application type#6)  //tool4d doesn't embed components
-		$components4D:=This._resolvePath("/4DCOMPONENTS/"; Null)
-		$copiedFolder:=(Is macOS) ? $components4D.copyTo($destination.folder("Contents")) : $components4D.copyTo($destination)
-	End if 
-	
-	If (Is macOS)
-		$executable:=$destination.file("Contents/MacOS/4D Volume Desktop")
-		$executable.rename(This.settings.buildName)
-	Else 
-		$executable:=$destination.file("4D Volume Desktop.4DE")
-		$executable.rename(This.settings.buildName+".exe")
-	End if 
-	
-	//TODO: add internal components
+Function _excludeModules() : Boolean
+	//TODO: remove modules
 	
 	return True
 	

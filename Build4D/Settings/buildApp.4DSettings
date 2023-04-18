@@ -59,7 +59,7 @@
       <MacCertificate></MacCertificate>
       <AdHocSign>True</AdHocSign>
     </SignApplication>
-    <BuildWinDestFolder>..\Build4D_Build\</BuildWinDestFolder>
+    <BuildWinDestFolder>Z:\4D\GitHub\Build4D\Test\Legacy\win\</BuildWinDestFolder>
   </BuildApp>
 
 
