@@ -81,6 +81,9 @@ Function _overrideSettings($settings : Object)
 			: ($entry.key="includePaths")
 				This.settings.includePaths:=This.settings.includePaths.concat($settings.includePaths)
 				
+			: ($entry.key="iconPath")
+				This.settings.iconPath:=This._resolvePath($settings.iconPath; This._projectPackage)
+				
 			: ($entry.key="sourceAppFolder")
 				$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
 				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; Null)
@@ -398,6 +401,11 @@ Function _create4DZ() : Boolean
 	End if 
 	return True
 	
+Function _copySourceApp() : Boolean
+	This._noError:=True
+	This.settings.sourceAppFolder.copyTo(This.settings.destinationFolder.parent; This.settings.destinationFolder.fullName)
+	return This._noError
+	
 	//MARK:-
 Function _excludeModules() : Boolean
 	//TODO: remove modules
@@ -407,20 +415,54 @@ Function _excludeModules() : Boolean
 	//MARK:-
 Function _setAppOptions() : Boolean
 	var $appInfo : Object
-	var $infoFile : 4D.File
+	var $infoFile; $exeFile : 4D.File
 	
-	$appInfo:=New object(\
-		"CFBundleDisplayName"; This.settings.buildName; \
-		"CFBundleExecutable"; This.settings.buildName\
-		)
+	This._noError:=True
 	
 	If (Is macOS)
+		
 		$infoFile:=This.settings.destinationFolder.file("Contents/Info.plist")
-	Else 
+		
+		If ($infoFile.exists)
+			$appInfo:=New object(\
+				"CFBundleDisplayName"; This.settings.buildName; \
+				"CFBundleExecutable"; This.settings.buildName\
+				)
+			If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
+				$appInfo.CFBundleIconFile:=This.settings.iconPath.fullName
+				This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/"))
+			End if 
+			$infoFile.setAppInfo($appInfo)
+			
+		Else 
+			This._log(New object(\
+				"function"; "Setting app options"; \
+				"message"; "Info.plist file doesn't exist: "+$infoFile.path; \
+				"severity"; Warning message))
+			return False
+		End if 
+		
+	Else   // Windows
+		
+		$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
+		
+		If ($exeFile.exists)
+			
+			If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
+				$exeFile.setAppInfo(New object("WinIcon"; This.settings.iconPath))
+			End if 
+			
+		Else 
+			This._log(New object(\
+				"function"; "Setting app options"; \
+				"message"; "Exe file doesn't exist: "+$exeFile.path; \
+				"severity"; Warning message))
+			return False
+		End if 
+		
 	End if 
-	$res:=$infoFile.setAppInfo($appInfo)
 	
-	return True
+	return This._noError
 	
 	//MARK:-
 Function _generateLicenses() : Boolean

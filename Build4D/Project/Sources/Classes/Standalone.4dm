@@ -14,9 +14,8 @@ Class constructor($customSettings : Object)
 	End if 
 	
 	//MARK:-
-Function _copySourceApp() : Boolean
+Function _renameExecutable() : Boolean
 	var $renamedExecutable : 4D.File
-	This.settings.sourceAppFolder.copyTo(This.settings.destinationFolder.parent; This.settings.destinationFolder.fullName)
 	If (Is macOS)
 		$renamedExecutable:=This.settings.destinationFolder.file("Contents/MacOS/4D Volume Desktop").rename(This.settings.buildName)
 	Else 
@@ -34,10 +33,10 @@ Function _copySourceApp() : Boolean
 	
 	//MARK:-
 Function build()->$success : Boolean
-	
 	$success:=This._validInstance
 	$success:=($success) ? This._checkDestinationFolder() : False
 	$success:=($success) ? This._copySourceApp() : False
+	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._excludeModules() : False
 	$success:=($success) ? This._compileProject() : False
 	$success:=($success) ? This._createStructure() : False
