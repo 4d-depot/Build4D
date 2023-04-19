@@ -44,7 +44,7 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
 	$success:=($success) ? This._create4DZ() : False
 	$success:=($success) ? This._setAppOptions() : False
-	$success:=($success) ? This._generateLicenses() : False
+	$success:=($success) ? This._generateLicense() : False
 	If (Is macOS)
 		$success:=($success) ? This._sign() : False
 	End if 

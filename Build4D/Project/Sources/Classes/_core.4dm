@@ -84,6 +84,9 @@ Function _overrideSettings($settings : Object)
 			: ($entry.key="iconPath")
 				This.settings.iconPath:=This._resolvePath($settings.iconPath; This._projectPackage)
 				
+			: ($entry.key="license")
+				This.settings.license:=This._resolvePath($settings.license; Null)
+				
 			: ($entry.key="sourceAppFolder")
 				$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
 				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; Null)
@@ -159,20 +162,24 @@ Function _resolvePath($path : Text; $baseFolder : 4D.Folder) : Object
 	return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
 	
 	//MARK:-
-Function _checkDestinationFolder()->$result : Boolean
+Function _checkDestinationFolder() : Boolean
 	
-	$result:=True
-	If (This.settings.destinationFolder.exists)  // Delete destination folder if exists
+	This._noError:=True
+	
+	If (This.settings.destinationFolder.exists)  // Delete destination folder content if exists
 		This.settings.destinationFolder.delete(fk recursive)
 	End if 
-	$result:=This.settings.destinationFolder.create()
-	If (Not($result))
+	
+	If (Not(This.settings.destinationFolder.create()))
 		This._log(New object(\
 			"function"; "Destination folder checking"; \
 			"message"; "Destination folder doesn't exist and can't be created"; \
 			"severity"; Error message); \
 			"destinationFolder"; This.settings.destinationFolder.path)
+		return False
 	End if 
+	
+	return This._noError
 	
 	//MARK:-
 Function _compileProject() : Boolean
@@ -465,10 +472,12 @@ Function _setAppOptions() : Boolean
 	return This._noError
 	
 	//MARK:-
-Function _generateLicenses() : Boolean
-	//TODO: Licenses generation
-	//Create deployment license()
-	return True
+Function _generateLicense() : Boolean
+	If ((This.settings.license#Null) && (This.settings.license.exists))
+		$status:=Create deployment license(This.settings.destinationFolder; This.settings.license)
+		return $status.success
+	End if 
+	
 	
 	//MARK:-
 Function _sign() : Boolean
