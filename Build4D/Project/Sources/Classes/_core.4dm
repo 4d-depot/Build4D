@@ -426,47 +426,48 @@ Function _setAppOptions() : Boolean
 	
 	This._noError:=True
 	
-	If (Is macOS)
+	$infoFile:=(Is macOS) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
+	
+	If ($infoFile.exists)
+		$appInfo:=New object(\
+			"com.4D.BuildApp.LastDataPathLookup"; This.settings.lastDataPathLookup\
+			)
 		
-		$infoFile:=This.settings.destinationFolder.file("Contents/Info.plist")
-		
-		If ($infoFile.exists)
-			$appInfo:=New object(\
-				"CFBundleDisplayName"; This.settings.buildName; \
-				"CFBundleExecutable"; This.settings.buildName\
-				)
-			If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
+		If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
+			If (Is macOS)
 				$appInfo.CFBundleIconFile:=This.settings.iconPath.fullName
 				This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/"))
+			Else   // Windows
+				$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
+				If ($exeFile.exists)
+					If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
+						$exeFile.setAppInfo(New object("WinIcon"; This.settings.iconPath))
+					End if 
+				Else 
+					This._log(New object(\
+						"function"; "Setting app options"; \
+						"message"; "Exe file doesn't exist: "+$exeFile.path; \
+						"severity"; Warning message))
+					return False
+				End if 
 			End if 
-			$infoFile.setAppInfo($appInfo)
-			
-		Else 
-			This._log(New object(\
-				"function"; "Setting app options"; \
-				"message"; "Info.plist file doesn't exist: "+$infoFile.path; \
-				"severity"; Warning message))
-			return False
 		End if 
 		
-	Else   // Windows
-		
-		$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
-		
-		If ($exeFile.exists)
+		If (Is macOS)
+			$appInfo.CFBundleDisplayName:=This.settings.buildName
+			$appInfo.CFBundleExecutable:=This.settings.buildName
+		Else   // Windows
 			
-			If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
-				$exeFile.setAppInfo(New object("WinIcon"; This.settings.iconPath))
-			End if 
-			
-		Else 
-			This._log(New object(\
-				"function"; "Setting app options"; \
-				"message"; "Exe file doesn't exist: "+$exeFile.path; \
-				"severity"; Warning message))
-			return False
 		End if 
 		
+		$infoFile.setAppInfo($appInfo)
+		
+	Else 
+		This._log(New object(\
+			"function"; "Setting app options"; \
+			"message"; "Info.plist file doesn't exist: "+$infoFile.path; \
+			"severity"; Warning message))
+		return False
 	End if 
 	
 	return This._noError
