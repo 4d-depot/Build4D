@@ -14,6 +14,19 @@
 				"Summary": ""
 			}
 		},
+		"Standalone": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
 		"_core": {
 			"new()": {
 				"Syntax": "**.new**( *target* : Text; *customSettings* : Object )",
@@ -44,19 +57,6 @@
 				],
 				"Summary": ""
 			}
-		},
-		"Standalone": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
 		}
 	},
 	"CompiledProject": {
@@ -73,15 +73,7 @@
 		},
 		"_inheritedFrom_": "_core"
 	},
-	"_core": {
-		"settings": {
-			"Syntax": "settings : Object"
-		},
-		"logs": {
-			"Syntax": "logs : Collection"
-		}
-	},
-	"Component": {
+	"Standalone": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [
@@ -95,7 +87,15 @@
 		},
 		"_inheritedFrom_": "_core"
 	},
-	"Standalone": {
+	"_core": {
+		"logs": {
+			"Syntax": "logs : Collection"
+		},
+		"settings": {
+			"Syntax": "settings : Object"
+		}
+	},
+	"Component": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [

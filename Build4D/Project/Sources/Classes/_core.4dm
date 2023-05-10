@@ -431,7 +431,9 @@ Function _setAppOptions() : Boolean
 	
 	If ($infoFile.exists)
 		$appInfo:=New object(\
-			"com.4D.BuildApp.LastDataPathLookup"; This.settings.lastDataPathLookup\
+			"com.4D.BuildApp.com.4D.BuildApp.ReadOnlyApp"; "True"; \
+			"com.4D.BuildApp.LastDataPathLookup"; This.settings.lastDataPathLookup; \
+			"DataFileConversionMode"; "0"\
 			)
 		
 		If (Is macOS)
@@ -442,6 +444,7 @@ Function _setAppOptions() : Boolean
 			$identifier+="."+This.settings.buildName
 			$appInfo.CFBundleIdentifier:=$identifier
 		Else 
+			$appInfo.SDIRuntime:=((This.settings.useSDI#Null) && This.settings.useSDI) ? "1" : "0"
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 		End if 
 		
