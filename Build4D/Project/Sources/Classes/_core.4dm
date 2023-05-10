@@ -421,8 +421,9 @@ Function _excludeModules() : Boolean
 	
 	//MARK:-
 Function _setAppOptions() : Boolean
-	var $appInfo : Object
+	var $appInfo; $exeInfo : Object
 	var $infoFile; $exeFile : 4D.File
+	var $identifier : Text
 	
 	This._noError:=True
 	
@@ -433,34 +434,108 @@ Function _setAppOptions() : Boolean
 			"com.4D.BuildApp.LastDataPathLookup"; This.settings.lastDataPathLookup\
 			)
 		
+		If (Is macOS)
+			$appInfo.CFBundleName:=This.settings.buildName
+			$appInfo.CFBundleDisplayName:=This.settings.buildName
+			$appInfo.CFBundleExecutable:=This.settings.buildName
+			$identifier:=((This.settings.versioning.companyName#Null) && (This.settings.versioning.companyName#"")) ? This.settings.versioning.companyName : "com.4d"
+			$identifier+="."+This.settings.buildName
+			$appInfo.CFBundleIdentifier:=$identifier
+		Else 
+			$exeInfo:=New object("ProductName"; This.settings.buildName)
+		End if 
+		
 		If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
 			If (Is macOS)
 				$appInfo.CFBundleIconFile:=This.settings.iconPath.fullName
 				This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/"))
 			Else   // Windows
-				$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
-				If ($exeFile.exists)
-					If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
-						$exeFile.setAppInfo(New object("WinIcon"; This.settings.iconPath))
-					End if 
-				Else 
-					This._log(New object(\
-						"function"; "Setting app options"; \
-						"message"; "Exe file doesn't exist: "+$exeFile.path; \
-						"severity"; Warning message))
-					return False
-				End if 
+				$exeInfo.WinIcon:=This.settings.iconPath
 			End if 
 		End if 
 		
-		If (Is macOS)
-			$appInfo.CFBundleDisplayName:=This.settings.buildName
-			$appInfo.CFBundleExecutable:=This.settings.buildName
-		Else   // Windows
-			
+		If (This.settings.versioning#Null)  // Set version info
+			If (Is macOS)
+				If (This.settings.versioning.version#Null)
+					$appInfo.CFBundleVersion:=This.settings.versioning.version  // OK
+					$appInfo.CFBundleShortVersionString:=This.settings.versioning.version  // OK
+				End if 
+				If (This.settings.versioning.copyright#Null)
+					$appInfo.NSHumanReadableCopyright:=This.settings.versioning.copyright  // OK
+				End if 
+				//If (This.settings.versioning.creator#Null)
+				//$appInfo._unknown:=This.settings.versioning.creator
+				//End if 
+				//If (This.settings.versioning.comment#Null)
+				//$appInfo.Comment:=This.settings.versioning.comment
+				//End if 
+				//If (This.settings.versioning.companyName#Null)
+				//$appInfo.CompanyName:=This.settings.versioning.companyName
+				//End if 
+				//If (This.settings.versioning.fileDescription#Null)
+				//$appInfo.FileDescription:=This.settings.versioning.fileDescription
+				//End if 
+				//If (This.settings.versioning.internalName#Null)
+				//$appInfo.InternalName:=This.settings.versioning.internalName
+				//End if 
+				//If (This.settings.versioning.legalTrademark#Null)
+				//$appInfo.LegalTrademarks:=This.settings.versioning.legalTrademark
+				//End if 
+				//If (This.settings.versioning.privateBuild#Null)
+				//$appInfo.PrivateBuild:=This.settings.versioning.privateBuild
+				//End if 
+				//If (This.settings.versioning.specialBuild#Null)
+				//$appInfo.SpecialBuild:=This.settings.versioning.specialBuild
+				//End if 
+				
+			Else   // Windows
+				If (This.settings.versioning.version#Null)
+					$exeInfo.ProductVersion:=This.settings.versioning.version  //
+				End if 
+				If (This.settings.versioning.copyright#Null)
+					$exeInfo.LegalCopyright:=This.settings.versioning.copyright  //
+				End if 
+				//If (This.settings.versioning.creator#Null)
+				//$exeInfo.Creator:=This.settings.versioning.creator
+				//End if 
+				//If (This.settings.versioning.comment#Null)
+				//$exeInfo.Comment:=This.settings.versioning.comment
+				//End if 
+				If (This.settings.versioning.companyName#Null)
+					$exeInfo.CompanyName:=This.settings.versioning.companyName
+				End if 
+				If (This.settings.versioning.fileDescription#Null)
+					$exeInfo.FileDescription:=This.settings.versioning.fileDescription  //
+				End if 
+				If (This.settings.versioning.internalName#Null)
+					$exeInfo.InternalName:=This.settings.versioning.internalName
+				End if 
+				If (This.settings.versioning.legalTrademark#Null)
+					$exeInfo.LegalTrademarks:=This.settings.versioning.legalTrademark  // No defined in setAppInfo
+				End if 
+				//If (This.settings.versioning.privateBuild#Null)
+				//$exeInfo.PrivateBuild:=This.settings.versioning.privateBuild
+				//End if 
+				//If (This.settings.versioning.specialBuild#Null)
+				//$exeInfo.SpecialBuild:=This.settings.versioning.specialBuild
+				//End if 
+			End if 
 		End if 
 		
 		$infoFile.setAppInfo($appInfo)
+		
+		If ($exeInfo#Null)
+			$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
+			If ($exeFile.exists)
+				$exeFile.setAppInfo($exeInfo)
+			Else 
+				This._log(New object(\
+					"function"; "Setting app options"; \
+					"message"; "Exe file doesn't exist: "+$exeFile.path; \
+					"severity"; Warning message))
+				return False
+			End if 
+		End if 
 		
 	Else 
 		This._log(New object(\
