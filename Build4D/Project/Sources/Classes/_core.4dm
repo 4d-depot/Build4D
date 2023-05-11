@@ -422,7 +422,7 @@ Function _excludeModules() : Boolean
 	//MARK:-
 Function _setAppOptions() : Boolean
 	var $appInfo; $exeInfo : Object
-	var $infoFile; $exeFile : 4D.File
+	var $infoFile; $exeFile; $manifestFile : 4D.File
 	var $identifier : Text
 	
 	This._noError:=True
@@ -546,6 +546,15 @@ Function _setAppOptions() : Boolean
 			"message"; "Info.plist file doesn't exist: "+$infoFile.path; \
 			"severity"; Warning message))
 		return False
+	End if 
+	
+	If (Is Windows)
+		$manifestFile:=((This.settings.startElevated#Null) && (This.settings.startElevated))\
+			 ? This.settings.destinationFolder.file("Resources/Updater/elevated.manifest")\
+			 : This.settings.destinationFolder.file("Resources/Updater/normal.manifest")
+		$manifestFile.copyTo(This.settings.destinationFolder.folder("Resources/Updater/"); "Updater.exe.manifest"; fk overwrite)
+		This.settings.destinationFolder.file("Resources/Updater/elevated.manifest").delete()
+		This.settings.destinationFolder.file("Resources/Updater/normal.manifest").delete()
 	End if 
 	
 	return This._noError
