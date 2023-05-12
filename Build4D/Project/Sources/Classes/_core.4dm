@@ -415,9 +415,45 @@ Function _copySourceApp() : Boolean
 	
 	//MARK:-
 Function _excludeModules() : Boolean
-	//TODO: remove modules
+	var $excludedModule; $path; $basePath : Text
+	var $optionalModulesFile : 4D.File
+	var $optionalModules : Object
+	var $paths; $modules : Collection
 	
-	return True
+	This._noError:=True
+	
+	If ((This.settings.excludeModules#Null) && (This.settings.excludeModules.length>0))
+		$optionalModulesFile:=(Is macOS) ? Folder(Application file; fk platform path).file("Contents/Resources/BuildappOptionalModules.json") : File(Application file; fk platform path).parent.file("Resources/BuildappOptionalModules.json")
+		If ($optionalModulesFile.exists)
+			$paths:=New collection
+			$basePath:=(Is macOS) ? This.settings.destinationFolder.path+"Contents/" : This.settings.destinationFolder.path
+			$optionalModules:=JSON Parse($optionalModulesFile.getText())
+			For each ($excludedModule; This.settings.excludeModules)
+				$modules:=$optionalModules.modules.query("name = :1"; $excludedModule)
+				If ($modules.length>0)
+					If (($modules[0].foldersArray#Null) && ($modules[0].foldersArray.length>0))
+						For each ($path; $modules[0].foldersArray)
+							$paths.push($basePath+$path+"/")
+						End for each 
+					End if 
+					If (($modules[0].filesArray#Null) && ($modules[0].filesArray.length>0))
+						For each ($path; $modules[0].filesArray)
+							$paths.push($basePath+$path)
+						End for each 
+					End if 
+				End if 
+			End for each 
+			This._deletePaths($paths)
+		Else 
+			This._log(New object(\
+				"function"; "Modules exclusion"; \
+				"message"; "Unable to find the modules file: "+$optionalModulesFile.path; \
+				"severity"; Error message))
+			return False
+		End if 
+	End if 
+	
+	return This._noError
 	
 	//MARK:-
 Function _setAppOptions() : Boolean
@@ -431,10 +467,11 @@ Function _setAppOptions() : Boolean
 	
 	If ($infoFile.exists)
 		$appInfo:=New object(\
-			"com.4D.BuildApp.com.4D.BuildApp.ReadOnlyApp"; "True"; \
+			"com.4D.BuildApp.ReadOnlyApp"; "true"; \
 			"com.4D.BuildApp.LastDataPathLookup"; This.settings.lastDataPathLookup; \
 			"DataFileConversionMode"; "0"\
 			)
+		$appInfo.SDIRuntime:=((This.settings.useSDI#Null) && This.settings.useSDI) ? "1" : "0"
 		
 		If (Is macOS)
 			$appInfo.CFBundleName:=This.settings.buildName
@@ -444,7 +481,6 @@ Function _setAppOptions() : Boolean
 			$identifier+="."+This.settings.buildName
 			$appInfo.CFBundleIdentifier:=$identifier
 		Else 
-			$appInfo.SDIRuntime:=((This.settings.useSDI#Null) && This.settings.useSDI) ? "1" : "0"
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 		End if 
 		
