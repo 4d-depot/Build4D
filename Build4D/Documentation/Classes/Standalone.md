@@ -30,7 +30,7 @@ $customSettings is an object that contains the following parameters:
 |lastDataPathLookup| String | Defines the way the application stores its link with the last data file. Possible values: "ByAppName", "ByAppPath"|
 |useSDI| Boolean | On Windows, use the SDI interface mode instead of the MDI.|
 |startElevated| Boolean | On Windows, allow to start the Updater with elevated privileges.|
-|iconPath| File or String | File of the icon to be used instead of the 4D Volume Desktop icon.|
+|iconPath| File or String | File path of the icon to be used instead of the 4D Volume Desktop icon.|
 |versioning| Object | Object contains the contents of the application information.|
 |versioning.version| String | Version number |
 |versioning.copyright| String | Copyright text |
@@ -74,8 +74,63 @@ Build the standalone application.
 
 ## Example
 
+This code is an example to generate a standalone application from an external project.
+
 ```4D
+var $build : cs.Build4D.Standalone
+var $settings : Object
+var $success : Boolean
 
+$settings:=New object()
 
+// Define external project file 
+$settings.projectFile:=Folder(fk documents folder).file("Contact/Project/Contact.4DProject") 
 
+// Configure the application
+$settings.buildName:="myApp" 
+$settings.destinationFolder:="Test/" 
+$settings.obfuscated:=True 
+$settings.packedProject:=False 
+$settings.useSDI:=False 
+$settings.startElevated:=False 
+$settings.lastDataPathLookup:="ByAppPath"
+
+// Define 4D Volume Desktop path
+$settings.sourceAppFolder:=Folder(fk documents folder).folder("4D v20.0/4D Volume Desktop.app").path
+
+// Delete unneccessary module 
+$settings.excludeModules:=New collection("CEF"; "MeCab")
+
+// Include folders and files
+$settings.includePaths:=New collection 
+$settings.includePaths.push(New object("source"; "Documentation/"))
+
+// Delete folders and files 
+$settings.deletePaths:=New collection 
+$settings.deletePaths.push("Resources/Dev/")
+
+// Add the application icon 
+$settings.iconPath:="/RESOURCES/myIcon.icns"
+
+// Add the application information 
+$settings.versioning:=New object 
+$settings.versioning.version:="myBuild4D_version" 
+$settings.versioning.copyright:="myBuild4D_copyright" 
+$settings.versioning.creator:="myBuild4D_creator" 
+$settings.versioning.comment:="myBuild4D_comment" 
+$settings.versioning.companyName:="myBuild4D_companyName" 
+$settings.versioning.fileDescription:="myBuild4D_fileDescription" 
+$settings.versioning.internalName:="myBuild4D_internalName"
+
+// Create the deployment license file
+$settings.license:=Folder(fk licenses folder).file("XXXXX.license4D").path
+
+// Sign the macOS appplication 
+$settings.signApplication:=New object 
+$settings.signApplication.macSignature:=True 
+$settings.signApplication.macCertificate:="xxxxxx"
+
+// Launch build
+$build:=cs.Build4D.Standalone.new($settings) 
+$success:=$build.build()
 ```
