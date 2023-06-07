@@ -2,9 +2,9 @@
 <Preferences4D>
 
   <BuildApp>
-    <BuildCompiled>True</BuildCompiled>
+    <BuildCompiled>False</BuildCompiled>
     <IncludeAssociatedFolders>True</IncludeAssociatedFolders>
-    <BuildComponent>True</BuildComponent>
+    <BuildComponent>False</BuildComponent>
     <BuildApplicationSerialized>True</BuildApplicationSerialized>
     <RuntimeVL>
       <LastDataPathLookup>ByAppPath</LastDataPathLookup>
@@ -14,17 +14,17 @@
         <RuntimeVLIncludeIt>True</RuntimeVLIncludeIt>
         <RuntimeVLMacFolder>Macintosh HD:Applications:4D v0.0:4D Volume Desktop.app:</RuntimeVLMacFolder>
         <RuntimeVLWinFolder>C:\Program Files\4D\4D v0.0\4D Volume Desktop\</RuntimeVLWinFolder></RuntimeVL>
+        <RuntimeVLIconWinPath>Z:\4D\GitHub\Build4D\Build4D_UnitTests\Build4D.ico</RuntimeVLIconWinPath>
+        <RuntimeVLIconMacPath>::Build4D_UnitTests:Build4D.icns</RuntimeVLIconMacPath>
       <CS>
-        <ServerIncludeIt>True</ServerIncludeIt>
-        <ClientMacIncludeIt>True</ClientMacIncludeIt>
+        <ServerIncludeIt>False</ServerIncludeIt>
         <ClientWinIncludeIt>False</ClientWinIncludeIt>
-        <ServerMacFolder>Macintosh HD:Applications:4D v0.0:4D Server.app:</ServerMacFolder>
-        <ClientMacFolderToMac>Macintosh HD:Applications:4D v0.0:4D Volume Desktop.app:</ClientMacFolderToMac>
+        <ClientMacIncludeIt>False</ClientMacIncludeIt>
       </CS>
     </SourcesFiles>
     <CS>
-      <BuildServerApplication>True</BuildServerApplication>
-      <LastDataPathLookup>ByAppPath</LastDataPathLookup>
+      <BuildServerApplication>False</BuildServerApplication>
+      <LastDataPathLookup>ByAppName</LastDataPathLookup>
       <MacCompiledDatabaseToWinIncludeIt>False</MacCompiledDatabaseToWinIncludeIt>
       <MacCompiledDatabaseToWin></MacCompiledDatabaseToWin>
       <ServerEmbedsProjectDirectoryFile>False</ServerEmbedsProjectDirectoryFile>
@@ -33,7 +33,7 @@
       <HardLink></HardLink>
     </CS>
     <BuildApplicationName>Build4D</BuildApplicationName>
-    <BuildMacDestFolder>::Test:</BuildMacDestFolder>
+    <BuildWinDestFolder>..\Test\</BuildWinDestFolder>
     <ArrayExcludedPluginName>
       <ItemsCount>0</ItemsCount>
     </ArrayExcludedPluginName>
@@ -47,26 +47,15 @@
       <ItemsCount>0</ItemsCount>
     </ArrayExcludedModuleName>
     <Licenses>
-      <ArrayLicenseMac>
-        <ItemsCount>3</ItemsCount>
-        <Item1>Macintosh HD:Users:Damien:Library:Application Support:4D:Licenses:R-4UUD200UUS0018PNC005EC7.license4D</Item1>
-        <Item2>Macintosh HD:Users:Damien:Library:Application Support:4D:Licenses:R-4DTD200UUS001APL85125DE.license4D</Item2>
-        <Item3>Macintosh HD:Users:Damien:Library:Application Support:4D:Licenses:R-4DDP200UUS001APL8416796.license4D</Item3>
-      </ArrayLicenseMac>
       <ArrayLicenseWin>
-        <ItemsCount>2</ItemsCount>
+        <ItemsCount>1</ItemsCount>
         <Item1>C:\ProgramData\4D\Licenses\R-4UUD200UUS0018PNC005EC7.license4D</Item1>
-        <Item2>C:\ProgramData\4D\Licenses\R-4DDP200UUS001APL8416796.license4D</Item2></ArrayLicenseWin>
+      </ArrayLicenseWin>
     </Licenses>
     <SignApplication>
       <MacSignature>False</MacSignature>
       <MacCertificate></MacCertificate>
-      <AdHocSign>True</AdHocSign>
     </SignApplication>
-    <BuildWinDestFolder>Z:\4D\GitHub\Build4D\Test\Legacy\win\</BuildWinDestFolder>
   </BuildApp>
-
-
-
 
 </Preferences4D>

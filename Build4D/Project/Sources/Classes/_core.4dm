@@ -154,7 +154,7 @@ Function _resolvePath($path : Text; $baseFolder : 4D.Folder) : Object
 					
 					var $pathExists : Boolean
 					$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
-					$absolutePath:=($pathExists) ? $path : $absoluteFolder.path+$path
+					$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
 			End case 
 			
 	End case 
@@ -468,7 +468,7 @@ Function _setAppOptions() : Boolean
 	If ($infoFile.exists)
 		$appInfo:=New object(\
 			"com.4D.BuildApp.ReadOnlyApp"; "true"; \
-			"com.4D.BuildApp.LastDataPathLookup"; This.settings.lastDataPathLookup; \
+			"com.4D.BuildApp.LastDataPathLookup"; Choose((This.settings.lastDataPathLookup="ByAppName") | (This.settings.lastDataPathLookup="ByAppPath"); This.settings.lastDataPathLookup; "ByAppName"); \
 			"DataFileConversionMode"; "0"\
 			)
 		$appInfo.SDIRuntime:=((This.settings.useSDI#Null) && This.settings.useSDI) ? "1" : "0"
@@ -484,23 +484,47 @@ Function _setAppOptions() : Boolean
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 		End if 
 		
-		If ((This.settings.iconPath#Null) && (This.settings.iconPath.exists))  // Set icon
-			If (Is macOS)
-				$appInfo.CFBundleIconFile:=This.settings.iconPath.fullName
-				This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/"))
-			Else   // Windows
-				$exeInfo.WinIcon:=This.settings.iconPath
+		If (This.settings.iconPath#Null)  // Set icon
+			If (This.settings.iconPath.exists)
+				If (Is macOS)
+					$appInfo.CFBundleIconFile:=This.settings.iconPath.fullName
+					This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/"))
+				Else   // Windows
+					$exeInfo.WinIcon:=This.settings.iconPath
+				End if 
+			Else 
+				This._log(New object(\
+					"function"; "Icon integration"; \
+					"message"; "Icon file doesn't exist: "+This.settings.iconPath.path; \
+					"severity"; Error message))
 			End if 
 		End if 
 		
 		If (This.settings.versioning#Null)  // Set version info
 			If (Is macOS)
 				If (This.settings.versioning.version#Null)
-					$appInfo.CFBundleVersion:=This.settings.versioning.version  // OK
-					$appInfo.CFBundleShortVersionString:=This.settings.versioning.version  // OK
+					$appInfo.CFBundleVersion:=This.settings.versioning.version
+					$appInfo.CFBundleShortVersionString:=This.settings.versioning.version
 				End if 
 				If (This.settings.versioning.copyright#Null)
-					$appInfo.NSHumanReadableCopyright:=This.settings.versioning.copyright  // OK
+					$appInfo.NSHumanReadableCopyright:=This.settings.versioning.copyright
+					// Force macOS to get copyright from info.plist file instead of localized strings file
+					var $subFolder : 4D.Folder
+					var $infoPlistFile : 4D.File
+					var $resourcesSubFolders : Collection
+					var $fileContent : Text
+					$resourcesSubFolders:=This.settings.destinationFolder.folder("Contents/Resources/").folders()
+					For each ($subFolder; $resourcesSubFolders)
+						If ($subFolder.extension=".lproj")
+							$infoPlistFile:=$subFolder.file("InfoPlist.strings")
+							If ($infoPlistFile.exists)
+								$fileContent:=$infoPlistFile.getText()
+								$fileContent:=Replace string($fileContent; "CFBundleGetInfoString ="; "CF4DBundleGetInfoString ="; 1)
+								$fileContent:=Replace string($fileContent; "NSHumanReadableCopyright ="; "NS4DHumanReadableCopyright ="; 1)
+								$infoPlistFile.setText($fileContent)
+							End if 
+						End if 
+					End for each 
 				End if 
 				//If (This.settings.versioning.creator#Null)
 				//$appInfo._unknown:=This.settings.versioning.creator
@@ -597,11 +621,25 @@ Function _setAppOptions() : Boolean
 	
 	//MARK:-
 Function _generateLicense() : Boolean
+	var $status : Object
+	
 	If ((This.settings.license#Null) && (This.settings.license.exists))
 		$status:=Create deployment license(This.settings.destinationFolder; This.settings.license)
-		return $status.success
+		If ($status.success)
+			return True
+		Else 
+			This._log(New object(\
+				"function"; "Deployment license creation"; \
+				"message"; "Deployment license creation failed"; \
+				"severity"; Error message; \
+				"result"; $status))
+		End if 
+	Else 
+		This._log(New object(\
+			"function"; "Deployment license creation"; \
+			"message"; "License file doesn't exist: "+Choose(This.settings.license#Null; This.settings.license.path; "Undefined"); \
+			"severity"; Error message))
 	End if 
-	
 	
 	//MARK:-
 Function _sign() : Boolean
