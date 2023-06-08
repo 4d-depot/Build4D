@@ -26,7 +26,7 @@ Class constructor($target : Text; $customSettings : Object)
 	This._projectFile:=File(Structure file(*); fk platform path)
 	If (($settings#Null) && ($settings.projectFile#Null) && ($settings.projectFile#""))
 		This._isCurrentProject:=False
-		This._projectFile:=This._resolvePath($settings.projectFile; Folder("/PACKAGE/"; *))
+		This._projectFile:=This._resolvePath($settings.projectFile; Folder(Folder("/PACKAGE/"; *).platformPath; fk platform path))
 		If (Not(This._projectFile.exists))
 			This._validInstance:=False
 			This._log(New object(\
@@ -489,6 +489,7 @@ Function _setAppOptions() : Boolean
 				If (Is macOS)
 					$appInfo.CFBundleIconFile:=This.settings.iconPath.fullName
 					This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/"))
+					This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/Images/WindowIcons/"); "windowIcon_205.icns"; fk overwrite)
 				Else   // Windows
 					$exeInfo.WinIcon:=This.settings.iconPath
 				End if 

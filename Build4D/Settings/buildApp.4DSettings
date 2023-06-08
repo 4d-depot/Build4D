@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Preferences4D>
-
   <BuildApp>
     <BuildCompiled>False</BuildCompiled>
     <IncludeAssociatedFolders>True</IncludeAssociatedFolders>
@@ -13,9 +12,10 @@
       <RuntimeVL>
         <RuntimeVLIncludeIt>True</RuntimeVLIncludeIt>
         <RuntimeVLMacFolder>Macintosh HD:Applications:4D v0.0:4D Volume Desktop.app:</RuntimeVLMacFolder>
-        <RuntimeVLWinFolder>C:\Program Files\4D\4D v0.0\4D Volume Desktop\</RuntimeVLWinFolder></RuntimeVL>
-        <RuntimeVLIconWinPath>Z:\4D\GitHub\Build4D\Build4D_UnitTests\Build4D.ico</RuntimeVLIconWinPath>
+        <RuntimeVLWinFolder>C:\Program Files\4D\4D v0.0\4D Volume Desktop\</RuntimeVLWinFolder>
+        <RuntimeVLIconWinPath>..\Build4D_UnitTests\Build4D.ico</RuntimeVLIconWinPath>
         <RuntimeVLIconMacPath>::Build4D_UnitTests:Build4D.icns</RuntimeVLIconMacPath>
+      </RuntimeVL>
       <CS>
         <ServerIncludeIt>False</ServerIncludeIt>
         <ClientWinIncludeIt>False</ClientWinIncludeIt>
