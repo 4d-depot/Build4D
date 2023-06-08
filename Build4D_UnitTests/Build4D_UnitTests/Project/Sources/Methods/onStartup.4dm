@@ -9,19 +9,19 @@ If (Count parameters=0)  // Execute code in a new worker
 	Use (Storage)
 		Storage.settings:=New shared object("rootFolder"; Folder(Folder(fk database folder; *).platformPath; fk platform path))
 		//"projectName"; File(Structure file(*); fk platform path).name; \
-									"externalRootFolder"; Folder(Folder(fk database folder; *).platformPath; fk platform path).parent.folder("Build4D_External"); \
-									"externalProjectName"; ""; \
-									"userInterface"; Not(Get application info.headless); \
-									"logRunFile"; File($rootFolder+"UT_run.log").path; \
-									"logErrorFile"; File($rootFolder+"UT_errors.log").path\
-									)
+												"externalRootFolder"; Folder(Folder(fk database folder; *).platformPath; fk platform path).parent.folder("Build4D_External"); \
+												"externalProjectName"; ""; \
+												"userInterface"; Not(Get application info.headless); \
+												"logRunFile"; File($rootFolder+"UT_run.log").path; \
+												"logErrorFile"; File($rootFolder+"UT_errors.log").path\
+												)
 	End use 
 	Use (Storage.settings)
 		Storage.settings.projectName:=File(Structure file(*); fk platform path).name
 		Storage.settings.userInterface:=Not(Get application info.headless)
 		Storage.settings.externalProjectRootFolder:=Storage.settings.rootFolder.parent.folder("Build4D_External")
 		Storage.settings.externalProjectName:="Build4D_External"
-		Storage.settings.externalProjectFile:=Storage.settings.externalProjectRootFolder.path+"Project/Build4D_External.4DProject"
+		Storage.settings.externalProjectFile:=Storage.settings.externalProjectRootFolder.file("Project/Build4D_External.4DProject")
 		Storage.settings.logRunFile:=Storage.settings.rootFolder.file("UT_run.log")
 		Storage.settings.logErrorFile:=Storage.settings.rootFolder.file("UT_errors.log")
 	End use 

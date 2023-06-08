@@ -1,6 +1,6 @@
 property _validInstance; _isCurrentProject; _isDefaultDestinationFolder; _noError : Boolean
 property _projectFile : 4D.File
-property _projectPackage; _structureFolder : 4D.Folder
+property _currentProjectPackage; _projectPackage; _structureFolder : 4D.Folder
 property logs : Collection
 property settings : Object
 
@@ -24,7 +24,10 @@ Class constructor($target : Text; $customSettings : Object)
 	This._validInstance:=True
 	This._isCurrentProject:=True
 	This._projectFile:=File(Structure file(*); fk platform path)
-	If (($settings#Null) && ($settings.projectFile#Null) && ($settings.projectFile#""))
+	This._currentProjectPackage:=This._projectFile.parent.parent
+	If (($settings#Null) && ($settings.projectFile#Null) && \
+		((Value type($settings.projectFile)=Is object) && OB Instance of($settings.projectFile; 4D.File)) || \
+		((Value type($settings.projectFile)=Is text) && ($settings.projectFile#"")))
 		This._isCurrentProject:=False
 		This._projectFile:=This._resolvePath($settings.projectFile; Folder(Folder("/PACKAGE/"; *).platformPath; fk platform path))
 		If (Not(This._projectFile.exists))
@@ -82,13 +85,15 @@ Function _overrideSettings($settings : Object)
 				This.settings.includePaths:=This.settings.includePaths.concat($settings.includePaths)
 				
 			: ($entry.key="iconPath")
-				This.settings.iconPath:=This._resolvePath($settings.iconPath; This._projectPackage)
+				This.settings.iconPath:=This._resolvePath($settings.iconPath; This._currentProjectPackage)
 				
 			: ($entry.key="license")
 				This.settings.license:=This._resolvePath($settings.license; Null)
 				
 			: ($entry.key="sourceAppFolder")
-				$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
+				If (Value type($settings.sourceAppFolder)=Is text)
+					$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
+				End if 
 				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; Null)
 				If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder)) || (Not(This.settings.sourceAppFolder.exists))))
 					This._validInstance:=False
@@ -125,41 +130,50 @@ Function _log($log : Object)
 	End if 
 	
 	//MARK:-
-Function _resolvePath($path : Text; $baseFolder : 4D.Folder) : Object
+Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 	
-	var $absolutePath : Text
-	var $absoluteFolder; $app : 4D.Folder
-	
-	$absoluteFolder:=$baseFolder
 	Case of 
-		: ($path="./@")  // Relative path inside $baseFolder
-			$path:=Substring($path; 3)
-			$absolutePath:=$absoluteFolder.path+$path
-		: ($path="../@")  // Relative path outside $baseFolder
-			While ($path="../@")
-				$absoluteFolder:=$absoluteFolder.parent
-				$path:=Substring($path; 4)
-			End while 
-			$absolutePath:=$absoluteFolder.path+$path
-		Else   // Absolute path or custom fileSystem
+		: ((Value type($path)=Is object) && (OB Instance of($path; 4D.File) || OB Instance of($path; 4D.Folder)))  // $path is a File or a Folder
+			return $path
+			
+		: (Value type($path)=Is text)  // $path is a text
+			var $absolutePath : Text
+			var $absoluteFolder; $app : 4D.Folder
+			
+			$absoluteFolder:=$baseFolder
 			Case of 
-				: ($path="/4DCOMPONENTS/@")
-					$app:=(Is macOS) ? Folder(Application file; fk platform path).folder("Contents/Components") : File(Application file; fk platform path).parent.folder("Components")
-					$absolutePath:=$app.path+Substring($path; 15)
+				: ($path="./@")  // Relative path inside $baseFolder
+					$path:=Substring($path; 3)
+					$absolutePath:=$absoluteFolder.path+$path
+				: ($path="../@")  // Relative path outside $baseFolder
+					While ($path="../@")
+						$absoluteFolder:=$absoluteFolder.parent
+						$path:=Substring($path; 4)
+					End while 
+					$absolutePath:=$absoluteFolder.path+$path
+				Else   // Absolute path or custom fileSystem
+					Case of 
+						: ($path="/4DCOMPONENTS/@")
+							$app:=(Is macOS) ? Folder(Application file; fk platform path).folder("Contents/Components") : File(Application file; fk platform path).parent.folder("Components")
+							$absolutePath:=$app.path+Substring($path; 15)
+							
+						: (($path="") | ($path="/"))  // Base folder
+							$absolutePath:=$baseFolder.path
+							
+						Else   // Absolute path or baseFolder subpath
+							
+							var $pathExists : Boolean
+							$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
+							$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
+					End case 
 					
-				: (($path="") | ($path="/"))  // Base folder
-					$absolutePath:=$baseFolder.path
-					
-				Else   // Absolute path or baseFolder subpath
-					
-					var $pathExists : Boolean
-					$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
-					$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
 			End case 
 			
+			return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
+			
+		Else 
+			return Null
 	End case 
-	
-	return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
 	
 	//MARK:-
 Function _checkDestinationFolder() : Boolean
@@ -264,35 +278,29 @@ Function _includePaths($pathsObj : Collection) : Boolean
 					"severity"; Error message))
 				return False
 			Else 
-				Case of 
-					: (Value type($pathObj.source)=Is text)
-						$sourcePath:=This._resolvePath($pathObj.source; This._projectPackage)
-					: ((OB Instance of($pathObj.source; 4D.Folder)) || (OB Instance of($pathObj.source; 4D.File)))
-						$sourcePath:=$pathObj.source
-					Else 
-						This._log(New object(\
-							"function"; "Paths include"; \
-							"message"; "Collection.source must contain Posix text paths, 4D.File objects or 4D.Folder objects"; \
-							"severity"; Error message))
-						return False
-				End case 
+				If ((Value type($pathObj.source)=Is text) || (OB Instance of($pathObj.source; 4D.Folder)) || (OB Instance of($pathObj.source; 4D.File)))
+					$sourcePath:=This._resolvePath($pathObj.source; This._currentProjectPackage)
+				Else 
+					This._log(New object(\
+						"function"; "Paths include"; \
+						"message"; "Collection.source must contain Posix text paths, 4D.File objects or 4D.Folder objects"; \
+						"severity"; Error message))
+					return False
+				End if 
 			End if 
 			
 			If (Undefined($pathObj.destination))
 				$destinationPath:=This._structureFolder
 			Else 
-				Case of 
-					: (Value type($pathObj.destination)=Is text)
-						$destinationPath:=This._resolvePath($pathObj.destination; This._structureFolder)
-					: (OB Instance of($pathObj.destination; 4D.Folder))
-						$destinationPath:=$pathObj.destination
-					Else 
-						This._log(New object(\
-							"function"; "Paths include"; \
-							"message"; "Collection.destination must contain Posix text paths or 4D.Folder objects"; \
-							"severity"; Error message))
-						return False
-				End case 
+				If ((Value type($pathObj.destination)=Is text) || (OB Instance of($pathObj.destination; 4D.Folder)))
+					$destinationPath:=This._resolvePath($pathObj.destination; This._structureFolder)
+				Else 
+					This._log(New object(\
+						"function"; "Paths include"; \
+						"message"; "Collection.destination must contain Posix text paths or 4D.Folder objects"; \
+						"severity"; Error message))
+					return False
+				End if 
 			End if 
 			
 			If (Not($destinationPath.exists) && Not($destinationPath.create()))
@@ -346,18 +354,15 @@ Function _deletePaths($paths : Collection) : Boolean
 	If (($paths#Null) && ($paths.length>0))
 		For each ($path; $paths)
 			
-			Case of 
-				: (Value type($path)=Is text)
-					$deletePath:=This._resolvePath($path; This._structureFolder)
-				: ((OB Instance of($path; 4D.Folder)) || (OB Instance of($path; 4D.File)))
-					$deletePath:=$path
-				Else 
-					This._log(New object(\
-						"function"; "Paths delete"; \
-						"message"; "Collection must contain Posix text paths, 4D.File objects or 4D.Folder objects"; \
-						"severity"; Error message))
-					return False
-			End case 
+			If ((Value type($path)=Is text) || ((OB Instance of($path; 4D.Folder)) || (OB Instance of($path; 4D.File))))
+				$deletePath:=This._resolvePath($path; This._structureFolder)
+			Else 
+				This._log(New object(\
+					"function"; "Paths delete"; \
+					"message"; "Collection must contain Posix text paths, 4D.File objects or 4D.Folder objects"; \
+					"severity"; Error message))
+				return False
+			End if 
 			
 			If ($deletePath.exists)
 				$deletePath.delete(fk recursive)

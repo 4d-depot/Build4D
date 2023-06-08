@@ -51,11 +51,17 @@
         <ItemsCount>1</ItemsCount>
         <Item1>C:\ProgramData\4D\Licenses\R-4UUD200UUS0018PNC005EC7.license4D</Item1>
       </ArrayLicenseWin>
+      <ArrayLicenseMac>
+        <ItemsCount>1</ItemsCount>
+        <Item1>Macintosh HD:Users:Damien:Library:Application Support:4D:Licenses:R-4UUD200UUS0018PNC005EC7.license4D</Item1>
+      </ArrayLicenseMac>
     </Licenses>
     <SignApplication>
       <MacSignature>False</MacSignature>
       <MacCertificate></MacCertificate>
-    </SignApplication>
+      <AdHocSign>True</AdHocSign></SignApplication>
+    <BuildMacDestFolder>::Build4D_Build</BuildMacDestFolder>
   </BuildApp>
+
 
 </Preferences4D>
