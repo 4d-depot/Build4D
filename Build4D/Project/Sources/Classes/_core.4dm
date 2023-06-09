@@ -24,12 +24,12 @@ Class constructor($target : Text; $customSettings : Object)
 	This._validInstance:=True
 	This._isCurrentProject:=True
 	This._projectFile:=File(Structure file(*); fk platform path)
-	This._currentProjectPackage:=This._projectFile.parent.parent
+	This._currentProjectPackage:=Folder(Folder("/PACKAGE/"; *).platformPath; fk platform path)
 	If (($settings#Null) && ($settings.projectFile#Null) && \
 		((Value type($settings.projectFile)=Is object) && OB Instance of($settings.projectFile; 4D.File)) || \
 		((Value type($settings.projectFile)=Is text) && ($settings.projectFile#"")))
 		This._isCurrentProject:=False
-		This._projectFile:=This._resolvePath($settings.projectFile; Folder(Folder("/PACKAGE/"; *).platformPath; fk platform path))
+		This._projectFile:=This._resolvePath($settings.projectFile; This._currentProjectPackage)
 		If (Not(This._projectFile.exists))
 			This._validInstance:=False
 			This._log(New object(\
@@ -74,7 +74,7 @@ Function _overrideSettings($settings : Object)
 	For each ($entry; $entries)
 		Case of 
 			: ($entry.key="destinationFolder")
-				This.settings.destinationFolder:=This._resolvePath($settings.destinationFolder; This._projectPackage)
+				This.settings.destinationFolder:=This._resolvePath($settings.destinationFolder; This._currentProjectPackage)
 				If (Not(OB Instance of(This.settings.destinationFolder; 4D.Folder)))
 					This._validInstance:=False
 				Else 
@@ -94,7 +94,7 @@ Function _overrideSettings($settings : Object)
 				If (Value type($settings.sourceAppFolder)=Is text)
 					$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
 				End if 
-				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; Null)
+				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; This._currentProjectPackage)
 				If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder)) || (Not(This.settings.sourceAppFolder.exists))))
 					This._validInstance:=False
 					This._log(New object(\
@@ -533,61 +533,28 @@ Function _setAppOptions() : Boolean
 					End for each 
 				End if 
 				//If (This.settings.versioning.creator#Null)
-				//$appInfo._unknown:=This.settings.versioning.creator
-				//End if 
-				//If (This.settings.versioning.comment#Null)
-				//$appInfo.Comment:=This.settings.versioning.comment
-				//End if 
-				//If (This.settings.versioning.companyName#Null)
-				//$appInfo.CompanyName:=This.settings.versioning.companyName
-				//End if 
-				//If (This.settings.versioning.fileDescription#Null)
-				//$appInfo.FileDescription:=This.settings.versioning.fileDescription
-				//End if 
-				//If (This.settings.versioning.internalName#Null)
-				//$appInfo.InternalName:=This.settings.versioning.internalName
-				//End if 
-				//If (This.settings.versioning.legalTrademark#Null)
-				//$appInfo.LegalTrademarks:=This.settings.versioning.legalTrademark
-				//End if 
-				//If (This.settings.versioning.privateBuild#Null)
-				//$appInfo.PrivateBuild:=This.settings.versioning.privateBuild
-				//End if 
-				//If (This.settings.versioning.specialBuild#Null)
-				//$appInfo.SpecialBuild:=This.settings.versioning.specialBuild
+				//$appInfo._unknown:=Substring(This.settings.versioning.creator; 1; 4)
 				//End if 
 				
 			Else   // Windows
 				If (This.settings.versioning.version#Null)
-					$exeInfo.ProductVersion:=This.settings.versioning.version  //
+					$exeInfo.ProductVersion:=This.settings.versioning.version
 				End if 
 				If (This.settings.versioning.copyright#Null)
-					$exeInfo.LegalCopyright:=This.settings.versioning.copyright  //
+					$exeInfo.LegalCopyright:=This.settings.versioning.copyright
 				End if 
-				//If (This.settings.versioning.creator#Null)
-				//$exeInfo.Creator:=This.settings.versioning.creator
-				//End if 
-				//If (This.settings.versioning.comment#Null)
-				//$exeInfo.Comment:=This.settings.versioning.comment
-				//End if 
 				If (This.settings.versioning.companyName#Null)
 					$exeInfo.CompanyName:=This.settings.versioning.companyName
 				End if 
 				If (This.settings.versioning.fileDescription#Null)
-					$exeInfo.FileDescription:=This.settings.versioning.fileDescription  //
+					$exeInfo.FileDescription:=This.settings.versioning.fileDescription
 				End if 
 				If (This.settings.versioning.internalName#Null)
 					$exeInfo.InternalName:=This.settings.versioning.internalName
 				End if 
 				If (This.settings.versioning.legalTrademark#Null)
-					$exeInfo.LegalTrademarks:=This.settings.versioning.legalTrademark  // No defined in setAppInfo
+					$exeInfo.LegalTrademarks:=This.settings.versioning.legalTrademark
 				End if 
-				//If (This.settings.versioning.privateBuild#Null)
-				//$exeInfo.PrivateBuild:=This.settings.versioning.privateBuild
-				//End if 
-				//If (This.settings.versioning.specialBuild#Null)
-				//$exeInfo.SpecialBuild:=This.settings.versioning.specialBuild
-				//End if 
 			End if 
 		End if 
 		

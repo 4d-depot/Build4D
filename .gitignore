@@ -27,5 +27,5 @@ zzz*.4dm
 
 # Build
 *Test/
-*buildApp.4DSettings
 *Build/
+Build4D/Settings/buildApp.4DSettings
