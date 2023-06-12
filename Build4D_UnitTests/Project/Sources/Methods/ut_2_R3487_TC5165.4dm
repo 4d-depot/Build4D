@@ -30,7 +30,7 @@ $includedFolder:=$build.settings.destinationFolder.folder("Test/Documentation/")
 ASSERT($includedFolder.exists; "(Current project) Included folder should exist: "+$includedFolder.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -46,5 +46,5 @@ $includedFolder:=$build.settings.destinationFolder.folder("Test/Documentation/")
 ASSERT($includedFolder.exists; "(External project) Included folder should exist: "+$includedFolder.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 

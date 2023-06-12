@@ -30,7 +30,7 @@ $includedFile:=Folder(fk database folder; *).file("Test/README.md")
 ASSERT($includedFile.exists; "(Current project) Included file should exist: "+$includedFile.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 // Filesystems are relative to the project executing the code, so they can not be resolved related to an external project

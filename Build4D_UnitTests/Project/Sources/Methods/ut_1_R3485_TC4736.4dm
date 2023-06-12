@@ -19,8 +19,8 @@ $settings.destinationFolder:="./Test/"
 
 $build:=cs.Build4D.CompiledProject.new($settings)
 
-$destinationFolder:=Folder("/PACKAGE/Test"; *)
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(Current project) Wrong specified destination folder: "+$build.settings.destinationFolder.platformPath+" (https://dev.azure.com/4dimension/4D/_workitems/edit/4736)")
+$destinationFolder:=Folder("/PACKAGE/Test")
+ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(Current project) Wrong specified destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 
 $success:=$build.build()
 
@@ -30,7 +30,7 @@ $compiledProject:=$destinationFolder.file($build.settings.buildName+".4DZ")
 ASSERT($compiledProject.exists; "(Current project) Compiled project should exist: "+$compiledProject.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -38,7 +38,7 @@ $settings.projectFile:=Storage.settings.externalProjectFile
 
 $build:=cs.Build4D.CompiledProject.new($settings)
 
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong specified destination folder: "+$build.settings.destinationFolder.platformPath+" (https://dev.azure.com/4dimension/4D/_workitems/edit/4736)")
+ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong specified destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 
 $success:=$build.build()
 
@@ -48,5 +48,5 @@ $compiledProject:=$destinationFolder.file($build.settings.buildName+".4DZ")
 ASSERT($compiledProject.exists; "(External project) Compiled project should exist: "+$compiledProject.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 

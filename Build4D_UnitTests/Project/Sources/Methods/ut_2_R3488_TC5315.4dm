@@ -27,7 +27,7 @@ $deletedFolder:=$build.settings.destinationFolder.folder("Resources")
 ASSERT($deletedFolder.exists=False; "(Current project) Deleted folder shouldn't exist: "+$deletedFolder.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -43,4 +43,4 @@ $deletedFolder:=$build.settings.destinationFolder.folder("Resources")
 ASSERT($deletedFolder.exists=False; "(External project) Deleted folder shouldn't exist: "+$deletedFolder.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

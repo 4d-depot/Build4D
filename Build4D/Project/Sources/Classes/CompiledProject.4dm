@@ -10,6 +10,15 @@ Class constructor($customSettings : Object)
 			This.settings.destinationFolder:=This.settings.destinationFolder.folder("CompiledProject/"+This.settings.buildName+"/")
 		End if 
 		This._structureFolder:=This.settings.destinationFolder
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init successful."; \
+			"severity"; Information message))
+	Else 
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init failed."; \
+			"severity"; Error message))
 	End if 
 	
 	//MARK:-

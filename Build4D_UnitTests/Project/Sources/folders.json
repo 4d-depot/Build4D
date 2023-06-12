@@ -73,20 +73,75 @@
 	},
 	"3_R11077": {
 		"methods": [
-			"ut_3_R11077_TC11162"
+			"ut_3_R11077_TC11162",
+			"ut_3_R11077_TC11164"
 		]
 	},
-	"Default Classes": {},
-	"Default Folder": {
+	"3_R11078": {
+		"methods": [
+			"ut_3_R11078_TC11169",
+			"ut_3_R11078_TC11170"
+		]
+	},
+	"3_R11079": {
+		"methods": [
+			"mut_3_R11079_TC11171"
+		]
+	},
+	"3_R11080": {},
+	"3_R11081": {
+		"methods": [
+			"ut_3_R11081_TC"
+		]
+	},
+	"3_R11083": {
+		"methods": [
+			"ut_3_R11083_TC11190",
+			"ut_3_R11083_TC11192",
+			"ut_3_R11083_TC11958"
+		]
+	},
+	"3_R11084": {
+		"methods": [
+			"ut_3_R11084_TC11200"
+		]
+	},
+	"CompiledProject": {
 		"groups": [
-			"Default Classes",
-			"Default Forms",
-			"Default Project Methods",
-			"Default Tables"
+			"1_R3485",
+			"1_R3489",
+			"1_R3490",
+			"1_R3491"
+		],
+		"methods": [
+			"runUnitTests1"
 		]
 	},
-	"Default Forms": {},
-	"Default Project Methods": {},
-	"Default Tables": {},
+	"Component": {
+		"groups": [
+			"2_R3484",
+			"2_R3486",
+			"2_R3487",
+			"2_R3488"
+		],
+		"methods": [
+			"runUnitTests2"
+		]
+	},
+	"Standalone": {
+		"groups": [
+			"3_R11077",
+			"3_R11078",
+			"3_R11079",
+			"3_R11080",
+			"3_R11081",
+			"3_R11083",
+			"3_R11084"
+		],
+		"methods": [
+			"runUnitTests3",
+			"zzzStandalone"
+		]
+	},
 	"trash": {}
 }

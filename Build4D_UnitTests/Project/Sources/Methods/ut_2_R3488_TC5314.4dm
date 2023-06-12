@@ -27,7 +27,7 @@ $deletedFile:=$build.settings.destinationFolder.file("Resources/component.json")
 ASSERT($deletedFile.exists=False; "(Current project) Deleted file shouldn't exist: "+$deletedFile.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -43,4 +43,4 @@ $deletedFile:=$build.settings.destinationFolder.file("Resources/UnitTests.txt")
 ASSERT($deletedFile.exists=False; "(External project) Deleted file shouldn't exist: "+$deletedFile.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

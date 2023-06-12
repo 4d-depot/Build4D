@@ -58,17 +58,13 @@ Class constructor($target : Text; $customSettings : Object)
 				"message"; "Destination folder automatically defined."; \
 				"severity"; Information message))
 		End if 
-		This._log(New object(\
-			"function"; "Class constuctor"; \
-			"message"; "Class init successful."; \
-			"severity"; Information message))
 	End if 
 	
 	//MARK:-
 Function _overrideSettings($settings : Object)
 	
 	var $entries : Collection
-	var $entry; $currentAppInfo; $sourceAppInfo : Object
+	var $entry : Object
 	
 	$entries:=OB Entries($settings)
 	For each ($entry; $entries)
@@ -95,26 +91,6 @@ Function _overrideSettings($settings : Object)
 					$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
 				End if 
 				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; This._currentProjectPackage)
-				If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder)) || (Not(This.settings.sourceAppFolder.exists))))
-					This._validInstance:=False
-					This._log(New object(\
-						"function"; "Source application folder checking"; \
-						"message"; "Source application folder doesn't exist"; \
-						"severity"; Error message); \
-						"sourceAppFolder"; $settings.sourceAppFolder)
-					
-				Else   // Versions checking
-					$sourceAppInfo:=(Is macOS) ? This.settings.sourceAppFolder.file("Contents/Info.plist").getAppInfo() : This.settings.sourceAppFolder.file("Resources/Info.plist").getAppInfo()
-					$currentAppInfo:=(Is macOS) ? Folder(Application file; fk platform path).file("Contents/Info.plist").getAppInfo() : File(Application file; fk platform path).parent.file("Resources/Info.plist").getAppInfo()
-					If (($sourceAppInfo.CFBundleVersion=Null) || ($currentAppInfo.CFBundleVersion=Null) || ($sourceAppInfo.CFBundleVersion#$currentAppInfo.CFBundleVersion))
-						This._validInstance:=False
-						This._log(New object(\
-							"function"; "Source application version checking"; \
-							"message"; "Source application version doesn't match to current application version"; \
-							"severity"; Error message); \
-							"sourceAppFolder"; $settings.sourceAppFolder)
-					End if 
-				End if 
 				
 			Else 
 				This.settings[$entry.key]:=$entry.value
@@ -413,6 +389,7 @@ Function _create4DZ() : Boolean
 	End if 
 	return True
 	
+	//MARK:-
 Function _copySourceApp() : Boolean
 	This._noError:=True
 	This.settings.sourceAppFolder.copyTo(This.settings.destinationFolder.parent; This.settings.destinationFolder.fullName)
@@ -532,9 +509,6 @@ Function _setAppOptions() : Boolean
 						End if 
 					End for each 
 				End if 
-				//If (This.settings.versioning.creator#Null)
-				//$appInfo._unknown:=Substring(This.settings.versioning.creator; 1; 4)
-				//End if 
 				
 			Else   // Windows
 				If (This.settings.versioning.version#Null)
@@ -551,9 +525,6 @@ Function _setAppOptions() : Boolean
 				End if 
 				If (This.settings.versioning.internalName#Null)
 					$exeInfo.InternalName:=This.settings.versioning.internalName
-				End if 
-				If (This.settings.versioning.legalTrademark#Null)
-					$exeInfo.LegalTrademarks:=This.settings.versioning.legalTrademark
 				End if 
 			End if 
 		End if 

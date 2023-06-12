@@ -27,7 +27,7 @@ $compiledProject:=$build.settings.destinationFolder.file($build.settings.buildNa
 ASSERT($compiledProject.exists=False; "(Current project) Compiled project 4DZ file should not exist: "+$compiledProject.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -43,4 +43,4 @@ $compiledProject:=$build.settings.destinationFolder.file($build.settings.buildNa
 ASSERT($compiledProject.exists=False; "(External project) Compiled project 4DZ file should not exist: "+$compiledProject.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

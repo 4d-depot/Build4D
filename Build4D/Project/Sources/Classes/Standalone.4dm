@@ -2,6 +2,8 @@ Class extends _core
 
 //MARK:-
 Class constructor($customSettings : Object)
+	var $currentAppInfo; $sourceAppInfo : Object
+	var $fileCheck : Boolean
 	
 	Super("Standalone"; $customSettings)
 	
@@ -11,6 +13,78 @@ Class constructor($customSettings : Object)
 		End if 
 		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+Choose(Is macOS; ".app"; "")+"/")
 		This._structureFolder:=This.settings.destinationFolder.folder(Choose(Is macOS; "Contents/"; "")+"Database/")
+		
+		//Checking license
+		If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
+			This._validInstance:=False
+			This._log(New object(\
+				"function"; "License file checking"; \
+				"message"; "License file is not defined"; \
+				"severity"; Error message))
+		Else 
+			If (Not(This.settings.license.exists))
+				This._validInstance:=False
+				This._log(New object(\
+					"function"; "License file checking"; \
+					"message"; "License file doesn't exist"; \
+					"severity"; Error message; \
+					"path"; This.settings.license.path))
+			End if 
+		End if 
+		
+		//Checking source app
+		If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder))))
+			This._validInstance:=False
+			This._log(New object(\
+				"function"; "Source application folder checking"; \
+				"message"; "Source application folder is not defined"; \
+				"severity"; Error message))
+		Else 
+			If (Not(This.settings.sourceAppFolder.exists))
+				This._log(New object(\
+					"function"; "Source application folder checking"; \
+					"message"; "Source application folder doesn't exist"; \
+					"severity"; Error message; \
+					"sourceAppFolder"; $settings.sourceAppFolder.path))
+			Else 
+				$fileCheck:=(Is macOS) ? This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists : This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists
+				If (Not($fileCheck))
+					This._log(New object(\
+						"function"; "Source application folder checking"; \
+						"message"; "Source application is not a 4D Volume Desktop"; \
+						"severity"; Error message; \
+						"sourceAppFolder"; $settings.sourceAppFolder.path))
+				Else   // Versions checking
+					$sourceAppInfo:=(Is macOS) ? This.settings.sourceAppFolder.file("Contents/Info.plist").getAppInfo() : This.settings.sourceAppFolder.file("Resources/Info.plist").getAppInfo()
+					$currentAppInfo:=(Is macOS) ? Folder(Application file; fk platform path).file("Contents/Info.plist").getAppInfo() : File(Application file; fk platform path).parent.file("Resources/Info.plist").getAppInfo()
+					If (($sourceAppInfo.CFBundleVersion=Null) || ($currentAppInfo.CFBundleVersion=Null) || ($sourceAppInfo.CFBundleVersion#$currentAppInfo.CFBundleVersion))
+						This._validInstance:=False
+						This._log(New object(\
+							"function"; "Source application version checking"; \
+							"message"; "Source application version doesn't match to current application version"; \
+							"severity"; Error message; \
+							"sourceAppFolder"; $settings.sourceAppFolder.path))
+					End if 
+				End if 
+			End if 
+		End if 
+		
+		If (This._validInstance)
+			This._log(New object(\
+				"function"; "Class constuctor"; \
+				"message"; "Class init successful."; \
+				"severity"; Information message))
+		Else 
+			This._log(New object(\
+				"function"; "Class constuctor"; \
+				"message"; "Class init failed."; \
+				"severity"; Error message))
+		End if 
+	Else 
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init failed."; \
+			"severity"; Error message))
 	End if 
 	
 	//MARK:-

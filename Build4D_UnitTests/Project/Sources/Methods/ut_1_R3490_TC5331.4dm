@@ -2,7 +2,7 @@
 // Compile an application/component with good $settings.compilerOptions
 var $build : cs.Build4D.CompiledProject
 var $settings : Object
-var $success : Variant
+var $success : Boolean
 var $link : Text
 $link:=" (https://dev.azure.com/4dimension/4D/_workitems/edit/"+Substring(Current method name; Position("_TC"; Current method name)+3)+")"
 

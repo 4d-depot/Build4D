@@ -11,6 +11,15 @@ Class constructor($customSettings : Object)
 		End if 
 		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+".4dbase/")
 		This._structureFolder:=This.settings.destinationFolder
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init successful."; \
+			"severity"; Information message))
+	Else 
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init failed."; \
+			"severity"; Error message))
 	End if 
 	
 	//MARK:-

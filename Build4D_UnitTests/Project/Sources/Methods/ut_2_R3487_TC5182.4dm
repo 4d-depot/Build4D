@@ -30,7 +30,7 @@ $includedFile:=$build.settings.destinationFolder.file("Test/README.md")
 ASSERT($includedFile.exists; "(Current project) Included file should exist: "+$includedFile.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -50,4 +50,4 @@ $includedFile:=$build.settings.destinationFolder.file("Test/README.md")
 ASSERT($includedFile.exists; "(External project) Included file should exist: "+$includedFile.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

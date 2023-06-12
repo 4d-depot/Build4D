@@ -15,7 +15,7 @@ $targets:=(Is macOS) ? New collection("x86_64_generic"; "arm64_macOS_lib") : New
 $settings:=New object(\
 "buildName"; "Build4D"; \
 "compilerOptions"; New object("targets"; $targets); \
-"destinationFolder"; "../Build4D_UnitTests/Build4D_UnitTests/Components/"; \
+"destinationFolder"; "../Build4D_UnitTests/Components/"; \
 "includePaths"; New collection(New object("source"; "Documentation/"))\
 )
 

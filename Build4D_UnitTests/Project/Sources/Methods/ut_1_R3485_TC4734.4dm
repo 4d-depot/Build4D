@@ -19,7 +19,7 @@ $settings.buildName:="Build4D"
 $build:=cs.Build4D.CompiledProject.new($settings)
 
 $destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(Current project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+" (https://dev.azure.com/4dimension/4D/_workitems/edit/4734)")
+ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(Current project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 
 $success:=$build.build()
 
@@ -38,7 +38,7 @@ $settings.projectFile:=Storage.settings.externalProjectFile
 $build:=cs.Build4D.CompiledProject.new($settings)
 
 $destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+" (https://dev.azure.com/4dimension/4D/_workitems/edit/4734)")
+ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 
 $success:=$build.build()
 

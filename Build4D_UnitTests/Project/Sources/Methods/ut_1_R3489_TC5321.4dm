@@ -31,7 +31,7 @@ ASSERT($zip#Null; "(Current project) Compiled project 4DZ file should be unzippa
 $zip:=Null
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -49,4 +49,4 @@ ASSERT($zip#Null; "Compiled project 4DZ file should be unzippable"+$link)
 $zip:=Null
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

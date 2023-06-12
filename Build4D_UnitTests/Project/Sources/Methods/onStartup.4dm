@@ -3,20 +3,12 @@
 
 If (Count parameters=0)  // Execute code in a new worker
 	
-	//var $rootFolder; $externalRootFolder : Text
-	//$rootFolder:=Folder(Folder(fk database folder; *).platformPath; fk platform path).path
-	//$externalRootFolder:=Folder($rootFolder).parent.folder("Build4D_External").path
 	Use (Storage)
-		Storage.settings:=New shared object("rootFolder"; Folder(Folder(fk database folder; *).platformPath; fk platform path))
-		//"projectName"; File(Structure file(*); fk platform path).name; \
-															"externalRootFolder"; Folder(Folder(fk database folder; *).platformPath; fk platform path).parent.folder("Build4D_External"); \
-															"externalProjectName"; ""; \
-															"userInterface"; Not(Get application info.headless); \
-															"logRunFile"; File($rootFolder+"UT_run.log").path; \
-															"logErrorFile"; File($rootFolder+"UT_errors.log").path\
-															)
+		Storage.settings:=New shared object()
+		Storage.settings:=OB Copy(JSON Parse(File("/PACKAGE/Settings/UT_Settings.json").getText()); ck shared)
 	End use 
 	Use (Storage.settings)
+		Storage.settings.rootFolder:=Folder(Folder(fk database folder; *).platformPath; fk platform path)
 		Storage.settings.projectName:=File(Structure file(*); fk platform path).name
 		Storage.settings.userInterface:=Not(Get application info.headless)
 		Storage.settings.externalProjectRootFolder:=Storage.settings.rootFolder.folder("Build4D_External")

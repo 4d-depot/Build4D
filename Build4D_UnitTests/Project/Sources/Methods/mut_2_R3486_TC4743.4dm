@@ -48,7 +48,7 @@ If (Is macOS)
 	End if 
 	
 	// Cleanup build folder
-	Folder("/PACKAGE/Test"; *).delete(fk recursive)
+	Folder("/PACKAGE/Test").delete(fk recursive)
 	
 	// MARK:- External project
 	
@@ -76,8 +76,10 @@ If (Is macOS)
 	End if 
 	
 	// Cleanup build folder
-	Storage.settings.externalProjectRootFolder.folder("Test").delete(fk recursive)
+	Folder("/PACKAGE/Test").delete(fk recursive)
 	
 	SET ASSERT ENABLED($assertions)
 	
+Else 
+	ALERT("macOS only!")
 End if 

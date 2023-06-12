@@ -30,7 +30,7 @@ $includedFolder:=Folder(fk database folder; *).folder("Test/Documentation")
 ASSERT($includedFolder.exists; "(Current project) Included folder should exist: "+$includedFolder.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -45,4 +45,4 @@ ASSERT($success; "(External project) Component build should success"+$link)
 ASSERT($includedFolder.exists; "(External project) Included folder should exist: "+$includedFolder.platformPath+$link)
 
 // Cleanup build folder
-Folder("/PACKAGE/Test"; *).delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

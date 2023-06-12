@@ -22,10 +22,11 @@ Thumbs.db
 *.4dbase/
 UT_*.log
 Build_*.log
+*.license4D
 Artifacts/
 zzz*.4dm
 
 # Build
 *Test/
 *Build/
-Build4D/Settings/buildApp.4DSettings
+*buildApp.4DSettings
