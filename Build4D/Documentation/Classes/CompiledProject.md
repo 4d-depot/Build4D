@@ -20,15 +20,15 @@ $customSettings is an object that contains the following parameters:
 | Attributes | Type | Description |
 |---|---|---|        
 |buildName | String | Name of the target build. Defined by the component if missing in the custom settings.|
-|projectFile | File or String | Project file. Pass the project file path if you want to build an external project. Not necessary if it is a current project.|
-|destinationFolder | Folder or String | Folder where the build will be generated. Defined by the component if missing in the custom settings.|
-|compilerOptions | Object | Compile options. The object is passed as parameter to the "Compile project" command if is not null.|
+|projectFile | File or String | Project file (relative to the open project/absolute/filesystem). Pass the project file path if you want to build an external project. Not necessary if building the current project.|
+|destinationFolder | Folder or String | Folder where the build will be generated (relative to the open project/absolute/filesystem). Defined by the component if missing in the custom settings.|
+|compilerOptions | Object | Compile options. The object is passed as parameter to the "Compile project" command if is not null. For more details about the object format, read the documentation of the Compile project command.|
 |packedProject | Boolean | True if the project is compressed into a 4DZ file.|
 |obfuscated | Boolean | True if the 4DZ shall not be dezippable.|
 |includePaths[] | Collection of Objects | Collection of folders and files to include.|
-|includePaths[].source | String | Source folder or file path (relative to the built project/absolute/filesystem strings).|
-|includePaths[].destination | String | Destination folder path (relative to the built project/absolute/filesystem strings).|
-|deletePaths[] | Collection of Strings | Collection of paths to folders and files to be deleted (relative to the built project/absolute/filesystem strings).|
+|includePaths[].source | Folder, File, or String | Source folder or file path (relative to the open project/absolute/filesystem strings).|
+|includePaths[].destination | Folder, File, or String | Destination folder path (relative to the built project/absolute/filesystem).|
+|deletePaths[] | Collection of Folders, Files, or Strings | Collection of paths to folders and files to be deleted (relative to the built project/absolute/filesystem).|
 |logger | Formula | Formula called when a log is written.|
 
 ### build()
