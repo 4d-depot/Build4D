@@ -41,6 +41,7 @@ Class constructor($customSettings : Object)
 				"severity"; Error message))
 		Else 
 			If (Not(This.settings.sourceAppFolder.exists))
+				This._validInstance:=False
 				This._log(New object(\
 					"function"; "Source application folder checking"; \
 					"message"; "Source application folder doesn't exist"; \
@@ -49,6 +50,7 @@ Class constructor($customSettings : Object)
 			Else 
 				$fileCheck:=(Is macOS) ? This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists : This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists
 				If (Not($fileCheck))
+					This._validInstance:=False
 					This._log(New object(\
 						"function"; "Source application folder checking"; \
 						"message"; "Source application is not a 4D Volume Desktop"; \

@@ -2,9 +2,9 @@
 // Not define any path of Volume Desktop application
 var $build : cs.Build4D.Standalone
 var $settings : Object
-var $success; $found : Boolean
+var $success : Boolean
 var $link : Text
-var $log : Object
+var $log : Variant
 
 $link:=" (https://dev.azure.com/4dimension/4D/_workitems/edit/"+Substring(Current method name; Position("_TC"; Current method name)+3)+")"
 
@@ -21,17 +21,9 @@ $build:=cs.Build4D.Standalone.new($settings)
 
 ASSERT($build._validInstance=False; "(Current project) Object instance shouldn't be valid"+$link)
 
-$found:=False
-For each ($log; $build.logs)
-	If ($log.function="Source application folder checking")
-		If ($log.severity=2)
-			$found:=True
-			break
-		End if 
-	End if 
-End for each 
+$log:=$build.logs.find(Formula($1.value.function=$2); "Source application folder checking")
 
-ASSERT($found; "(Current project) Standalone build should generate an error"+$link)
+ASSERT((($log#Null) && ($log.severity=Error message)); "(Current project) Standalone build should generate an error"+$link)
 
 $success:=$build.build()
 
@@ -48,17 +40,10 @@ $build:=cs.Build4D.Standalone.new($settings)
 
 ASSERT($build._validInstance=False; "(External project) Object instance shouldn't be valid"+$link)
 
-$found:=False
-For each ($log; $build.logs)
-	If ($log.function="Source application folder checking")
-		If ($log.severity=2)
-			$found:=True
-			break
-		End if 
-	End if 
-End for each 
+$log:=Null
+$log:=$build.logs.find(Formula($1.value.function=$2); "Source application folder checking")
 
-ASSERT($found; "(External project) Standalone build should generate an error"+$link)
+ASSERT((($log#Null) && ($log.severity=Error message)); "(External project) Standalone build should generate an error"+$link)
 
 $success:=$build.build()
 

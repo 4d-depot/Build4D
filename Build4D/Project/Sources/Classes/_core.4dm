@@ -513,6 +513,7 @@ Function _setAppOptions() : Boolean
 			Else   // Windows
 				If (This.settings.versioning.version#Null)
 					$exeInfo.ProductVersion:=This.settings.versioning.version
+					$exeInfo.FileVersion:=This.settings.versioning.version
 				End if 
 				If (This.settings.versioning.copyright#Null)
 					$exeInfo.LegalCopyright:=This.settings.versioning.copyright
@@ -534,6 +535,7 @@ Function _setAppOptions() : Boolean
 		If ($exeInfo#Null)
 			$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
 			If ($exeFile.exists)
+				$exeInfo.OriginalFilename:=$exeFile.fullName
 				$exeFile.setAppInfo($exeInfo)
 			Else 
 				This._log(New object(\
@@ -552,7 +554,7 @@ Function _setAppOptions() : Boolean
 		return False
 	End if 
 	
-	If (Is Windows)
+	If (Is Windows)  // Updater elevation rights
 		$manifestFile:=((This.settings.startElevated#Null) && (This.settings.startElevated))\
 			 ? This.settings.destinationFolder.file("Resources/Updater/elevated.manifest")\
 			 : This.settings.destinationFolder.file("Resources/Updater/normal.manifest")
@@ -602,7 +604,7 @@ Function _sign() : Boolean
 				var $commandLine; $certificateName : Text
 				var $signatureWorker : 4D.SystemWorker
 				
-				$certificateName:=(Not(This.settings.signApplication.macSignature) && This.settings.signApplication.adHocSignature) ? "-" : This.settings.signApplication.macCertificate  // If nAdHocSignature, the certificate name shall be '-'
+				$certificateName:=(Not(This.settings.signApplication.macSignature) && This.settings.signApplication.adHocSignature) ? "-" : This.settings.signApplication.macCertificate  // If AdHocSignature, the certificate name shall be '-'
 				
 				If ($certificateName#"")
 					

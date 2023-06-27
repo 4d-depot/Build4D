@@ -17,13 +17,12 @@ $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
 $settings.license:=Storage.settings.licenseUUD
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macVolumeDesktop) : Folder(Storage.settings.winVolumeDesktop)
-$settings.versioning:=New object
 $settings.lastDataPathLookup:="AnotherValue"
 
 $build:=cs.Build4D.Standalone.new($settings)
 $success:=$build.build()
 
-$infoFile:=(Is macOS) ? $build.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
+$infoFile:=(Is macOS) ? $build.settings.destinationFolder.file("Contents/Info.plist") : $build.settings.destinationFolder.file("Resources/Info.plist")
 $infos:=$infoFile.getAppInfo()
 ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppName"; "(Current project) Standalone lastDataPathLookup should be set to byAppName"+$link)
 
@@ -37,7 +36,7 @@ $settings.projectFile:=Storage.settings.externalProjectFile
 $build:=cs.Build4D.Standalone.new($settings)
 $success:=$build.build()
 
-$infoFile:=(Is macOS) ? $build.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
+$infoFile:=(Is macOS) ? $build.settings.destinationFolder.file("Contents/Info.plist") : $build.settings.destinationFolder.file("Resources/Info.plist")
 $infos:=$infoFile.getAppInfo()
 ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppName"; "(External project) Standalone lastDataPathLookup should be set to byAppName"+$link)
 

@@ -1,7 +1,7 @@
 {
     "//target":"Standalone",
     "packedProject":true,
-    "obfuscated4DZ":false,
+    "obfuscated":false,
     "lastDataPathLookup":"ByAppName",
     "includePaths":
     [

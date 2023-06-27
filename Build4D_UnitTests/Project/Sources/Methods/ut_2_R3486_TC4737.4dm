@@ -18,7 +18,6 @@ If (Is macOS)
 	$settings.compilerOptions:=New object("targets"; New collection("x86_64_generic"; "arm64_macOS_lib"))  // Silicon compilation mandatory, else no code to sign, so can't check requested result
 	
 	$build:=cs.Build4D.Component.new($settings)
-	
 	$success:=$build.build()
 	
 	ASSERT($success; "(Current project) Component build should success"+$link)

@@ -1,10 +1,10 @@
 //%attributes = {}
-// Don't define the data linking mode
+// Build without any licence
 var $build : cs.Build4D.Standalone
 var $settings : Object
 var $success : Boolean
-var $infoFile : 4D.File
-var $infos : Object
+var $link : Text
+var $log : Variant
 
 $link:=" (https://dev.azure.com/4dimension/4D/_workitems/edit/"+Substring(Current method name; Position("_TC"; Current method name)+3)+")"
 
@@ -15,15 +15,15 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
-$settings.license:=Storage.settings.licenseUUD
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macVolumeDesktop) : Folder(Storage.settings.winVolumeDesktop)
 
 $build:=cs.Build4D.Standalone.new($settings)
 $success:=$build.build()
 
-$infoFile:=(Is macOS) ? $build.settings.destinationFolder.file("Contents/Info.plist") : $build.settings.destinationFolder.file("Resources/Info.plist")
-$infos:=$infoFile.getAppInfo()
-ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppName"; "(Current project) Standalone lastDataPathLookup should be set to byAppName"+$link)
+ASSERT($success=False; "(Current project) Standalone build should fail without any license"+$link)
+
+$log:=$build.logs.find(Formula($1.value.function=$2); "License file checking")
+ASSERT((($log#Null) && ($log.severity=Error message)); "(Current project) Standalone license error should be logged"+$link)
 
 // Cleanup build folder
 Folder("/PACKAGE/Test").delete(fk recursive)
@@ -35,9 +35,11 @@ $settings.projectFile:=Storage.settings.externalProjectFile
 $build:=cs.Build4D.Standalone.new($settings)
 $success:=$build.build()
 
-$infoFile:=(Is macOS) ? $build.settings.destinationFolder.file("Contents/Info.plist") : $build.settings.destinationFolder.file("Resources/Info.plist")
-$infos:=$infoFile.getAppInfo()
-ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppName"; "(External project) Standalone lastDataPathLookup should be set to byAppName"+$link)
+ASSERT($success=False; "(External project) Standalone build should fail without any license"+$link)
+
+$log:=Null
+$log:=$build.logs.find(Formula($1.value.function=$2); "License file checking")
+ASSERT((($log#Null) && ($log.severity=Error message)); "(External project) Standalone license error should be logged"+$link)
 
 // Cleanup build folder
 Folder("/PACKAGE/Test").delete(fk recursive)

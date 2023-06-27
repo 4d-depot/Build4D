@@ -23,7 +23,7 @@ If (Is macOS)
 	$settings.compilerOptions:=New object("targets"; New collection("x86_64_generic"; "arm64_macOS_lib"))  // Silicon compilation mandatory, else no code to sign, so can't check requested result
 	$settings.signApplication:=New object(\
 		"macSignature"; True; \
-		"macCertificate"; "Damien FUZEAU"; \
+		"macCertificate"; Storage.settings.macCertificate; \
 		"adHocSignature"; False)
 	
 	$build:=cs.Build4D.Component.new($settings)

@@ -3,7 +3,7 @@
 var $build : cs.Build4D.Standalone
 var $settings : Object
 var $success : Boolean
-var $infoFile : 4D.File
+var $infoFile; $exeFile : 4D.File
 var $infos : Object
 
 logGitHubActions(Current method name)
@@ -33,9 +33,20 @@ If (Is macOS)
 	ASSERT($infos.NSHumanReadableCopyright="UT_copyright"; "(Current project) Standalone copyright should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11181")
 	ASSERT($infos.CFBundleIdentifier="UT_companyName@"; "(Current project) Standalone companyName should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11184")
 Else 
-	$infoFile:=This.settings.destinationFolder.file("Resources/Info.plist")
-	$infos:=$infoFile.getAppInfo()
-	
+	$exeFile:=$build.settings.destinationFolder.file($build.settings.buildName+".exe")
+	If ($exeFile.exists)
+		$infos:=$exeFile.getAppInfo()
+		ASSERT($infos.FileVersion="UT_version"; "(Current project) Standalone version should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11179")
+		ASSERT($infos.ProductVersion="UT_version"; "(Current project) Standalone version should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11179")
+		ASSERT($infos.LegalCopyright="UT_copyright"; "(Current project) Standalone copyright should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11181")
+		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Standalone companyName should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11184")
+		ASSERT($infos.FileDescription="UT_fileDescription"; "(Current project) Standalone fileDescription should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11185")
+		ASSERT($infos.InternalName="UT_internalName"; "(Current project) Standalone internalName should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11186")
+		ASSERT($infos.OriginalFilename=$exeFile.fullName; "(Current project) Standalone OriginalFilename should be set")
+		ASSERT($infos.ProductName=$build.settings.buildName; "(Current project) Standalone ProductName should be set")
+	Else 
+		ASSERT(False; "(Current project) Standalone exe file does not exist:"+$exeFile.path)
+	End if 
 End if 
 
 // Cleanup build folder
@@ -56,9 +67,20 @@ If (Is macOS)
 	ASSERT($infos.NSHumanReadableCopyright="UT_copyright"; "(External project) Standalone copyright should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11181")
 	ASSERT($infos.CFBundleIdentifier="UT_companyName@"; "(External project) Standalone companyName should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11184")
 Else 
-	$infoFile:=This.settings.destinationFolder.file("Resources/Info.plist")
-	$infos:=$infoFile.getAppInfo()
-	
+	$exeFile:=$build.settings.destinationFolder.file($build.settings.buildName+".exe")
+	If ($exeFile.exists)
+		$infos:=$exeFile.getAppInfo()
+		ASSERT($infos.FileVersion="UT_version"; "(Current project) Standalone version should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11179")
+		ASSERT($infos.ProductVersion="UT_version"; "(Current project) Standalone version should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11179")
+		ASSERT($infos.LegalCopyright="UT_copyright"; "(Current project) Standalone copyright should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11181")
+		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Standalone companyName should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11184")
+		ASSERT($infos.FileDescription="UT_fileDescription"; "(Current project) Standalone fileDescription should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11185")
+		ASSERT($infos.InternalName="UT_internalName"; "(Current project) Standalone internalName should be set (https://dev.azure.com/4dimension/4D/_workitems/edit/11186")
+		ASSERT($infos.OriginalFilename=$exeFile.fullName; "(Current project) Standalone OriginalFilename should be set")
+		ASSERT($infos.ProductName=$build.settings.buildName; "(Current project) Standalone ProductName should be set")
+	Else 
+		ASSERT(False; "(Current project) Standalone exe file does not exist:"+$exeFile.path)
+	End if 
 End if 
 
 // Cleanup build folder
