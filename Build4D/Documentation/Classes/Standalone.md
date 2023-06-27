@@ -94,7 +94,7 @@ $settings.startElevated:=False
 $settings.lastDataPathLookup:="ByAppPath"
 
 // Define 4D Volume Desktop path
-$settings.sourceAppFolder:=Folder(fk documents folder).folder("4D v20.0/4D Volume Desktop.app").path
+$settings.sourceAppFolder:=Folder(fk documents folder).folder("4D v20.0/4D Volume Desktop.app")
 
 // Delete unneccessary module 
 $settings.excludeModules:=New collection("CEF"; "MeCab")
@@ -112,16 +112,12 @@ $settings.iconPath:="/RESOURCES/myIcon.icns"
 
 // Add the application information 
 $settings.versioning:=New object 
-$settings.versioning.version:="myBuild4D_version" 
-$settings.versioning.copyright:="myBuild4D_copyright" 
-$settings.versioning.creator:="myBuild4D_creator" 
-$settings.versioning.comment:="myBuild4D_comment" 
-$settings.versioning.companyName:="myBuild4D_companyName" 
-$settings.versioning.fileDescription:="myBuild4D_fileDescription" 
-$settings.versioning.internalName:="myBuild4D_internalName"
+$settings.versioning.version:="version" 
+$settings.versioning.copyright:="copyright" 
+$settings.versioning.companyName:="companyName" 
 
 // Create the deployment license file
-$settings.license:=Folder(fk licenses folder).file("XXXXX.license4D").path
+$settings.license:=Folder(fk licenses folder).file("XXXXX.license4D")
 
 // Sign the macOS appplication 
 $settings.signApplication:=New object 
