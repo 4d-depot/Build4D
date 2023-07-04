@@ -93,10 +93,16 @@ $settings.useSDI:=False
 $settings.startElevated:=False 
 $settings.lastDataPathLookup:="ByAppPath"
 
+// Specify the components required for compilation
+$componentsFolder:=Folder(fk documents folder).folder("4D v20.0/4D.app/Contents/Components")
+$components:=New collection()
+$components.push($componentsFolder.file("4D WritePro Interface.4dbase/4D WritePro Interface.4DZ"))
+$settings.compilerOptions:=New object("components"; $components)
+
 // Define 4D Volume Desktop path
 $settings.sourceAppFolder:=Folder(fk documents folder).folder("4D v20.0/4D Volume Desktop.app")
 
-// Delete unneccessary module 
+// Delete unnecessary module 
 $settings.excludeModules:=New collection("CEF"; "MeCab")
 
 // Include folders and files
