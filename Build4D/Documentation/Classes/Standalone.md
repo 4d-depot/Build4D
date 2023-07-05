@@ -28,8 +28,8 @@ $customSettings is an object that contains the following parameters:
 |packedProject | Boolean | True if the project is compressed into a 4DZ file.|
 |obfuscated | Boolean | True if the 4DZ is to not be dezippable.|
 |lastDataPathLookup| String | Defines the way the application stores its link with the last data file. Possible values: "ByAppName" (Default value) and "ByAppPath".|
-|useSDI| Boolean | On Windows, use the SDI interface mode instead of the MDI.|
-|startElevated| Boolean | On Windows, allow to start the Updater with elevated privileges.|
+|useSDI| Boolean | Allows to use the SDI interface mode instead of the MDI (Windows only).|
+|startElevated| Boolean | Allows to start the Updater with elevated privileges (Windows only).|
 |iconPath| File or String | File path of the icon to be used instead of the 4D Volume Desktop icon.|
 |versioning| Object | Object containing the contents of the application information.|
 |versioning.version| String | Version number. |
