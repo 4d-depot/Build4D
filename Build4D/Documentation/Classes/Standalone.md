@@ -79,7 +79,7 @@ var $build : cs.Build4D.Standalone
 var $settings : Object
 var $success : Boolean
 
-$settings:=New object()
+$settings:={}
 
 // Define the external project file 
 $settings.projectFile:=Folder(fk documents folder).file("Contact/Project/Contact.4DProject") 
@@ -95,32 +95,30 @@ $settings.lastDataPathLookup:="ByAppPath"
 
 // Specify the components required for compilation
 $componentsFolder:=Folder(fk documents folder).folder("4D v20.0/4D.app/Contents/Components")
-$components:=New collection()
+$components:=[]
 $components.push($componentsFolder.file("4D WritePro Interface.4dbase/4D WritePro Interface.4DZ"))
-$settings.compilerOptions:=New object("components"; $components)
+$settings.compilerOptions:={components: $components}
 
 // Define the 4D Volume Desktop path
 $settings.sourceAppFolder:=Folder(fk documents folder).folder("4D v20.0/4D Volume Desktop.app")
 
 // Delete the unnecessary module 
-$settings.excludeModules:=New collection("CEF"; "MeCab")
+$settings.excludeModules:=["CEF"; "MeCab"]
 
 // Include the folders and files
-$settings.includePaths:=New collection 
-$settings.includePaths.push(New object("source"; "Documentation/"))
-$settings.includePaths.push(New object("source"; $componentsFolder.folder("4D WritePro Interface.4dbase").path; "destination"; "../Components/"))
-$settings.includePaths.push(New object("source"; $componentsFolder.folder("4D SVG.4dbase").path; "destination"; "../Components/"))
-
+$settings.includePaths:=[] 
+$settings.includePaths.push({source: $componentsFolder.folder("4D WritePro Interface.4dbase").path; destination: "../Components/"})
+$settings.includePaths.push({source: $componentsFolder.folder("4D SVG.4dbase").path; destination: "../Components/"})
 
 // Delete the folders and files 
-$settings.deletePaths:=New collection 
+$settings.deletePaths:=[] 
 $settings.deletePaths.push("Resources/Dev/")
 
 // Add the application icon 
 $settings.iconPath:="/RESOURCES/myIcon.icns"
 
 // Add the application information 
-$settings.versioning:=New object 
+$settings.versioning:={} 
 $settings.versioning.version:="version" 
 $settings.versioning.copyright:="copyright" 
 $settings.versioning.companyName:="companyName" 
@@ -129,7 +127,7 @@ $settings.versioning.companyName:="companyName"
 $settings.license:=Folder(fk licenses folder).file("XXXXX.license4D")
 
 // Sign the macOS appplication 
-$settings.signApplication:=New object 
+$settings.signApplication:={} 
 $settings.signApplication.macSignature:=True 
 $settings.signApplication.macCertificate:="xxxxxx"
 
