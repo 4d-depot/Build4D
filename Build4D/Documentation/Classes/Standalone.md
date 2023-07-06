@@ -88,7 +88,7 @@ $settings.projectFile:=Folder(fk documents folder).file("Contact/Project/Contact
 $settings.buildName:="myApp" 
 $settings.destinationFolder:="Test/" 
 $settings.obfuscated:=True 
-$settings.packedProject:=False 
+$settings.packedProject:=True 
 $settings.useSDI:=False 
 $settings.startElevated:=False 
 $settings.lastDataPathLookup:="ByAppPath"
@@ -108,6 +108,9 @@ $settings.excludeModules:=New collection("CEF"; "MeCab")
 // Include the folders and files
 $settings.includePaths:=New collection 
 $settings.includePaths.push(New object("source"; "Documentation/"))
+$settings.includePaths.push(New object("source"; $componentsFolder.folder("4D WritePro Interface.4dbase").path; "destination"; "../Components/"))
+$settings.includePaths.push(New object("source"; $componentsFolder.folder("4D SVG.4dbase").path; "destination"; "../Components/"))
+
 
 // Delete the folders and files 
 $settings.deletePaths:=New collection 
