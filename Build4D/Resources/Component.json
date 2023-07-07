@@ -1,7 +1,7 @@
 {
     "//target":"Component",
     "packedProject":true,
-    "obfuscated4DZ":false,
+    "obfuscated":false,
     "includePaths":
     [
         {

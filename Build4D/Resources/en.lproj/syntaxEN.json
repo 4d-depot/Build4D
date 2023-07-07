@@ -1,7 +1,7 @@
 {
 	"_method_": {},
 	"cs.Build4D": {
-		"Component": {
+		"CompiledProject": {
 			"new()": {
 				"Syntax": "**.new**( *customSettings* : Object )",
 				"Params": [
@@ -32,7 +32,7 @@
 				"Summary": ""
 			}
 		},
-		"CompiledProject": {
+		"Component": {
 			"new()": {
 				"Syntax": "**.new**( *customSettings* : Object )",
 				"Params": [
@@ -44,6 +44,41 @@
 				],
 				"Summary": ""
 			}
+		},
+		"Standalone": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		}
+	},
+	"CompiledProject": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"_core": {
+		"settings": {
+			"Syntax": "settings : Object"
+		},
+		"logs": {
+			"Syntax": "logs : Collection"
 		}
 	},
 	"Component": {
@@ -60,8 +95,7 @@
 		},
 		"_inheritedFrom_": "_core"
 	},
-	"_core": {},
-	"CompiledProject": {
+	"Standalone": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [

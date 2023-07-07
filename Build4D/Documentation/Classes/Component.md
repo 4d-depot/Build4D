@@ -1,7 +1,7 @@
 <!-- Type your summary here -->
 ## Description
 
-This class allows you to create a component. It is composed of:
+This class allows you to create a component. It is composed of the following:
 
 * a [Class constructor](#class-constructor)
 * a [build()](#build) function
@@ -13,22 +13,22 @@ Class constructor($customSettings : Object)
 ```
 | Parameter | Type | in/out | Description |
 |---|---|---|---|
-| $customSettings | Object | in | $customSettings is a custom settings object overriding target default settings stored in "/RESOURCES/Component.json" file |
+| $customSettings | Object | in | $customSettings is a custom settings object overriding target default settings stored in the "/RESOURCES/Component.json" file. |
 
 $customSettings is an object that contains the following parameters:
 
 | Attributes | Type | Description |
 |---|---|---|        
-|buildName | String | Name of the target build. Defined by the component if missing in the custom settings.|
-|projectFile | File or String | Project file. Pass the project file path if you want to build an external project. Not necessary if it is a current project.|
-|destinationFolder | Folder or String | Folder where the build will be generated. Defined by the component if missing in the custom settings.|
-|compilerOptions | Object | Compile options. The object is passed as parameter to the "Compile project" command if is not null.|
+|buildName | String | Name of the target build, defined by the component if missing in the custom settings.|
+|projectFile | File or String | Project file (relative to the open project/absolute/filesystem). Pass the project file path if you want to build an external project (not necessary if building the current project=.|
+|destinationFolder | Folder or String | Folder where the build will be generated (relative to the open project/absolute/filesystem), defined by the component if missing in the custom settings.|
+|compilerOptions | Object | Compile options. The object is passed as parameter to the "Compile project" command if it is not null. For more details about the object format, read the documentation of the Compile project command.|
 |packedProject | Boolean | True if the project is compressed into a 4DZ file.|
-|obfuscated | Boolean | True if the 4DZ shall not be dezippable.|
+|obfuscated | Boolean | True if the 4DZ is to not be dezippable.|
 |includePaths[] | Collection of Objects | Collection of folders and files to include.|
-|includePaths[].source | String | Source folder or file path (relative to the built project/absolute/filesystem strings).|
-|includePaths[].destination | String | Destination folder path (relative to the built project/absolute/filesystem strings).|
-|deletePaths[] | Collection of Strings | Collection of paths to folders and files to be deleted (relative to the built project/absolute/filesystem strings).|
+|includePaths[].source | Folder, File, or String | Source folder or file path (relative to the open project/absolute/filesystem).|
+|includePaths[].destination | Folder, File, or String | Destination folder or file path (relative to the built project/absolute/filesystem).|
+|deletePaths[] | Collection of Folders, Files, or Strings | Collection of paths to folders and files to be deleted (relative to the built project/absolute/filesystem strings).|
 |signApplication.macSignature | Boolean | Signs the built applications.|
 |signApplication.macCertificate | String | Certificate name used  for signature.|
 |signApplication.adHocSignature | Boolean | Signs the built applications with AdHoc signature if macSignature not performed.|
@@ -41,7 +41,7 @@ Function build() -> $status : Boolean
 ```
 | Parameter | Type | in/out | Description |
 |---|---|---|---|
-| $status | Boolean | out | True if the build has been correctly executed|
+| $status | Boolean | out | True if the build has been correctly executed.|
 
 Build the component.
 

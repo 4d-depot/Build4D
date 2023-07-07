@@ -1,5 +1,5 @@
 {
 	"$comment": "The project file serves as an anchor to locate other project files",
-	"compatibilityVersion": 1950,
+	"compatibilityVersion": 2000,
 	"tokenizedText": false
 }

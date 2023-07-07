@@ -2,7 +2,6 @@ Class extends _core
 
 //MARK:-
 Class constructor($customSettings : Object)
-	// TODO: Include documentation of private functions and shared methods in the includePaths collection.
 	
 	Super("Component"; $customSettings)
 	
@@ -11,6 +10,16 @@ Class constructor($customSettings : Object)
 			This.settings.destinationFolder:=This.settings.destinationFolder.folder("Component/")
 		End if 
 		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+".4dbase/")
+		This._structureFolder:=This.settings.destinationFolder
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init successful."; \
+			"severity"; Information message))
+	Else 
+		This._log(New object(\
+			"function"; "Class constuctor"; \
+			"message"; "Class init failed."; \
+			"severity"; Error message))
 	End if 
 	
 	//MARK:-
@@ -33,4 +42,3 @@ Function build()->$success : Boolean
 			"message"; "Component build successful."; \
 			"messageSeverity"; Information message))
 	End if 
-	
