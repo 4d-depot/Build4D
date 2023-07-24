@@ -5,6 +5,7 @@ property logs : Collection
 property settings : Object
 
 Class constructor($target : Text; $customSettings : Object)
+	
 	ON ERR CALL("onError"; ek global)
 	
 	var $settings : Object

@@ -46,7 +46,7 @@ Class constructor($customSettings : Object)
 					"function"; "Source application folder checking"; \
 					"message"; "Source application folder doesn't exist"; \
 					"severity"; Error message; \
-					"sourceAppFolder"; $settings.sourceAppFolder.path))
+					"sourceAppFolder"; This.settings.sourceAppFolder.path))
 			Else 
 				$fileCheck:=(Is macOS) ? This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists : This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists
 				If (Not($fileCheck))
@@ -55,7 +55,7 @@ Class constructor($customSettings : Object)
 						"function"; "Source application folder checking"; \
 						"message"; "Source application is not a 4D Volume Desktop"; \
 						"severity"; Error message; \
-						"sourceAppFolder"; $settings.sourceAppFolder.path))
+						"sourceAppFolder"; This.settings.sourceAppFolder.path))
 				Else   // Versions checking
 					$sourceAppInfo:=(Is macOS) ? This.settings.sourceAppFolder.file("Contents/Info.plist").getAppInfo() : This.settings.sourceAppFolder.file("Resources/Info.plist").getAppInfo()
 					$currentAppInfo:=(Is macOS) ? Folder(Application file; fk platform path).file("Contents/Info.plist").getAppInfo() : File(Application file; fk platform path).parent.file("Resources/Info.plist").getAppInfo()
@@ -65,7 +65,7 @@ Class constructor($customSettings : Object)
 							"function"; "Source application version checking"; \
 							"message"; "Source application version doesn't match to current application version"; \
 							"severity"; Error message; \
-							"sourceAppFolder"; $settings.sourceAppFolder.path))
+							"sourceAppFolder"; This.settings.sourceAppFolder.path))
 					End if 
 				End if 
 			End if 

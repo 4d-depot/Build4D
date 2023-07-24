@@ -6,6 +6,7 @@ If (Count parameters=0)  // Execute code in a new worker
 	CALL WORKER(Current method name; Current method name; True)
 	
 Else 
+	
 	var $userParam : Text
 	var $result : Integer
 	var $quit4D : Boolean
