@@ -3,8 +3,6 @@ _source; \
 _destination : Text
 
 
-/** bad class name **/
-
 
 Class constructor($source : Variant; $destination : Variant)
 	
