@@ -8,20 +8,7 @@
 				"Summary": ""
 			}
 		},
-		"Standalone": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
-		"_path": {
+		"_path_mover": {
 			"new()": {
 				"Syntax": "**.new**( *source* : Variant; *destination* : Variant )",
 				"Params": [
@@ -39,10 +26,69 @@
 				"Summary": ""
 			}
 		},
+		"Standalone": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_settings": {
+			"new()": {
+				"Syntax": "**.new**( *settings* : Object )",
+				"Params": [
+					[
+						"settings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"serverApp": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
 		"_compilerOptions": {
 			"new()": {
 				"Syntax": "**.new**()",
 				"Params": [],
+				"Summary": ""
+			}
+		},
+		"_versioning": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
+				"Summary": ""
+			}
+		},
+		"ClientApp": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
 				"Summary": ""
 			}
 		},
@@ -74,52 +120,6 @@
 						"->"
 					]
 				],
-				"Summary": ""
-			}
-		},
-		"serverApp": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
-		"_settings": {
-			"new()": {
-				"Syntax": "**.new**( *settings* : Object )",
-				"Params": [
-					[
-						"settings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
-		"ClientApp": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
-		"_versioning": {
-			"new()": {
-				"Syntax": "**.new**()",
-				"Params": [],
 				"Summary": ""
 			}
 		},
@@ -175,21 +175,7 @@
 			"Syntax": "macSignature : Boolean"
 		}
 	},
-	"Standalone": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
-			"Params": [
-				[
-					"success",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"_inheritedFrom_": "_core"
-	},
-	"_path": {
+	"_path_mover": {
 		"get destination()": {
 			"Syntax": "**.get destination**() : Text",
 			"Params": [
@@ -235,47 +221,7 @@
 			"Summary": ""
 		}
 	},
-	"_compilerOptions": {
-		"save_settings()": {
-			"Syntax": "**.save_settings**() : Object",
-			"Params": [
-				[
-					"",
-					"Object",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"load_settings()": {
-			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._compilerOptions",
-			"Params": [
-				[
-					"settings",
-					"Object",
-					"->"
-				],
-				[
-					"",
-					"cs.Build4D._compilerOptions",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"get targets()": {
-			"Syntax": "**.get targets**() : Collection",
-			"Params": [
-				[
-					"",
-					"Collection",
-					"<-"
-				]
-			],
-			"Summary": ""
-		}
-	},
-	"CompiledProject": {
+	"Standalone": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [
@@ -287,17 +233,6 @@
 			],
 			"Summary": ""
 		},
-		"_inheritedFrom_": "_core"
-	},
-	"_core": {
-		"settings": {
-			"Syntax": "settings : Object"
-		},
-		"logs": {
-			"Syntax": "logs : Collection"
-		}
-	},
-	"serverApp": {
 		"_inheritedFrom_": "_core"
 	},
 	"_settings": {
@@ -652,11 +587,14 @@
 		"hideDataExplorerMenuItem": {
 			"Syntax": "hideDataExplorerMenuItem : Boolean"
 		},
+		"startElevated": {
+			"Syntax": "startElevated : Boolean"
+		},
 		"obfuscated": {
 			"Syntax": "obfuscated : Boolean"
 		},
-		"startElevated": {
-			"Syntax": "startElevated : Boolean"
+		"buildName": {
+			"Syntax": "buildName : Text"
 		},
 		"serverDataCollection": {
 			"Syntax": "serverDataCollection : Boolean"
@@ -664,38 +602,55 @@
 		"packedProject": {
 			"Syntax": "packedProject : Boolean"
 		},
-		"signApplication": {
-			"Syntax": "signApplication : cs.Build4D._signApplication"
-		},
-		"versioning": {
-			"Syntax": "versioning : cs.Build4D._versioning"
-		},
 		"clientWinSingleInstance": {
 			"Syntax": "clientWinSingleInstance : Boolean"
 		},
 		"hideRuntimeExplorerMenuItem": {
 			"Syntax": "hideRuntimeExplorerMenuItem : Boolean"
-		},
-		"compilerOptions": {
-			"Syntax": "compilerOptions : cs.Build4D._compilerOptions"
-		},
-		"buildName": {
-			"Syntax": "buildName : Text"
 		}
 	},
-	"ClientApp": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
+	"serverApp": {
+		"_inheritedFrom_": "_core"
+	},
+	"_compilerOptions": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
 			"Params": [
 				[
-					"success",
-					"Boolean",
+					"",
+					"Object",
 					"<-"
 				]
 			],
 			"Summary": ""
 		},
-		"_inheritedFrom_": "_core"
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._compilerOptions",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._compilerOptions",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get targets()": {
+			"Syntax": "**.get targets**() : Collection",
+			"Params": [
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		}
 	},
 	"_versioning": {
 		"save_settings()": {
@@ -754,6 +709,42 @@
 		},
 		"companyName": {
 			"Syntax": "companyName : Text"
+		}
+	},
+	"ClientApp": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"CompiledProject": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"_core": {
+		"settings": {
+			"Syntax": "settings : Object"
+		},
+		"logs": {
+			"Syntax": "logs : Collection"
 		}
 	},
 	"Component": {

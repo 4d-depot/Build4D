@@ -7,7 +7,7 @@
 	". . private classes": {
 		"classes": [
 			"_compilerOptions",
-			"_path",
+			"_path_mover",
 			"_settings",
 			"_signApplication",
 			"_versioning"

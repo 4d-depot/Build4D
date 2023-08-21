@@ -9,6 +9,8 @@ macCertificate : Text
 
 Class constructor
 	
+	// public properties
+	
 	This.macSignature:=False
 	This.macCertificate:=""
 	This.adHocSignature:=False
