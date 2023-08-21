@@ -2,7 +2,7 @@ property \
 buildName : Text
 
 property \
-compilerOptions : cs._compilerOptions
+_compilerOptions : cs._compilerOptions
 
 
 /* posix path */
@@ -12,7 +12,7 @@ _sourceAppFolder; \
 _destinationFolder : Text
 
 property \
-versioning : cs._versioning
+_versioning : cs._versioning
 
 property \
 _license; \
@@ -20,7 +20,7 @@ _xmlKeyLicense; \
 _iconPath : Text
 
 property \
-signApplication : cs._signApplication
+_signApplication : cs._signApplication
 
 
 /* _path collection */
@@ -57,35 +57,41 @@ _MacCompiledDatabaseToWin : Text\
 
 Class constructor($settings : Object)
 	
+	//---------------------------------------
+	// public properties
 	This.buildName:=""
+	
+	This.hideDataExplorerMenuItem:=False
+	This.hideRuntimeExplorerMenuItem:=False
+	This.hideAdministrationWindowMenuItem:=False
+	
+	This.serverDataCollection:=False
+	This.clientWinSingleInstance:=False
+	This.startElevated:=False
+	This.obfuscated:=False
+	This.packedProject:=True
+	
+	
+	//---------------------------------------
+	// private properties
 	This._sourceAppFolder:=""
 	This._destinationFolder:=""
 	This._license:=""
 	This._xmlKeyLicense:=""
 	This._iconPath:=""
 	
-	This.startElevated:=False
-	This.obfuscated:=False
-	This.packedProject:=True
 	
 	This._lastDataPathLookup:=""
-	
-	This.hideDataExplorerMenuItem:=False
-	This.hideRuntimeExplorerMenuItem:=False
-	This.hideAdministrationWindowMenuItem:=False
-	This.serverDataCollection:=False
-	This.clientWinSingleInstance:=False
 	
 	This._macOSClientArchive:=""
 	This._windowsClientArchive:=""
 	This._MacCompiledDatabaseToWin:=""
 	
-	This.reset()
-	
 	This._compilerOptions:=cs._compilerOptions.new()
 	This._versioning:=cs._versioning.new()
 	This._signApplication:=cs._signApplication.new()
 	
+	This.reset()
 	
 	If (Count parameters>0)
 		
@@ -119,7 +125,7 @@ Function _var_to_posix_path($var : Variant) : Text
 	
 	
 	//mark:- 
-	//.     getter
+	//.     getters
 	
 Function get sourceAppFolder : Text
 	return This._sourceAppFolder

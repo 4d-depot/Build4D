@@ -9,7 +9,6 @@ Class constructor
 	
 	
 	
-	
 Function get targets : Collection
 	
 	return This._targets.copy()
@@ -21,9 +20,13 @@ Function load_settings($settings : Object) : cs._compilerOptions
 	return This
 	
 	
+	
 Function save_settings : Object
 	var $settings : Object
 	
 	$settings:={}
 	
 	return $settings
+	
+	
+	

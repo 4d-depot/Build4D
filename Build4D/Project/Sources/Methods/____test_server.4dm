@@ -72,7 +72,7 @@ MacCompiledDatabaseToWin: ""\
 $settings:=cs._settings.new($settings)
 
 
-$settings.versioning:=Null
+$settings.versioning:=Null  // read only property -10702
 
 $save_setting:=$settings.save_settings()
 
