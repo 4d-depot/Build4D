@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"preemptive":"capable"}
 // Build4D component build
 
 var $build : cs.Component

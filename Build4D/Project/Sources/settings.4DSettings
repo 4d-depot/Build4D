@@ -1,8 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="46">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="47">
 	<com.4d>
 		<general component_classStore_name="Build4D"/>
 		<compiler>
 			<options compilation_path="1" syntax_file="true" target="all"/>
 		</compiler>
+		<web>
+			<standalone_server>
+				<rest launch_at_startup="true"/>
+				<qodlystudio enabled="true"/>
+			</standalone_server>
+		</web>
 	</com.4d>
 </preferences>

@@ -4,10 +4,17 @@
 			"Compiler_Methods"
 		]
 	},
-	"Default Classes": {},
+	". . private classes": {
+		"classes": [
+			"_compilerOptions",
+			"_path",
+			"_settings",
+			"_signApplication",
+			"_versioning"
+		]
+	},
 	"Default Folder": {
 		"groups": [
-			"Default Classes",
 			"Default Forms",
 			"Default Project Methods"
 		]
