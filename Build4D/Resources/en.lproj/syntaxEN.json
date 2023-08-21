@@ -1,6 +1,51 @@
 {
 	"_method_": {},
 	"cs.Build4D": {
+		"_signApplication": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
+				"Summary": ""
+			}
+		},
+		"Standalone": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_path": {
+			"new()": {
+				"Syntax": "**.new**( *source* : Variant; *destination* : Variant )",
+				"Params": [
+					[
+						"source",
+						"Variant",
+						"->"
+					],
+					[
+						"destination",
+						"Variant",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_compilerOptions": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
+				"Summary": ""
+			}
+		},
 		"CompiledProject": {
 			"new()": {
 				"Syntax": "**.new**( *customSettings* : Object )",
@@ -32,7 +77,7 @@
 				"Summary": ""
 			}
 		},
-		"Component": {
+		"serverApp": {
 			"new()": {
 				"Syntax": "**.new**( *customSettings* : Object )",
 				"Params": [
@@ -45,7 +90,20 @@
 				"Summary": ""
 			}
 		},
-		"Standalone": {
+		"_settings": {
+			"new()": {
+				"Syntax": "**.new**( *settings* : Object )",
+				"Params": [
+					[
+						"settings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"ClientApp": {
 			"new()": {
 				"Syntax": "**.new**( *customSettings* : Object )",
 				"Params": [
@@ -57,6 +115,164 @@
 				],
 				"Summary": ""
 			}
+		},
+		"_versioning": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
+				"Summary": ""
+			}
+		},
+		"Component": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		}
+	},
+	"_signApplication": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._signApplication",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._signApplication",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"macCertificate": {
+			"Syntax": "macCertificate : Text"
+		},
+		"adHocSignature": {
+			"Syntax": "adHocSignature : Boolean"
+		},
+		"macSignature": {
+			"Syntax": "macSignature : Boolean"
+		}
+	},
+	"Standalone": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"_path": {
+		"get destination()": {
+			"Syntax": "**.get destination**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set destination()": {
+			"Syntax": "**.set destination**( *destination* : Variant )",
+			"Params": [
+				[
+					"destination",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"set source()": {
+			"Syntax": "**.set source**( *source* : Variant )",
+			"Params": [
+				[
+					"source",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get source()": {
+			"Syntax": "**.get source**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		}
+	},
+	"_compilerOptions": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._compilerOptions",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._compilerOptions",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get targets()": {
+			"Syntax": "**.get targets**() : Collection",
+			"Params": [
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
 		}
 	},
 	"CompiledProject": {
@@ -81,7 +297,393 @@
 			"Syntax": "logs : Collection"
 		}
 	},
-	"Component": {
+	"serverApp": {
+		"_inheritedFrom_": "_core"
+	},
+	"_settings": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object )",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"deletePath()": {
+			"Syntax": "**.deletePath**( *path* : Variant ) : cs.Build4D._settings",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._settings",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"includePath()": {
+			"Syntax": "**.includePath**( *path* : Variant ) : cs.Build4D._settings",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._settings",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"reset()": {
+			"Syntax": "**.reset**() : cs.Build4D._settings",
+			"Params": [
+				[
+					"",
+					"cs.Build4D._settings",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set windowsClientArchive()": {
+			"Syntax": "**.set windowsClientArchive**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"set lastDataPathLookup()": {
+			"Syntax": "**.set lastDataPathLookup**( *path* : Text )",
+			"Params": [
+				[
+					"path",
+					"Text",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get lastDataPathLookup()": {
+			"Syntax": "**.get lastDataPathLookup**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set xmlKeyLicense()": {
+			"Syntax": "**.set xmlKeyLicense**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get signApplication()": {
+			"Syntax": "**.get signApplication**() : cs.Build4D._signApplication",
+			"Params": [
+				[
+					"",
+					"cs.Build4D._signApplication",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set macOSClientArchive()": {
+			"Syntax": "**.set macOSClientArchive**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get windowsClientArchive()": {
+			"Syntax": "**.get windowsClientArchive**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set destinationFolder()": {
+			"Syntax": "**.set destinationFolder**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get destinationFolder()": {
+			"Syntax": "**.get destinationFolder**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get excludeModules()": {
+			"Syntax": "**.get excludeModules**() : Collection",
+			"Params": [
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get macOSClientArchive()": {
+			"Syntax": "**.get macOSClientArchive**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set iconPath()": {
+			"Syntax": "**.set iconPath**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get MacCompiledDatabaseToWin()": {
+			"Syntax": "**.get MacCompiledDatabaseToWin**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set sourceAppFolder()": {
+			"Syntax": "**.set sourceAppFolder**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get deletePaths()": {
+			"Syntax": "**.get deletePaths**() : Collection",
+			"Params": [
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"excludeModule()": {
+			"Syntax": "**.excludeModule**( *path* : Variant ) : cs.Build4D._settings",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._settings",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set license()": {
+			"Syntax": "**.set license**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get includePaths()": {
+			"Syntax": "**.get includePaths**() : Collection",
+			"Params": [
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get xmlKeyLicense()": {
+			"Syntax": "**.get xmlKeyLicense**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get compilerOptions()": {
+			"Syntax": "**.get compilerOptions**() : cs.Build4D._compilerOptions",
+			"Params": [
+				[
+					"",
+					"cs.Build4D._compilerOptions",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get license()": {
+			"Syntax": "**.get license**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set MacCompiledDatabaseToWin()": {
+			"Syntax": "**.set MacCompiledDatabaseToWin**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get versioning()": {
+			"Syntax": "**.get versioning**() : cs.Build4D._versioning",
+			"Params": [
+				[
+					"",
+					"cs.Build4D._versioning",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get sourceAppFolder()": {
+			"Syntax": "**.get sourceAppFolder**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get iconPath()": {
+			"Syntax": "**.get iconPath**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"hideAdministrationWindowMenuItem": {
+			"Syntax": "hideAdministrationWindowMenuItem : Boolean"
+		},
+		"hideDataExplorerMenuItem": {
+			"Syntax": "hideDataExplorerMenuItem : Boolean"
+		},
+		"obfuscated": {
+			"Syntax": "obfuscated : Boolean"
+		},
+		"startElevated": {
+			"Syntax": "startElevated : Boolean"
+		},
+		"serverDataCollection": {
+			"Syntax": "serverDataCollection : Boolean"
+		},
+		"packedProject": {
+			"Syntax": "packedProject : Boolean"
+		},
+		"signApplication": {
+			"Syntax": "signApplication : cs.Build4D._signApplication"
+		},
+		"versioning": {
+			"Syntax": "versioning : cs.Build4D._versioning"
+		},
+		"clientWinSingleInstance": {
+			"Syntax": "clientWinSingleInstance : Boolean"
+		},
+		"hideRuntimeExplorerMenuItem": {
+			"Syntax": "hideRuntimeExplorerMenuItem : Boolean"
+		},
+		"compilerOptions": {
+			"Syntax": "compilerOptions : cs.Build4D._compilerOptions"
+		},
+		"buildName": {
+			"Syntax": "buildName : Text"
+		}
+	},
+	"ClientApp": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [
@@ -95,7 +697,66 @@
 		},
 		"_inheritedFrom_": "_core"
 	},
-	"Standalone": {
+	"_versioning": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._versioning",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._versioning",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"hardLink": {
+			"Syntax": "hardLink : Text"
+		},
+		"rangeVersMax": {
+			"Syntax": "rangeVersMax : Integer"
+		},
+		"rangeVersMin": {
+			"Syntax": "rangeVersMin : Integer"
+		},
+		"internalName": {
+			"Syntax": "internalName : Text"
+		},
+		"serverStructureFolderName": {
+			"Syntax": "serverStructureFolderName : Text"
+		},
+		"version": {
+			"Syntax": "version : Text"
+		},
+		"fileDescription": {
+			"Syntax": "fileDescription : Text"
+		},
+		"currentVers": {
+			"Syntax": "currentVers : Integer"
+		},
+		"copyright": {
+			"Syntax": "copyright : Text"
+		},
+		"companyName": {
+			"Syntax": "companyName : Text"
+		}
+	},
+	"Component": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [

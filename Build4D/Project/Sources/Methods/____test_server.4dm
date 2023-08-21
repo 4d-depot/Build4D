@@ -7,10 +7,12 @@ var $path : Text
 
 $targets:=(Is macOS) ? ["x86_64_generic"; "arm64_macOS_lib"] : ["x86_64_generic"]
 
+
 $objPath:={\
 source: ""; \
 destination: ""\
 }
+
 
 $options:={\
 targets: $targets\
@@ -19,7 +21,7 @@ targets: $targets\
 
 $versioning:={\
 version: "1.0.0"; \
-copyright: "(c)2023 4D SAS"; \
+copyright: " © 2023 4D SAS"; \
 companyName: "4D SAS"; \
 fileDescription: "4D4D"; \
 internalName: "4DC"; \
@@ -36,6 +38,7 @@ macSignature: False; \
 macCertificate: "Dominique Delahaye"; \
 adHocSignature: True\
 }
+
 
 $settings:={\
 buildName: "MyAppl"; \
@@ -67,6 +70,9 @@ MacCompiledDatabaseToWin: ""\
 
 
 $settings:=cs._settings.new($settings)
+
+
+$settings.versioning:=Null
 
 $save_setting:=$settings.save_settings()
 

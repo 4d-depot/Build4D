@@ -2,7 +2,7 @@
 <!DOCTYPE base SYSTEM "http://www.4d.com/dtd/2007/base.dtd" >
 <base name="Build4D" uuid="9D08BAE7AEAC4888A93C7DFC49FB96B8" collation_locale="en">
 	<schema name="DEFAULT_SCHEMA"/>
-	<base_extra __stringCompHash="icu:73.2.0" __keywordBuildingHash="icu:73.2.0">
+	<base_extra>
 		<journal_file filepath="./data.journal" sequence_number="1" datalink="CA2C6C2FD2A54EED8C398AAD4F4A6202"/>
 	</base_extra>
 </base>

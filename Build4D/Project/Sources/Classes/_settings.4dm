@@ -82,9 +82,9 @@ Class constructor($settings : Object)
 	
 	This.reset()
 	
-	This.compilerOptions:=cs._compilerOptions.new()
-	This.versioning:=cs._versioning.new()
-	This.signApplication:=cs._signApplication.new()
+	This._compilerOptions:=cs._compilerOptions.new()
+	This._versioning:=cs._versioning.new()
+	This._signApplication:=cs._signApplication.new()
 	
 	
 	If (Count parameters>0)
@@ -94,14 +94,9 @@ Class constructor($settings : Object)
 	End if 
 	
 	
-Function reset() : cs._settings
 	
-	This._includePaths:=New collection
-	This._deletePaths:=New collection
-	This._excludeModule:=New collection
-	
-	return This
-	
+	//mark:- 
+	//.     private
 	
 Function _var_to_posix_path($var : Variant) : Text
 	
@@ -123,47 +118,71 @@ Function _var_to_posix_path($var : Variant) : Text
 	End case 
 	
 	
+	//mark:- 
+	//.     getter
+	
 Function get sourceAppFolder : Text
 	return This._sourceAppFolder
+	
 	
 Function get destinationFolder : Text
 	return This._destinationFolder
 	
+	
 Function get license : Text
 	return This._license
+	
 	
 Function get xmlKeyLicense : Text
 	return This._xmlKeyLicense
 	
+	
 Function get iconPath : Text
 	return This._iconPath
 	
-Function get includePaths : Collection
 	
+Function get includePaths : Collection
 	return (This._includePaths=Null) ? Null : This._includePaths.copy()
 	
-Function get deletePaths : Collection
 	
+Function get deletePaths : Collection
 	return (This._deletePaths=Null) ? Null : This._deletePaths.copy()
 	
-Function get excludeModules : Collection
 	
+Function get excludeModules : Collection
 	return (This._excludeModule=Null) ? Null : This._excludeModule.copy()
+	
 	
 Function get lastDataPathLookup : Text
 	return This._lastDataPathLookup
 	
+	
 Function get macOSClientArchive : Text
 	return This._macOSClientArchive
 	
+	
 Function get windowsClientArchive : Text
 	return This._windowsClientArchive
+	
 	
 Function get MacCompiledDatabaseToWin : Text
 	return This._MacCompiledDatabaseToWin
 	
 	
+Function get compilerOptions : cs._compilerOptions
+	return This._compilerOptions
 	
+	
+Function get versioning : cs._versioning
+	return This._versioning
+	
+	
+Function get signApplication : cs._signApplication
+	return This._signApplication
+	
+	
+	//mark:- 
+	//.      setters
 	
 Function set sourceAppFolder($path : Variant)
 	This._sourceAppFolder:=This._var_to_posix_path($path)
@@ -205,6 +224,17 @@ Function set MacCompiledDatabaseToWin($path : Variant)
 	This._MacCompiledDatabaseToWin:=This._var_to_posix_path($path)
 	
 	
+	//mark:-
+	// member functions
+	
+	
+Function reset() : cs._settings
+	
+	This._includePaths:=New collection
+	This._deletePaths:=New collection
+	This._excludeModule:=New collection
+	
+	return This
 	
 	
 Function includePath($path : Variant) : cs._settings
@@ -246,19 +276,19 @@ Function load_settings($settings : Object)
 					
 				: ($type=Is object) && (OB Instance of(This[$key]; cs._compilerOptions))
 					
-					This.compilerOptions.load_settings($settings[$key])
+					This._compilerOptions.load_settings($settings[$key])
 					
 					
 					
 				: ($type=Is object) && (OB Instance of(This[$key]; cs._versioning))
 					
-					This.versioning.load_settings($settings[$key])
+					This._versioning.load_settings($settings[$key])
 					
 					
 					
 				: ($type=Is object) && (OB Instance of(This[$key]; cs._signApplication))
 					
-					This.signApplication.load_settings($settings[$key])
+					This._signApplication.load_settings($settings[$key])
 					
 					
 					
