@@ -176,17 +176,6 @@
 		}
 	},
 	"_path_mover": {
-		"get destination()": {
-			"Syntax": "**.get destination**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
 		"set destination()": {
 			"Syntax": "**.set destination**( *destination* : Variant )",
 			"Params": [
@@ -215,6 +204,94 @@
 				[
 					"",
 					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"destination_is_file()": {
+			"Syntax": "**.destination_is_file**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get destination()": {
+			"Syntax": "**.get destination**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get ready()": {
+			"Syntax": "**.get ready**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"destination_is_ready()": {
+			"Syntax": "**.destination_is_ready**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"source_is_folder()": {
+			"Syntax": "**.source_is_folder**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"destination_is_folder()": {
+			"Syntax": "**.destination_is_folder**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"source_is_file()": {
+			"Syntax": "**.source_is_file**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"source_is_ready()": {
+			"Syntax": "**.source_is_ready**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
 					"<-"
 				]
 			],

@@ -1,17 +1,26 @@
 //%attributes = {}
-var $options; $settings; $versioning; $signApplication; $objPath : Object
+var $options; $settings; $versioning; $signApplication : Object
 var $destFolder : 4D.Folder
 var $license; $xmlKeyLicense; $iconPath : Variant
 var $targets : Collection
 var $path : Text
+var $fileMover : cs._path_mover
+
 
 $targets:=(Is macOS) ? ["x86_64_generic"; "arm64_macOS_lib"] : ["x86_64_generic"]
 
 
-$objPath:={\
-source: ""; \
-destination: ""\
-}
+$fileMover:=cs._path_mover.new(""; "")
+
+
+$fileMover.source_is_ready()
+
+$fileMover.source:=Structure file
+
+$fileMover.destination:=Folder(fk desktop folder)
+
+
+
 
 
 $options:={\
