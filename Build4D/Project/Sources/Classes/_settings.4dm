@@ -22,6 +22,8 @@ _iconPath : Text
 property \
 _signApplication : cs._signApplication
 
+property \
+_clientApplication : cs._clientApplication
 
 /* _path collection */
 property \
@@ -50,8 +52,7 @@ clientWinSingleInstance : Boolean
 /* posix path */
 property \
 _macOSClientArchive; \
-_windowsClientArchive; \
-_MacCompiledDatabaseToWin : Text\
+_windowsClientArchive : Text\
 
 
 
@@ -85,11 +86,12 @@ Class constructor($settings : Object)
 	
 	This._macOSClientArchive:=""
 	This._windowsClientArchive:=""
-	This._MacCompiledDatabaseToWin:=""
+	
 	
 	This._compilerOptions:=cs._compilerOptions.new()
 	This._versioning:=cs._versioning.new()
 	This._signApplication:=cs._signApplication.new()
+	This._clientApplication:=cs._clientApplication.new()
 	
 	This.reset()
 	
@@ -125,85 +127,116 @@ Function _var_to_posix_path($var : Variant) : Text
 	
 	
 	//mark:- 
-	//.     getters
+	//     getters
+	
 	
 Function get sourceAppFolder : Text
 	return This._sourceAppFolder
+	
 	
 	
 Function get destinationFolder : Text
 	return This._destinationFolder
 	
 	
+	
 Function get license : Text
 	return This._license
+	
 	
 	
 Function get xmlKeyLicense : Text
 	return This._xmlKeyLicense
 	
 	
+	
 Function get iconPath : Text
 	return This._iconPath
+	
 	
 	
 Function get includePaths : Collection
 	return (This._includePaths=Null) ? Null : This._includePaths.copy()
 	
 	
+	
 Function get deletePaths : Collection
 	return (This._deletePaths=Null) ? Null : This._deletePaths.copy()
+	
 	
 	
 Function get excludeModules : Collection
 	return (This._excludeModule=Null) ? Null : This._excludeModule.copy()
 	
 	
+	
 Function get lastDataPathLookup : Text
 	return This._lastDataPathLookup
+	
 	
 	
 Function get macOSClientArchive : Text
 	return This._macOSClientArchive
 	
 	
+	
 Function get windowsClientArchive : Text
 	return This._windowsClientArchive
 	
 	
-Function get MacCompiledDatabaseToWin : Text
-	return This._MacCompiledDatabaseToWin
+	
+	//mark:-
+	// read only properties
 	
 	
 Function get compilerOptions : cs._compilerOptions
 	return This._compilerOptions
 	
 	
+	
 Function get versioning : cs._versioning
 	return This._versioning
+	
 	
 	
 Function get signApplication : cs._signApplication
 	return This._signApplication
 	
 	
+	
+Function get clientApplication : cs._clientApplication
+	return This._clientApplication
+	
+	
+	
 	//mark:- 
 	//.      setters
+	
 	
 Function set sourceAppFolder($path : Variant)
 	This._sourceAppFolder:=This._var_to_posix_path($path)
 	
+	
+	
 Function set destinationFolder($path : Variant)
 	This._destinationFolder:=This._var_to_posix_path($path)
+	
+	
 	
 Function set license($path : Variant)
 	This._license:=This._var_to_posix_path($path)
 	
+	
+	
 Function set xmlKeyLicense($path : Variant)
 	This._xmlKeyLicense:=This._var_to_posix_path($path)
 	
+	
+	
 Function set iconPath($path : Variant)
 	This._iconPath:=This._var_to_posix_path($path)
+	
+	
 	
 Function set lastDataPathLookup($path : Text)
 	Case of 
@@ -220,14 +253,16 @@ Function set lastDataPathLookup($path : Text)
 			
 	End case 
 	
+	
+	
 Function set macOSClientArchive($path : Variant)
 	This._macOSClientArchive:=This._var_to_posix_path($path)
+	
+	
 	
 Function set windowsClientArchive($path : Variant)
 	This._windowsClientArchive:=This._var_to_posix_path($path)
 	
-Function set MacCompiledDatabaseToWin($path : Variant)
-	This._MacCompiledDatabaseToWin:=This._var_to_posix_path($path)
 	
 	
 	//mark:-
@@ -243,11 +278,13 @@ Function reset() : cs._settings
 	return This
 	
 	
+	
 Function includePath($path : Variant) : cs._settings
 	
 	This._includePaths.push(This._var_to_posix_path($path))
 	
 	return This
+	
 	
 	
 Function deletePath($path : Variant) : cs._settings
@@ -257,11 +294,13 @@ Function deletePath($path : Variant) : cs._settings
 	return This
 	
 	
+	
 Function excludeModule($path : Variant) : cs._settings
 	
 	This._excludeModule.push(This._var_to_posix_path($path))
 	
 	return This
+	
 	
 	
 Function load_settings($settings : Object)
@@ -297,6 +336,10 @@ Function load_settings($settings : Object)
 					This._signApplication.load_settings($settings[$key])
 					
 					
+				: ($type=Is object) && (OB Instance of(This[$key]; cs._clientApplication))
+					
+					This._clientApplication.load_settings($settings[$key])
+					
 					
 				: ($type=Is collection) && (This["_"+$key]#Null)
 					
@@ -322,15 +365,21 @@ Function load_settings($settings : Object)
 		
 	End if 
 	
+	
+	
 Function save_settings : Object
 	
 	var $settings : Object
 	var $key : Text
 	var $this_type : Integer
+	var $_key : Collection
+	
+	$_key:=OB Keys(This).sort(ck ascending)
+	
 	
 	$settings:=New object
 	
-	For each ($key; This)
+	For each ($key; $_key)
 		
 		
 		$this_type:=Value type(This[$key])
@@ -340,6 +389,19 @@ Function save_settings : Object
 			: ($key="_@")
 				
 			: ($this_type=Is object) && (OB Instance of(This[$key]; cs._compilerOptions))
+				$settings[$key]:=This[$key].save_settings()
+				
+			: ($this_type=Is object) && (OB Instance of(This[$key]; cs._clientApplication))
+				
+				$settings[$key]:=This[$key].save_settings()
+				
+			: ($this_type=Is object) && (OB Instance of(This[$key]; cs._signApplication))
+				
+				$settings[$key]:=This[$key].save_settings()
+				
+			: ($this_type=Is object) && (OB Instance of(This[$key]; cs._versioning))
+				
+				$settings[$key]:=This[$key].save_settings()
 				
 			Else 
 				
@@ -353,8 +415,6 @@ Function save_settings : Object
 	
 	
 	return $settings
-	
-	
 	
 	
 	

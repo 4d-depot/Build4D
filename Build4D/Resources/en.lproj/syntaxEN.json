@@ -8,18 +8,13 @@
 				"Summary": ""
 			}
 		},
-		"_path_mover": {
+		"ServerApp": {
 			"new()": {
-				"Syntax": "**.new**( *source* : Variant; *destination* : Variant )",
+				"Syntax": "**.new**( *customSettings* : Object )",
 				"Params": [
 					[
-						"source",
-						"Variant",
-						"->"
-					],
-					[
-						"destination",
-						"Variant",
+						"customSettings",
+						"Object",
 						"->"
 					]
 				],
@@ -39,56 +34,10 @@
 				"Summary": ""
 			}
 		},
-		"_settings": {
-			"new()": {
-				"Syntax": "**.new**( *settings* : Object )",
-				"Params": [
-					[
-						"settings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
-		"serverApp": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
 		"_compilerOptions": {
 			"new()": {
 				"Syntax": "**.new**()",
 				"Params": [],
-				"Summary": ""
-			}
-		},
-		"_versioning": {
-			"new()": {
-				"Syntax": "**.new**()",
-				"Params": [],
-				"Summary": ""
-			}
-		},
-		"ClientApp": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
 				"Summary": ""
 			}
 		},
@@ -120,6 +69,52 @@
 						"->"
 					]
 				],
+				"Summary": ""
+			}
+		},
+		"_settings": {
+			"new()": {
+				"Syntax": "**.new**( *settings* : Object )",
+				"Params": [
+					[
+						"settings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_clientApplication": {
+			"new()": {
+				"Syntax": "**.new**( *setting* : Object )",
+				"Params": [
+					[
+						"setting",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"ClientApp": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_versioning": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
 				"Summary": ""
 			}
 		},
@@ -175,128 +170,19 @@
 			"Syntax": "macSignature : Boolean"
 		}
 	},
-	"_path_mover": {
-		"set destination()": {
-			"Syntax": "**.set destination**( *destination* : Variant )",
+	"ServerApp": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
 			"Params": [
 				[
-					"destination",
-					"Variant",
-					"->"
-				]
-			],
-			"Summary": ""
-		},
-		"set source()": {
-			"Syntax": "**.set source**( *source* : Variant )",
-			"Params": [
-				[
-					"source",
-					"Variant",
-					"->"
-				]
-			],
-			"Summary": ""
-		},
-		"get source()": {
-			"Syntax": "**.get source**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"destination_is_file()": {
-			"Syntax": "**.destination_is_file**() : Boolean",
-			"Params": [
-				[
-					"",
+					"success",
 					"Boolean",
 					"<-"
 				]
 			],
 			"Summary": ""
 		},
-		"get destination()": {
-			"Syntax": "**.get destination**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"get ready()": {
-			"Syntax": "**.get ready**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"destination_is_ready()": {
-			"Syntax": "**.destination_is_ready**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"source_is_folder()": {
-			"Syntax": "**.source_is_folder**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"destination_is_folder()": {
-			"Syntax": "**.destination_is_folder**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"source_is_file()": {
-			"Syntax": "**.source_is_file**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"source_is_ready()": {
-			"Syntax": "**.source_is_ready**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		}
+		"_inheritedFrom_": "_core"
 	},
 	"Standalone": {
 		"build()": {
@@ -311,6 +197,68 @@
 			"Summary": ""
 		},
 		"_inheritedFrom_": "_core"
+	},
+	"_compilerOptions": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._compilerOptions",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._compilerOptions",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get targets()": {
+			"Syntax": "**.get targets**() : Collection",
+			"Params": [
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		}
+	},
+	"CompiledProject": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"_core": {
+		"settings": {
+			"Syntax": "settings : Object"
+		},
+		"logs": {
+			"Syntax": "logs : Collection"
+		}
 	},
 	"_settings": {
 		"save_settings()": {
@@ -422,6 +370,17 @@
 			],
 			"Summary": ""
 		},
+		"get clientApplication()": {
+			"Syntax": "**.get clientApplication**() : cs.Build4D._clientApplication",
+			"Params": [
+				[
+					"",
+					"cs.Build4D._clientApplication",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"get signApplication()": {
 			"Syntax": "**.get signApplication**() : cs.Build4D._signApplication",
 			"Params": [
@@ -499,28 +458,6 @@
 			],
 			"Summary": ""
 		},
-		"set iconPath()": {
-			"Syntax": "**.set iconPath**( *path* : Variant )",
-			"Params": [
-				[
-					"path",
-					"Variant",
-					"->"
-				]
-			],
-			"Summary": ""
-		},
-		"get MacCompiledDatabaseToWin()": {
-			"Syntax": "**.get MacCompiledDatabaseToWin**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
 		"set sourceAppFolder()": {
 			"Syntax": "**.set sourceAppFolder**( *path* : Variant )",
 			"Params": [
@@ -539,6 +476,17 @@
 					"",
 					"Collection",
 					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set iconPath()": {
+			"Syntax": "**.set iconPath**( *path* : Variant )",
+			"Params": [
+				[
+					"path",
+					"Variant",
+					"->"
 				]
 			],
 			"Summary": ""
@@ -614,17 +562,6 @@
 			],
 			"Summary": ""
 		},
-		"set MacCompiledDatabaseToWin()": {
-			"Syntax": "**.set MacCompiledDatabaseToWin**( *path* : Variant )",
-			"Params": [
-				[
-					"path",
-					"Variant",
-					"->"
-				]
-			],
-			"Summary": ""
-		},
 		"get versioning()": {
 			"Syntax": "**.get versioning**() : cs.Build4D._versioning",
 			"Params": [
@@ -658,9 +595,6 @@
 			],
 			"Summary": ""
 		},
-		"hideAdministrationWindowMenuItem": {
-			"Syntax": "hideAdministrationWindowMenuItem : Boolean"
-		},
 		"hideDataExplorerMenuItem": {
 			"Syntax": "hideDataExplorerMenuItem : Boolean"
 		},
@@ -669,6 +603,9 @@
 		},
 		"obfuscated": {
 			"Syntax": "obfuscated : Boolean"
+		},
+		"hideAdministrationWindowMenuItem": {
+			"Syntax": "hideAdministrationWindowMenuItem : Boolean"
 		},
 		"buildName": {
 			"Syntax": "buildName : Text"
@@ -686,10 +623,7 @@
 			"Syntax": "hideRuntimeExplorerMenuItem : Boolean"
 		}
 	},
-	"serverApp": {
-		"_inheritedFrom_": "_core"
-	},
-	"_compilerOptions": {
+	"_clientApplication": {
 		"save_settings()": {
 			"Syntax": "**.save_settings**() : Object",
 			"Params": [
@@ -702,32 +636,139 @@
 			"Summary": ""
 		},
 		"load_settings()": {
-			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._compilerOptions",
+			"Syntax": "**.load_settings**( *setting* : Object ) : cs.Build4D._clientApplication",
 			"Params": [
 				[
-					"settings",
+					"setting",
 					"Object",
 					"->"
 				],
 				[
 					"",
-					"cs.Build4D._compilerOptions",
+					"cs.Build4D._clientApplication",
 					"<-"
 				]
 			],
 			"Summary": ""
 		},
-		"get targets()": {
-			"Syntax": "**.get targets**() : Collection",
+		"set databaseName()": {
+			"Syntax": "**.set databaseName**( *name* : Text )",
+			"Params": [
+				[
+					"name",
+					"Text",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"set port()": {
+			"Syntax": "**.set port**( *port* : Integer )",
+			"Params": [
+				[
+					"port",
+					"Integer",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get port()": {
+			"Syntax": "**.get port**() : Integer",
 			"Params": [
 				[
 					"",
-					"Collection",
+					"Integer",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get openLoginDialog()": {
+			"Syntax": "**.get openLoginDialog**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get databaseName()": {
+			"Syntax": "**.get databaseName**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"make4D_link()": {
+			"Syntax": "**.make4D_link**( *folder* : 4D.Folder ) : Boolean",
+			"Params": [
+				[
+					"folder",
+					"4D.Folder",
+					"->"
+				],
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"set openLoginDialog()": {
+			"Syntax": "**.set openLoginDialog**( *open* : Boolean )",
+			"Params": [
+				[
+					"open",
+					"Boolean",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"set address()": {
+			"Syntax": "**.set address**( *address* : Text )",
+			"Params": [
+				[
+					"address",
+					"Text",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"get address()": {
+			"Syntax": "**.get address**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
 					"<-"
 				]
 			],
 			"Summary": ""
 		}
+	},
+	"ClientApp": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
 	},
 	"_versioning": {
 		"save_settings()": {
@@ -786,42 +827,6 @@
 		},
 		"companyName": {
 			"Syntax": "companyName : Text"
-		}
-	},
-	"ClientApp": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
-			"Params": [
-				[
-					"success",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"_inheritedFrom_": "_core"
-	},
-	"CompiledProject": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
-			"Params": [
-				[
-					"success",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"_inheritedFrom_": "_core"
-	},
-	"_core": {
-		"settings": {
-			"Syntax": "settings : Object"
-		},
-		"logs": {
-			"Syntax": "logs : Collection"
 		}
 	},
 	"Component": {

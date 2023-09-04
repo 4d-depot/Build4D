@@ -23,17 +23,17 @@ Class constructor($customSettings : Object)
 		//If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
 		//This._validInstance:=False
 		//This._log(New object(\
-						"function"; "License file checking"; \
-						"message"; "License file is not defined"; \
-						"severity"; Error message))
+												"function"; "License file checking"; \
+												"message"; "License file is not defined"; \
+												"severity"; Error message))
 		//Else 
 		//If (Not(This.settings.license.exists))
 		//This._validInstance:=False
 		//This._log(New object(\
-						"function"; "License file checking"; \
-						"message"; "License file doesn't exist"; \
-						"severity"; Error message; \
-						"path"; This.settings.license.path))
+												"function"; "License file checking"; \
+												"message"; "License file doesn't exist"; \
+												"severity"; Error message; \
+												"path"; This.settings.license.path))
 		//End if 
 		//End if 
 		
@@ -174,7 +174,7 @@ Function build()->$success : Boolean
 	If (True)
 		$success:=($success) ? This._make4dLink() : False
 	Else 
-		$success:=($success) ? This._create4DZ() : False
+		$success:=($success) ? This._create4DZ() : False  // cas de TNR
 	End if 
 	
 	If (Is macOS)

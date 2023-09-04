@@ -4,24 +4,28 @@ var $destFolder : 4D.Folder
 var $license; $xmlKeyLicense; $iconPath : Variant
 var $targets : Collection
 var $path : Text
-var $fileMover : cs._path_mover
+
+
+
 
 
 $targets:=(Is macOS) ? ["x86_64_generic"; "arm64_macOS_lib"] : ["x86_64_generic"]
 
 
-$fileMover:=cs._path_mover.new(""; "")
+//var $fileMover : cs._path_mover
+
+//$fileMover:=cs._path_mover.new(""; "")
 
 
-$fileMover.source_is_ready()
+//$fileMover.source_is_ready()
 
-$fileMover.source:=Structure file
+//$fileMover.source:=Structure file
 
-$fileMover.destination:=Folder(fk desktop folder)
-
-
+//$fileMover.destination:=Folder(fk desktop folder)
 
 
+
+$license:=File("/PACKAGE/Settings/4UUD.license4D")  //UT_Settings.json")
 
 $options:={\
 targets: $targets\
@@ -72,9 +76,13 @@ hideAdministrationWindowMenuItem: True; \
 serverDataCollection: True; \
 clientWinSingleInstance: True; \
 macOSClientArchive: ""; \
-windowsClientArchive: ""; \
-MacCompiledDatabaseToWin: ""\
+windowsClientArchive: ""\
 }
+
+
+$standAlone:=cs.Standalone.new($settings)
+
+$server:=cs.ServerApp.new($setting)
 
 
 
@@ -85,4 +93,5 @@ $settings.versioning:=Null  // read only property -10702
 
 $save_setting:=$settings.save_settings()
 
+SET TEXT TO PASTEBOARD(JSON Stringify($save_setting; *))
 

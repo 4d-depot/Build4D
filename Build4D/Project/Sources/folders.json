@@ -5,9 +5,12 @@
 		]
 	},
 	". . private classes": {
+		"methods": [
+			"____test_server"
+		],
 		"classes": [
+			"_clientApplication",
 			"_compilerOptions",
-			"_path_mover",
 			"_settings",
 			"_signApplication",
 			"_versioning"

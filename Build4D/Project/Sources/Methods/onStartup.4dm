@@ -7,6 +7,13 @@ If (Count parameters=0)  // Execute code in a new worker
 	
 Else 
 	
+	
+/*
+	
+a faire évoluer
+	
+*/
+	
 	var $userParam : Text
 	var $result : Integer
 	var $quit4D : Boolean

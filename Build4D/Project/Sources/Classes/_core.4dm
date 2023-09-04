@@ -1,8 +1,27 @@
-property _validInstance; _isCurrentProject; _isDefaultDestinationFolder; _noError : Boolean
-property _projectFile : 4D.File
-property _currentProjectPackage; _projectPackage; _structureFolder : 4D.Folder
-property logs : Collection
-property settings : Object
+property \
+_validInstance; \
+_isCurrentProject; \
+_isDefaultDestinationFolder; \
+_noError : Boolean
+
+
+property \
+_projectFile : 4D.File
+
+
+property \
+_currentProjectPackage; \
+_projectPackage; \
+_structureFolder : 4D.Folder
+
+
+property \
+logs : Collection
+
+
+property \
+settings : Object
+
 
 Class constructor($target : Text; $customSettings : Object)
 	

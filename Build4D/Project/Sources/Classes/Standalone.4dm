@@ -82,6 +82,7 @@ Class constructor($customSettings : Object)
 				"message"; "Class init failed."; \
 				"severity"; Error message))
 		End if 
+		
 	Else 
 		This._log(New object(\
 			"function"; "Class constuctor"; \

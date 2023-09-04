@@ -182,6 +182,12 @@
 			"runUnitTests2"
 		]
 	},
+	"Server": {
+		"methods": [
+			"runUnitTests4",
+			"ut_4_Rxxxxx_TCxxxxx"
+		]
+	},
 	"Standalone": {
 		"groups": [
 			"3_R11077",
