@@ -306,6 +306,7 @@ Function excludeModule($path : Variant) : cs._settings
 Function load_settings($settings : Object)
 	
 	var $type : Integer
+	var $key : Text
 	
 	If ($settings#Null)
 		

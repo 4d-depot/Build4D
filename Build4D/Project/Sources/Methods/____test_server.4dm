@@ -79,19 +79,27 @@ macOSClientArchive: ""; \
 windowsClientArchive: ""\
 }
 
+var $standAlone : cs.Standalone
+var $server : cs.ServerApp
+
+var $c_settings : cs._settings
+
+var $save_setting : Object
+
+
 
 $standAlone:=cs.Standalone.new($settings)
 
-$server:=cs.ServerApp.new($setting)
+$server:=cs.ServerApp.new($settings)
 
 
 
-$settings:=cs._settings.new($settings)
+$c_settings:=cs._settings.new($settings)
 
 
-$settings.versioning:=Null  // read only property -10702
+$c_settings.versioning:=Null  // read only property -10702
 
-$save_setting:=$settings.save_settings()
+$save_setting:=$c_settings.save_settings()
 
 SET TEXT TO PASTEBOARD(JSON Stringify($save_setting; *))
 

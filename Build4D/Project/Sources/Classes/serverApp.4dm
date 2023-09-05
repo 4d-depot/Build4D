@@ -6,13 +6,21 @@ Class extends _core
 //MARK:-
 Class constructor($customSettings : Object)
 	
-	var $currentAppInfo; $sourceAppInfo : Object
-	var $fileCheck : Boolean
+	var \
+		$currentAppInfo; \
+		$sourceAppInfo : Object
+	
+	var \
+		$fileCheck : Boolean
 	
 	Super("ServerApp"; $customSettings)
 	
 	
 	If (This._validInstance)
+		
+		This.settings.buildName+=Is macOS ? " Server" : "Server"  // à voir
+		
+		
 		
 		If (This._isDefaultDestinationFolder)
 			This.settings.destinationFolder:=This.settings.destinationFolder.folder("Server/")
@@ -142,6 +150,9 @@ Function _renameResources() : Boolean
 	
 Function _setAppOptions() : Boolean
 	
+	var $infoFile : 4D.File
+	var $appInfo : Object
+	
 	If (Super._setAppOptions())
 		
 		$infoFile:=(Is macOS) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
@@ -151,17 +162,37 @@ Function _setAppOptions() : Boolean
 			$appInfo:=$infoFile.getAppInfo()
 			
 			$appInfo.BuildName:=This.settings.buildName
-			$appInfo.PublishName:=This.settings.buildName
-			$appInfo["4D_SingleInstance"]:=1
-			$appInfo["com.4d.ServerCacheFolderName"]:=""
-			$appInfo["com.4D.HideDataExplorerMenuItem"]:=False
-			$appInfo["com.4D.HideRuntimeExplorerMenuItem"]:=False
-			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=False
 			
-			$appInfo.BuildHardLink:=""
-			$appInfo.BuildRangeVersMin:=1
-			$appInfo.BuildRangeVersMax:=1
-			$appInfo.BuildCurrentVers:=1
+			$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
+			
+			$appInfo["4D_SingleInstance"]:=Value type(This.settings.clientWinSingleInstance)=Is boolean ? Num(This.settings.clientWinSingleInstance) : 1
+			
+			$appInfo["com.4d.dataCollection"]:=Value type(This.settings.serverDataCollection)=Is boolean ? This.settings.serverDataCollection : True
+			$appInfo["com.4d.dataCollection"]:=$appInfo["com.4d.dataCollection"] ? "true" : "false"
+			
+			$appInfo["com.4d.ServerCacheFolderName"]:=Value type(This.settings.serverStructureFolderName)=Is text ? This.settings.serverStructureFolderName : ""
+			
+			$appInfo["com.4D.HideDataExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
+			$appInfo["com.4D.HideDataExplorerMenuItem"]:=$appInfo["com.4D.HideDataExplorerMenuItem"] ? "true" : "false"
+			
+			
+			$appInfo["com.4D.HideRuntimeExplorerMenuItem"]:=Value type(This.settings.hideRuntimeExplorerMenuItem)=Is boolean ? This.settings.hideRuntimeExplorerMenuItem : False
+			$appInfo["com.4D.HideRuntimeExplorerMenuItem"]:=$appInfo["com.4D.HideRuntimeExplorerMenuItem"] ? "true" : "false"
+			
+			
+			
+			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=Value type(This.settings.hideAdministrationWindowMenuItem)=Is boolean ? This.settings.hideAdministrationWindowMenuItem : False
+			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=$appInfo["com.4D.HideAdministrationWindowMenuItem"] ? "true" : "false"
+			
+			$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
+			
+			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? This.settings.rangeVersMin : 1
+			$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? This.settings.rangeVersMax : 1
+			$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? This.settings.currentVers : 1
+			
+			// clefs specifiques si target windows
+			
+			// macCompiledProject (folder contain silicon code)
 			
 			$infoFile.setAppInfo($appInfo)
 			
@@ -192,7 +223,14 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
 	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
 	$success:=($success) ? This._create4DZ() : False
-	//$success:=($success) ? This._generateLicense() : False
+	
+	
+	If (This.settings.license.exists)
+		
+		//$success:=($success) ? This._generateLicense() : False
+		
+	End if 
+	
 	If (Is macOS)
 		$success:=($success) ? This._sign() : False
 	End if 

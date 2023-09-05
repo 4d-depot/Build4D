@@ -75,8 +75,8 @@ Function set openLoginDialog($open : Boolean)
 	
 Function load_settings($setting : Object) : cs._clientApplication
 	
-	
 	var $key : Text
+	var $settings : Object
 	
 	Case of 
 			
@@ -154,9 +154,9 @@ Function make4D_link($folder : 4D.Folder) : Boolean
 			Else 
 				
 				//This._log(New object(\
-					"function"; "Create 4DLink"; \
-					"message"; "Unable to create 4DLink: '"+This._databaseName+"'"; \
-					"severity"; Error message))
+										"function"; "Create 4DLink"; \
+										"message"; "Unable to create 4DLink: '"+This._databaseName+"'"; \
+										"severity"; Error message))
 				
 			End if 
 	End case 

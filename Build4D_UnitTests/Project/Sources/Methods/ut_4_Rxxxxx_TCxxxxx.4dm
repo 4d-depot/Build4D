@@ -11,11 +11,34 @@ logGitHubActions(Current method name)
 
 // MARK:- Current project
 
+
+$settings:=cs.Build4D._settings.new()
+
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
 $settings.license:=Storage.settings.licenseUUD
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
+$settings.buildName:="myApp"
+$settings.publishName:="myServer"  // utilité ? demander à moussa ?
+$settings.iconPath:="/RESOURCES/myIcon.icns"
+
+
+$settings.versioning:={\
+version: "21.1.0"; \
+copyright: "MyMy"; \
+companyName: "myComp"; \
+fileDescription: "none"; \
+internalName: "none"\
+}
+
+
+//$settings.hardLink:="strong"
+//$settings.hideRuntimeExplorerMenuItem:=True
+//$settings.hideDataExplorerMenuItem:=True
+//$settings.hideAdministrationWindowMenuItem:=True
+$settings.rangeVersMax:=10
+$settings.currentVers:=10
 
 $build:=cs.Build4D.ServerApp.new($settings)
 
