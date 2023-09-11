@@ -1,5 +1,9 @@
 {
     "licenseUUD":"/PACKAGE/Settings/4UUD.license4D",
+    
+    "licenseServer":"/PACKAGE/Settings/4D-OEM SERVER.license4D",
+    "xmlKeyLicense":"/PACKAGE/Settings/4D-OEM XML KEY.license4D",
+    
     "invalid_LicenseUUD":"/PACKAGE/Settings/invalid_4UUD.license4D",
     "macVolumeDesktop":"/Applications/4D v20.1/4D Volume Desktop MAC/4D Volume Desktop.app/",
     "winVolumeDesktop":"C:/Program Files/4D/4D v20.1/4D Volume Desktop WIN/",

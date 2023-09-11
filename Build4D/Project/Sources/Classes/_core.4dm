@@ -106,6 +106,9 @@ Function _overrideSettings($settings : Object)
 			: ($entry.key="license")
 				This.settings.license:=This._resolvePath($settings.license; Null)
 				
+			: ($entry.key="xmlKeyLicense")
+				This.settings.xmlKeyLicense:=This._resolvePath($settings.xmlKeyLicense; Null)
+				
 			: ($entry.key="sourceAppFolder")
 				If (Value type($settings.sourceAppFolder)=Is text)
 					$settings.sourceAppFolder:=($settings.sourceAppFolder="@/") ? $settings.sourceAppFolder : $settings.sourceAppFolder+"/"
@@ -590,7 +593,11 @@ Function _generateLicense() : Boolean
 	var $status : Object
 	
 	If ((This.settings.license#Null) && (This.settings.license.exists))
-		$status:=Create deployment license(This.settings.destinationFolder; This.settings.license)
+		If ((This.settings.xmlKeyLicense#Null) && (OB Instance of(This.settings.xmlKeyLicense; 4D.File)))
+			$status:=Create deployment license(This.settings.destinationFolder; This.settings.license; This.settings.xmlKeyLicense)
+		Else 
+			$status:=Create deployment license(This.settings.destinationFolder; This.settings.license)
+		End if 
 		If ($status.success)
 			return True
 		Else 

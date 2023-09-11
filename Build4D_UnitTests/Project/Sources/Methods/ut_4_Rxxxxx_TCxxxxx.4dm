@@ -1,6 +1,6 @@
 //%attributes = {}
 // Test _build() function with the default name
-var $build : cs.Build4D.Standalone
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $standaloneApp : 4D.File
@@ -12,12 +12,12 @@ logGitHubActions(Current method name)
 // MARK:- Current project
 
 
-$settings:=cs.Build4D._settings.new()
+//$settings:=cs.Build4D._settings.new()
 
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
-$settings.license:=Storage.settings.licenseUUD
+$settings.license:=Storage.settings.license
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 $settings.buildName:="myApp"
 $settings.publishName:="myServer"  // utilité ? demander à moussa ?
@@ -37,10 +37,11 @@ internalName: "none"\
 //$settings.hideRuntimeExplorerMenuItem:=True
 //$settings.hideDataExplorerMenuItem:=True
 //$settings.hideAdministrationWindowMenuItem:=True
+$settings.rangeVersMin:=8
 $settings.rangeVersMax:=10
 $settings.currentVers:=10
 
-$build:=cs.Build4D.ServerApp.new($settings)
+$build:=cs.Build4D.Server.new($settings)
 
 ASSERT($build.settings.buildName=Storage.settings.projectName; "(Current project) Wrong default build name: "+$build.settings.buildName+$link)
 
@@ -58,7 +59,7 @@ Folder("/PACKAGE/Test").delete(fk recursive)
 
 $settings.projectFile:=Storage.settings.externalProjectFile
 
-$build:=cs.Build4D.ServerApp.new($settings)
+$build:=cs.Build4D.Server.new($settings)
 
 ASSERT($build.settings.buildName=Storage.settings.externalProjectName; "(External project) Wrong default build name: "+$build.settings.buildName+$link)
 

@@ -74,13 +74,13 @@ hideDataExplorerMenuItem: True; \
 hideRuntimeExplorerMenuItem: True; \
 hideAdministrationWindowMenuItem: True; \
 serverDataCollection: True; \
-clientWinSingleInstance: True; \
+singleInstance: True; \
 macOSClientArchive: ""; \
 windowsClientArchive: ""\
 }
 
 var $standAlone : cs.Standalone
-var $server : cs.ServerApp
+var $server : cs.Server
 
 var $c_settings : cs._settings
 
@@ -90,7 +90,7 @@ var $save_setting : Object
 
 $standAlone:=cs.Standalone.new($settings)
 
-$server:=cs.ServerApp.new($settings)
+$server:=cs.Server.new($settings)
 
 
 

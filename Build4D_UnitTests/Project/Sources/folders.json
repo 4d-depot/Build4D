@@ -185,6 +185,7 @@
 	"Server": {
 		"methods": [
 			"runUnitTests4",
+			"ut_4_Rxxxxx_TCxxxx1",
 			"ut_4_Rxxxxx_TCxxxxx"
 		]
 	},

@@ -46,7 +46,7 @@ hideDataExplorerMenuItem; \
 hideRuntimeExplorerMenuItem; \
 hideAdministrationWindowMenuItem; \
 serverDataCollection; \
-clientWinSingleInstance : Boolean
+singleInstance : Boolean
 
 
 /* posix path */
@@ -67,7 +67,7 @@ Class constructor($settings : Object)
 	This.hideAdministrationWindowMenuItem:=False
 	
 	This.serverDataCollection:=False
-	This.clientWinSingleInstance:=False
+	This.singleInstance:=False
 	This.startElevated:=False
 	This.obfuscated:=False
 	This.packedProject:=True

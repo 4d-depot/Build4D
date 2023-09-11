@@ -1,19 +1,12 @@
 {
 	"_method_": {},
 	"cs.Build4D": {
-		"_signApplication": {
+		"_settings": {
 			"new()": {
-				"Syntax": "**.new**()",
-				"Params": [],
-				"Summary": ""
-			}
-		},
-		"ServerApp": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
+				"Syntax": "**.new**( *settings* : Object )",
 				"Params": [
 					[
-						"customSettings",
+						"settings",
 						"Object",
 						"->"
 					]
@@ -21,7 +14,20 @@
 				"Summary": ""
 			}
 		},
-		"Standalone": {
+		"_clientApplication": {
+			"new()": {
+				"Syntax": "**.new**( *setting* : Object )",
+				"Params": [
+					[
+						"setting",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"Server": {
 			"new()": {
 				"Syntax": "**.new**( *customSettings* : Object )",
 				"Params": [
@@ -38,6 +44,52 @@
 			"new()": {
 				"Syntax": "**.new**()",
 				"Params": [],
+				"Summary": ""
+			}
+		},
+		"Client": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_signApplication": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
+				"Summary": ""
+			}
+		},
+		"Standalone": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"Component": {
+			"new()": {
+				"Syntax": "**.new**( *customSettings* : Object )",
+				"Params": [
+					[
+						"customSettings",
+						"Object",
+						"->"
+					]
+				],
 				"Summary": ""
 			}
 		},
@@ -72,192 +124,12 @@
 				"Summary": ""
 			}
 		},
-		"_settings": {
-			"new()": {
-				"Syntax": "**.new**( *settings* : Object )",
-				"Params": [
-					[
-						"settings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
-		"_clientApplication": {
-			"new()": {
-				"Syntax": "**.new**( *setting* : Object )",
-				"Params": [
-					[
-						"setting",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
-		"ClientApp": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		},
 		"_versioning": {
 			"new()": {
 				"Syntax": "**.new**()",
 				"Params": [],
 				"Summary": ""
 			}
-		},
-		"Component": {
-			"new()": {
-				"Syntax": "**.new**( *customSettings* : Object )",
-				"Params": [
-					[
-						"customSettings",
-						"Object",
-						"->"
-					]
-				],
-				"Summary": ""
-			}
-		}
-	},
-	"_signApplication": {
-		"save_settings()": {
-			"Syntax": "**.save_settings**() : Object",
-			"Params": [
-				[
-					"",
-					"Object",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"load_settings()": {
-			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._signApplication",
-			"Params": [
-				[
-					"settings",
-					"Object",
-					"->"
-				],
-				[
-					"",
-					"cs.Build4D._signApplication",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"macCertificate": {
-			"Syntax": "macCertificate : Text"
-		},
-		"adHocSignature": {
-			"Syntax": "adHocSignature : Boolean"
-		},
-		"macSignature": {
-			"Syntax": "macSignature : Boolean"
-		}
-	},
-	"ServerApp": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
-			"Params": [
-				[
-					"success",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"_inheritedFrom_": "_core"
-	},
-	"Standalone": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
-			"Params": [
-				[
-					"success",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"_inheritedFrom_": "_core"
-	},
-	"_compilerOptions": {
-		"save_settings()": {
-			"Syntax": "**.save_settings**() : Object",
-			"Params": [
-				[
-					"",
-					"Object",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"load_settings()": {
-			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._compilerOptions",
-			"Params": [
-				[
-					"settings",
-					"Object",
-					"->"
-				],
-				[
-					"",
-					"cs.Build4D._compilerOptions",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"get targets()": {
-			"Syntax": "**.get targets**() : Collection",
-			"Params": [
-				[
-					"",
-					"Collection",
-					"<-"
-				]
-			],
-			"Summary": ""
-		}
-	},
-	"CompiledProject": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
-			"Params": [
-				[
-					"success",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"_inheritedFrom_": "_core"
-	},
-	"_core": {
-		"settings": {
-			"Syntax": "settings : Object"
-		},
-		"logs": {
-			"Syntax": "logs : Collection"
 		}
 	},
 	"_settings": {
@@ -601,6 +473,9 @@
 		"startElevated": {
 			"Syntax": "startElevated : Boolean"
 		},
+		"singleInstance": {
+			"Syntax": "singleInstance : Boolean"
+		},
 		"obfuscated": {
 			"Syntax": "obfuscated : Boolean"
 		},
@@ -615,9 +490,6 @@
 		},
 		"packedProject": {
 			"Syntax": "packedProject : Boolean"
-		},
-		"clientWinSingleInstance": {
-			"Syntax": "clientWinSingleInstance : Boolean"
 		},
 		"hideRuntimeExplorerMenuItem": {
 			"Syntax": "hideRuntimeExplorerMenuItem : Boolean"
@@ -756,7 +628,7 @@
 			"Summary": ""
 		}
 	},
-	"ClientApp": {
+	"Server": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [
@@ -769,6 +641,148 @@
 			"Summary": ""
 		},
 		"_inheritedFrom_": "_core"
+	},
+	"_compilerOptions": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._compilerOptions",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._compilerOptions",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get targets()": {
+			"Syntax": "**.get targets**() : Collection",
+			"Params": [
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		}
+	},
+	"Client": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"_signApplication": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._signApplication",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._signApplication",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"macCertificate": {
+			"Syntax": "macCertificate : Text"
+		},
+		"adHocSignature": {
+			"Syntax": "adHocSignature : Boolean"
+		},
+		"macSignature": {
+			"Syntax": "macSignature : Boolean"
+		}
+	},
+	"Standalone": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"Component": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"CompiledProject": {
+		"build()": {
+			"Syntax": "**.build**()->success : Boolean",
+			"Params": [
+				[
+					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_core"
+	},
+	"_core": {
+		"settings": {
+			"Syntax": "settings : Object"
+		},
+		"logs": {
+			"Syntax": "logs : Collection"
+		}
 	},
 	"_versioning": {
 		"save_settings()": {
@@ -828,19 +842,5 @@
 		"companyName": {
 			"Syntax": "companyName : Text"
 		}
-	},
-	"Component": {
-		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
-			"Params": [
-				[
-					"success",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"_inheritedFrom_": "_core"
 	}
 }
