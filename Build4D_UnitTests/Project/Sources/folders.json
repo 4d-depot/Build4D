@@ -184,9 +184,10 @@
 	},
 	"Server": {
 		"methods": [
-			"runUnitTests4",
-			"ut_4_Rxxxxx_TCxxxx1",
-			"ut_4_Rxxxxx_TCxxxxx"
+			"runUnitTests5",
+			"ut_5_Rxxxxx_TCxxxx1",
+			"ut_5_Rxxxxx_TCxxxx2",
+			"ut_5_Rxxxxx_TCxxxxx"
 		]
 	},
 	"Standalone": {

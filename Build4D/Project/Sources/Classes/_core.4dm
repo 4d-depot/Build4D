@@ -136,7 +136,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			return $path
 			
 		: (Value type($path)=Is text)  // $path is a text
-			var $absolutePath : Text
+			var $absolutePath; $platformPath : Text
 			var $absoluteFolder; $app : 4D.Folder
 			
 			$absoluteFolder:=$baseFolder
@@ -168,7 +168,22 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 					
 			End case 
 			
-			return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
+			
+			//https://github.com/4d/4d/issues/2139
+			
+			
+			
+			
+			//return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
+			//var $oPath : Object
+			
+			//$oPath:=Path to object($absolutePath; Path is POSIX)
+			
+			
+			$platformPath:=Convert path POSIX to system($absolutePath)
+			
+			return (Test path name($platformPath)=Is a folder) ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
+			
 			
 		Else 
 			return Null
