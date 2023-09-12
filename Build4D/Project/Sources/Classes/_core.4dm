@@ -170,19 +170,37 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			
 			
 			//https://github.com/4d/4d/issues/2139
-			
-			
-			
-			
 			//return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
-			//var $oPath : Object
 			
-			//$oPath:=Path to object($absolutePath; Path is POSIX)
+			var $file : 4D.File
+			var $folder : 4D.Folder
+			var $o_path : Object
+			
+			$o_path:=Path to object($absolutePath; Path is POSIX)
+			
+			If ($o_path.isFolder)
+				return Folder(Folder($absolutePath; *).platformPath; fk platform path)
+			Else 
+				
+				$file:=File(File($absolutePath; *).platformPath; fk platform path)
+				
+				If ($file.isFile && Not($file.exists))
+					
+					$folder:=Folder($file.path)
+					
+					If ($folder.isFolder && $folder.exists)
+						
+						return $folder
+						
+					End if 
+					
+				End if 
+				
+				return $file
+				
+			End if 
 			
 			
-			$platformPath:=Convert path POSIX to system($absolutePath)
-			
-			return (Test path name($platformPath)=Is a folder) ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
 			
 			
 		Else 
@@ -378,7 +396,10 @@ Function _deletePaths($paths : Collection) : Boolean
 				return False
 			End if 
 			
-			If ($deletePath.exists)
+			
+			
+			//If ($deletePath.exists)//https://github.com/4d/4d/issues/2139
+			If (Test path name($deletePath.platformPath)>=0)
 				$deletePath.delete(fk recursive)
 				This._log(New object(\
 					"function"; "Paths delete"; \
