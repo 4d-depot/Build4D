@@ -29,6 +29,7 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	var $settings : Object
 	
+	This._ignoreError:=False
 	This.logs:=New collection
 	This.settings:=New object()
 	This.settings.includePaths:=New collection
@@ -174,33 +175,23 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			
 			var $file : 4D.File
 			var $folder : 4D.Folder
-			var $o_path : Object
 			
-			$o_path:=Path to object($absolutePath; Path is POSIX)
+			This._ignoreError:=True
+			$file:=File($absolutePath; *)  // generate a -1 error if path is a folder
+			$folder:=Folder($absolutePath; *)
+			This._ignoreError:=False
 			
-			If ($o_path.isFolder)
-				return Folder(Folder($absolutePath; *).platformPath; fk platform path)
-			Else 
-				
-				$file:=File(File($absolutePath; *).platformPath; fk platform path)
-				
-				If ($file.isFile && Not($file.exists))
+			Case of 
+				: ($folder.isPackage)
+					return Folder($folder.platformPath; fk platform path)
 					
-					$folder:=Folder($file.path)
+				: ($file.isFile)
+					return File($file.platformPath; fk platform path)
 					
-					If ($folder.isFolder && $folder.exists)
-						
-						return $folder
-						
-					End if 
+				Else 
+					return Folder($folder.platformPath; fk platform path)  // Folder(Folder($absolutePath; *).platformPath; fk platform path)
 					
-				End if 
-				
-				return $file
-				
-			End if 
-			
-			
+			End case 
 			
 			
 		Else 
