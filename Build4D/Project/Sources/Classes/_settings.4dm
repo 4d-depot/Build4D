@@ -6,7 +6,6 @@ _compilerOptions : cs._compilerOptions
 
 
 /* posix path */
-
 property \
 _sourceAppFolder; \
 _destinationFolder : Text

@@ -653,10 +653,14 @@ Function _sign() : Boolean
 		This.settings.signApplication.adHocSignature:=(This.settings.signApplication.adHocSignature#Null) ? This.settings.signApplication.adHocSignature : True
 		
 		If (This.settings.signApplication.macSignature || This.settings.signApplication.adHocSignature)
+			
 			var $script; $entitlements : 4D.File
+			
 			$script:=Folder(Application file; fk platform path).file("Contents/Resources/SignApp.sh")
 			$entitlements:=Folder(Application file; fk platform path).file("Contents/Resources/4D.entitlements")
+			
 			If ($script.exists && $entitlements.exists)
+				
 				var $commandLine; $certificateName : Text
 				var $signatureWorker : 4D.SystemWorker
 				
@@ -713,5 +717,6 @@ Function _sign() : Boolean
 			End if 
 		End if 
 	End if 
+	
 	return True
 	

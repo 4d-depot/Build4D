@@ -16,7 +16,6 @@ Class constructor($setting : Object)
 	This._databaseName:=""
 	This._openLoginDialog:=False
 	
-	// rajouter la clef pour TNR -> fusionner le 4DZ au lieu du 4Dlink
 	
 	This.load_settings($setting)
 	
@@ -154,9 +153,9 @@ Function make4D_link($folder : 4D.Folder) : Boolean
 			Else 
 				
 				//This._log(New object(\
-										"function"; "Create 4DLink"; \
-										"message"; "Unable to create 4DLink: '"+This._databaseName+"'"; \
-										"severity"; Error message))
+															"function"; "Create 4DLink"; \
+															"message"; "Unable to create 4DLink: '"+This._databaseName+"'"; \
+															"severity"; Error message))
 				
 			End if 
 	End case 

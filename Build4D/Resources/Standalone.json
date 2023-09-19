@@ -3,6 +3,7 @@
     "packedProject":true,
     "obfuscated":false,
     "lastDataPathLookup":"ByAppName",
+    "excludeModule":[],
     "includePaths":
     [
         {
