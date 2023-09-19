@@ -29,7 +29,7 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	var $settings : Object
 	
-	This._ignoreError:=False
+	
 	This.logs:=New collection
 	This.settings:=New object()
 	This.settings.includePaths:=New collection
@@ -176,16 +176,18 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			var $file : 4D.File
 			var $folder : 4D.Folder
 			
-			This._ignoreError:=True
-			$file:=File($absolutePath; *)  // generate a -1 error if path is a folder
+			//This._ignoreError:=True
 			$folder:=Folder($absolutePath; *)
-			This._ignoreError:=False
+			If ($absolutePath="@/")
+				$file:=File($absolutePath; *)  // generate a -1 error if path is a folder
+			End if 
+			//This._ignoreError:=False
 			
 			Case of 
 				: ($folder.isPackage)
 					return Folder($folder.platformPath; fk platform path)
 					
-				: ($file.isFile)
+				: (Bool($file.isFile))
 					return File($file.platformPath; fk platform path)
 					
 				Else 
