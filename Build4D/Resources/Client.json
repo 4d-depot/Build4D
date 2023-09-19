@@ -1,9 +1,16 @@
 {
-    "//target":"ServerApp",
-    "packedProject":true,
-    "obfuscated":false,
-    "serverDataCollection":true,
-    "lastDataPathLookup":"ByAppName",
+    "//target":"Client",
+    "IPAddress":"",
+    "portNumber":19813,
+    "startElevated":false,
+    "useSDI":false,
+    "serverSelectionAllowed":false,
+    "singleInstance":true,
+    "rangeVersMin":1,
+    "rangeVersMax":1,
+    "currentVers":1,
+    "hardLink":"",
+    "excludeModule":[],
     "includePaths":
     [
         {
@@ -21,4 +28,6 @@
         "macCertificate":"",
         "adHocSignature":true
     }
+    
+    
 }
