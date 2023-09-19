@@ -1,7 +1,6 @@
 Class extends _core
 
 
-// https://github.com/orgs/4d/projects/119?pane=issue&itemId=32074136
 
 //MARK:-
 Class constructor($customSettings : Object)
@@ -9,7 +8,7 @@ Class constructor($customSettings : Object)
 	var $currentAppInfo; $sourceAppInfo : Object
 	var $fileCheck : Boolean
 	
-	Super("ClientApp"; $customSettings)
+	Super("Client"; $customSettings)
 	
 	If (This._validInstance)
 		
@@ -18,24 +17,6 @@ Class constructor($customSettings : Object)
 		End if 
 		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+Choose(Is macOS; ".app"; "")+"/")
 		This._structureFolder:=This.settings.destinationFolder.folder(Choose(Is macOS; "Contents/"; "")+"Database/")
-		
-		//Checking license
-		//If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
-		//This._validInstance:=False
-		//This._log(New object(\
-												"function"; "License file checking"; \
-												"message"; "License file is not defined"; \
-												"severity"; Error message))
-		//Else 
-		//If (Not(This.settings.license.exists))
-		//This._validInstance:=False
-		//This._log(New object(\
-												"function"; "License file checking"; \
-												"message"; "License file doesn't exist"; \
-												"severity"; Error message; \
-												"path"; This.settings.license.path))
-		//End if 
-		//End if 
 		
 		//Checking source app
 		If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder))))
@@ -97,6 +78,7 @@ Class constructor($customSettings : Object)
 	
 	//MARK:-
 	//TODO: append publication port for client/server on settings by default 19813
+	
 Function _make4dLink() : Boolean
 	
 	var $xml; $text : Text
@@ -139,6 +121,7 @@ Function _make4dLink() : Boolean
 	
 	
 	//MARK:-
+	
 Function _renameExecutable() : Boolean
 	var $renamedExecutable : 4D.File
 	If (Is macOS)
@@ -174,7 +157,7 @@ Function build()->$success : Boolean
 	If (True)
 		$success:=($success) ? This._make4dLink() : False
 	Else 
-		$success:=($success) ? This._create4DZ() : False  // cas de TNR
+		$success:=($success) ? This._create4DZ() : False
 	End if 
 	
 	If (Is macOS)
@@ -187,3 +170,4 @@ Function build()->$success : Boolean
 			"message"; "Standalone application build successful."; \
 			"messageSeverity"; Information message))
 	End if 
+	

@@ -13,14 +13,12 @@ Class constructor($customSettings : Object)
 	var \
 		$fileCheck : Boolean
 	
-	Super("ServerApp"; $customSettings)
+	Super("Server"; $customSettings)
 	
 	
 	If (This._validInstance)
 		
-		This.settings.buildName+=Is macOS ? " Server" : "Server"  // à voir
-		
-		
+		This.settings.buildName+=Is macOS ? " Server" : "Server"
 		
 		If (This._isDefaultDestinationFolder)
 			This.settings.destinationFolder:=This.settings.destinationFolder.folder("Server/")
@@ -114,27 +112,24 @@ Class constructor($customSettings : Object)
 	
 	//MARK:-
 Function _renameExecutable() : Boolean
-	var $renamedExecutable : 4D.File
+	var \
+		$renamedExecutable; \
+		$renamedResources : 4D.File
+	
 	If (Is macOS)
 		$renamedExecutable:=This.settings.destinationFolder.file("Contents/MacOS/4D Server").rename(This.settings.buildName)
+		$renamedResources:=This.settings.destinationFolder.file("Contents/Resources/4D Server.rsrc").rename(This.settings.buildName+".rsrc")
 	Else 
 		$renamedExecutable:=This.settings.destinationFolder.file("4D Server.exe").rename(This.settings.buildName+".exe")
+		$renamedResources:=This.settings.destinationFolder.file("Resources/4D Server.rsr").rename(This.settings.buildName+".rsr")
 	End if 
+	
 	If ($renamedExecutable.name#This.settings.buildName)
 		This._log(New object(\
 			"function"; "Rename executable"; \
 			"message"; "Unable to rename the app: '"+This.settings.buildName+"'"; \
 			"severity"; Error message))
 		return False
-	End if 
-	return True
-	
-Function _renameResources() : Boolean
-	var $renamedResources : 4D.File
-	If (Is macOS)
-		$renamedResources:=This.settings.destinationFolder.file("Contents/Resources/4D Server.rsrc").rename(This.settings.buildName+".rsrc")
-	Else 
-		$renamedResources:=This.settings.destinationFolder.file("Resources/4D Server.rsr").rename(This.settings.buildName+".rsr")
 	End if 
 	
 	If ($renamedResources.name#This.settings.buildName)
@@ -144,6 +139,7 @@ Function _renameResources() : Boolean
 			"severity"; Error message))
 		return False
 	End if 
+	
 	return True
 	
 	
@@ -165,7 +161,7 @@ Function _setAppOptions() : Boolean
 			
 			$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
 			
-			$appInfo["4D_SingleInstance"]:=Value type(This.settings.clientWinSingleInstance)=Is boolean ? Num(This.settings.clientWinSingleInstance) : 1
+			$appInfo["4D_SingleInstance"]:=Value type(This.settings.singleInstance)=Is boolean ? Num(This.settings.singleInstance) : 1
 			
 			$appInfo["com.4d.dataCollection"]:=Value type(This.settings.serverDataCollection)=Is boolean ? This.settings.serverDataCollection : True
 			$appInfo["com.4d.dataCollection"]:=$appInfo["com.4d.dataCollection"] ? "true" : "false"
@@ -209,6 +205,20 @@ Function _setAppOptions() : Boolean
 	
 	
 	
+Function _hasLicenses : Boolean
+	
+	If (OB Instance of(This.settings.license; 4D.File) && OB Instance of(This.settings.xmlKeyLicense; 4D.File))
+		
+		return This.settings.license.exists && This.settings.xmlKeyLicense.exists
+		
+	End if 
+	
+	return False
+	
+	
+	
+	
+	
 	//MARK:-
 Function build()->$success : Boolean
 	$success:=This._validInstance
@@ -217,7 +227,6 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._createStructure() : False
 	$success:=($success) ? This._copySourceApp() : False
 	$success:=($success) ? This._renameExecutable() : False
-	$success:=($success) ? This._renameResources() : False
 	$success:=($success) ? This._setAppOptions() : False
 	$success:=($success) ? This._excludeModules() : False
 	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
@@ -225,9 +234,9 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._create4DZ() : False
 	
 	
-	If (This.settings.license.exists)
+	If (This._hasLicenses())
 		
-		//$success:=($success) ? This._generateLicense() : False
+		$success:=($success) ? This._generateLicense() : False
 		
 	End if 
 	
