@@ -7,7 +7,7 @@ Class constructor($customSettings : Object)
 	
 	If (This._validInstance)
 		If (This._isDefaultDestinationFolder)
-			This.settings.destinationFolder:=This.settings.destinationFolder.folder("Component/")
+			This.settings.destinationFolder:=This.settings.destinationFolder.folder("Components/")
 		End if 
 		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+".4dbase/")
 		This._structureFolder:=This.settings.destinationFolder
