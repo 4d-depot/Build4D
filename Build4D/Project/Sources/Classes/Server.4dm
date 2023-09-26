@@ -33,7 +33,7 @@ Class constructor($customSettings : Object)
 			This._log(New object(\
 				"function"; "License file checking"; \
 				"message"; "License file is not defined"; \
-				"severity"; Error message))
+				"severity"; Information message))
 		Else 
 			If (Not(This.settings.license.exists))
 				//This._validInstance:=False
@@ -232,6 +232,30 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
 	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
 	$success:=($success) ? This._create4DZ() : False
+	
+	
+	If (OB Instance of(This.settings.macOSClientArchive; 4D.File))
+		var $Upgrade4DClient : 4D.Folder
+		var $path : Text
+		
+		$path:=This.settings.destinationFolder.path
+		
+		//todo: a voir sur windows le chemin
+		
+		$path+=(Is macOS) ? "Contents/Upgrade4DClient/" : ""
+		
+		$Upgrade4DClient:=Folder($path; fk posix path)
+		
+		If ($Upgrade4DClient.exists)
+			$Upgrade4DClient.delete(fk recursive)
+		End if 
+		
+		$Upgrade4DClient.create()
+		
+		This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
+		
+		
+	End if 
 	
 	
 	If (This._hasLicenses())

@@ -171,3 +171,37 @@ Function build()->$success : Boolean
 			"messageSeverity"; Information message))
 	End if 
 	
+	
+	
+Function build_archive()->$result : Object
+	
+	var $app_folder : 4D.Folder
+	var $zip_archive : 4D.File
+	var $filename : Text
+	
+	$app_folder:=This.settings.destinationFolder
+	
+	If ($app_folder.exists)
+		
+		$filename:=This.settings.sourceAppFolder.isPackage ? "update.mac.4darchive" : "update.win.4darchive"
+		
+		$zip_archive:=$app_folder.parent.file($filename)
+		
+		If ($zip_archive.exists)
+			$zip_archive.delete(fk recursive)
+		End if 
+		
+		$result:=ZIP Create archive($app_folder; $zip_archive; ZIP Without enclosing folder)
+		If ($result.success)
+			
+			$result.archive:=$zip_archive
+			$result.application:=$app_folder
+			
+		End if 
+		
+	Else 
+		$result:={success: False; statusText: "executable doesn't exist !"}
+	End if 
+	
+	
+	
