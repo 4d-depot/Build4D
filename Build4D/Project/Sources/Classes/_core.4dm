@@ -179,7 +179,11 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			//This._ignoreError:=True
 			$folder:=Folder($absolutePath; *)
 			If ($absolutePath="@/")
+				
+			Else 
+				
 				$file:=File($absolutePath; *)  // generate a -1 error if path is a folder
+				
 			End if 
 			//This._ignoreError:=False
 			
