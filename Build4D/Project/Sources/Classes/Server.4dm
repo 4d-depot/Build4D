@@ -112,13 +112,13 @@ Class constructor($customSettings : Object)
 	
 Function is_mac_target : Boolean
 	
-	return (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists))
+	return (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists))
 	
 	
 	
 Function is_win_target : Boolean
 	
-	return (This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists)
+	return (This.settings.sourceAppFolder.file("4D Server.exe").exists)
 	
 	
 	//MARK:-

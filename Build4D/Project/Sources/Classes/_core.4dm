@@ -682,6 +682,13 @@ Function _sign() : Boolean
 					$signatureWorker:=4D.SystemWorker.new($commandLine)
 					$signatureWorker.wait(120)
 					
+/*
+#DD
+Warning, if you receive an exitcode == 1 with a timestamp error
+that mean codesign could not join the apple time server "timestamp.apple.com" (timestamp.v.aaplimg.com.[17.32.213.161])
+check your network configuration proxy .....
+*/
+					
 					If ($signatureWorker.terminated)
 						If ($signatureWorker.exitCode=0)
 							This._log(New object(\

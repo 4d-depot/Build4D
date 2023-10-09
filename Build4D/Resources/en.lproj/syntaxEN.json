@@ -1,6 +1,13 @@
 {
 	"_method_": {},
 	"cs.Build4D": {
+		"_signApplication": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
+				"Summary": ""
+			}
+		},
 		"_settings": {
 			"new()": {
 				"Syntax": "**.new**( *settings* : Object )",
@@ -20,6 +27,29 @@
 				"Params": [
 					[
 						"setting",
+						"Object",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"CS": {
+			"new()": {
+				"Syntax": "**.new**( *serverSettings* : Object; *macSettings* : Object; *winSettings* : Object )",
+				"Params": [
+					[
+						"serverSettings",
+						"Object",
+						"->"
+					],
+					[
+						"macSettings",
+						"Object",
+						"->"
+					],
+					[
+						"winSettings",
 						"Object",
 						"->"
 					]
@@ -57,13 +87,6 @@
 						"->"
 					]
 				],
-				"Summary": ""
-			}
-		},
-		"_signApplication": {
-			"new()": {
-				"Syntax": "**.new**()",
-				"Params": [],
 				"Summary": ""
 			}
 		},
@@ -130,6 +153,44 @@
 				"Params": [],
 				"Summary": ""
 			}
+		}
+	},
+	"_signApplication": {
+		"save_settings()": {
+			"Syntax": "**.save_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"load_settings()": {
+			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._signApplication",
+			"Params": [
+				[
+					"settings",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"cs.Build4D._signApplication",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"macCertificate": {
+			"Syntax": "macCertificate : Text"
+		},
+		"adHocSignature": {
+			"Syntax": "adHocSignature : Boolean"
+		},
+		"macSignature": {
+			"Syntax": "macSignature : Boolean"
 		}
 	},
 	"_settings": {
@@ -628,12 +689,80 @@
 			"Summary": ""
 		}
 	},
+	"CS": {
+		"build()": {
+			"Syntax": "**.build**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get server_settings()": {
+			"Syntax": "**.get server_settings**() : Object",
+			"Params": [
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"show()": {
+			"Syntax": "**.show**() : cs.Build4D.CS",
+			"Params": [
+				[
+					"",
+					"cs.Build4D.CS",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get valid()": {
+			"Syntax": "**.get valid**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		}
+	},
 	"Server": {
 		"build()": {
 			"Syntax": "**.build**()->success : Boolean",
 			"Params": [
 				[
 					"success",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"is_win_target()": {
+			"Syntax": "**.is_win_target**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"is_mac_target()": {
+			"Syntax": "**.is_mac_target**() : Boolean",
+			"Params": [
+				[
+					"",
 					"Boolean",
 					"<-"
 				]
@@ -684,10 +813,43 @@
 	},
 	"Client": {
 		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
+			"Syntax": "**.build**() : Boolean",
 			"Params": [
 				[
-					"success",
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"is_win_target()": {
+			"Syntax": "**.is_win_target**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"build_archive()": {
+			"Syntax": "**.build_archive**()->result : Object",
+			"Params": [
+				[
+					"result",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"is_mac_target()": {
+			"Syntax": "**.is_mac_target**() : Boolean",
+			"Params": [
+				[
+					"",
 					"Boolean",
 					"<-"
 				]
@@ -695,44 +857,6 @@
 			"Summary": ""
 		},
 		"_inheritedFrom_": "_core"
-	},
-	"_signApplication": {
-		"save_settings()": {
-			"Syntax": "**.save_settings**() : Object",
-			"Params": [
-				[
-					"",
-					"Object",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"load_settings()": {
-			"Syntax": "**.load_settings**( *settings* : Object ) : cs.Build4D._signApplication",
-			"Params": [
-				[
-					"settings",
-					"Object",
-					"->"
-				],
-				[
-					"",
-					"cs.Build4D._signApplication",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"macCertificate": {
-			"Syntax": "macCertificate : Text"
-		},
-		"adHocSignature": {
-			"Syntax": "adHocSignature : Boolean"
-		},
-		"macSignature": {
-			"Syntax": "macSignature : Boolean"
-		}
 	},
 	"Standalone": {
 		"build()": {
