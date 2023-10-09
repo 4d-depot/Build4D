@@ -44,6 +44,7 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	This._validInstance:=True
 	This._isCurrentProject:=True
+	//This._target:=""
 	This._projectFile:=File(Structure file(*); fk platform path)
 	This._currentProjectPackage:=Folder(Folder("/PACKAGE/"; *).platformPath; fk platform path)
 	If (($settings#Null) && ($settings.projectFile#Null) && \
@@ -79,6 +80,8 @@ Class constructor($target : Text; $customSettings : Object)
 				"message"; "Destination folder automatically defined."; \
 				"severity"; Information message))
 		End if 
+		
+		
 	End if 
 	
 	//MARK:-
@@ -176,7 +179,6 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			var $file : 4D.File
 			var $folder : 4D.Folder
 			
-			//This._ignoreError:=True
 			$folder:=Folder($absolutePath; *)
 			If ($absolutePath="@/")
 				
@@ -185,7 +187,6 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 				$file:=File($absolutePath; *)  // generate a -1 error if path is a folder
 				
 			End if 
-			//This._ignoreError:=False
 			
 			Case of 
 				: ($folder.isPackage)

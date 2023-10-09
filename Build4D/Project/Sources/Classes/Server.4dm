@@ -110,13 +110,24 @@ Class constructor($customSettings : Object)
 	
 	
 	
+Function is_mac_target : Boolean
+	
+	return (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists))
+	
+	
+	
+Function is_win_target : Boolean
+	
+	return (This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists)
+	
+	
 	//MARK:-
 Function _renameExecutable() : Boolean
 	var \
 		$renamedExecutable; \
 		$renamedResources : 4D.File
 	
-	If (Is macOS)
+	If (This.is_mac_target())
 		$renamedExecutable:=This.settings.destinationFolder.file("Contents/MacOS/4D Server").rename(This.settings.buildName)
 		$renamedResources:=This.settings.destinationFolder.file("Contents/Resources/4D Server.rsrc").rename(This.settings.buildName+".rsrc")
 	Else 
@@ -151,7 +162,7 @@ Function _setAppOptions() : Boolean
 	
 	If (Super._setAppOptions())
 		
-		$infoFile:=(Is macOS) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
+		$infoFile:=(This.is_mac_target()) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
 		
 		If ($infoFile.exists)
 			
@@ -182,9 +193,9 @@ Function _setAppOptions() : Boolean
 			
 			$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 			
-			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? This.settings.rangeVersMin : 1
-			$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? This.settings.rangeVersMax : 1
-			$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? This.settings.currentVers : 1
+			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
+			$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
+			$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
 			
 			// clefs specifiques si target windows
 			
@@ -221,6 +232,8 @@ Function _hasLicenses : Boolean
 	
 	//MARK:-
 Function build()->$success : Boolean
+	
+	
 	$success:=This._validInstance
 	$success:=($success) ? This._checkDestinationFolder() : False
 	$success:=($success) ? This._compileProject() : False
@@ -234,13 +247,21 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._create4DZ() : False
 	
 	
-	If (OB Instance of(This.settings.macOSClientArchive; 4D.File))
+	If ($success)
+		
 		var $Upgrade4DClient : 4D.Folder
 		var $path : Text
+		var $hasClients : Boolean
+		var $infos : Object
+		var $infosFile : 4D.File
+		var $jsonDebug : Text
+		
+		
+		
 		
 		$path:=This.settings.destinationFolder.path
 		
-		//todo: a voir sur windows le chemin
+		//todo: vérifier sur windows le chemin
 		
 		$path+=(Is macOS) ? "Contents/Upgrade4DClient/" : ""
 		
@@ -252,10 +273,76 @@ Function build()->$success : Boolean
 		
 		$Upgrade4DClient.create()
 		
-		This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
+		If (OB Instance of(This.settings.macOSClientArchive; 4D.File))
+			
+			This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
+			
+			$hasClients:=True
+		End if 
 		
+		If (OB Instance of(This.settings.windowsClientArchive; 4D.File))
+			
+			This.settings.windowsClientArchive.moveTo($Upgrade4DClient)
+			
+			$hasClients:=True
+		End if 
+		
+		
+		If ($hasClients)
+			
+			$infos:={}
+			
+			$infos.BuildName:=This.settings.buildName
+			$infos.BuildIPAdress:=""
+			$infos.BuildIPPort:=19813
+			$infos.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
+			$infos.BuildCreator:=Char(0)*4
+			$infos.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
+			$infos.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
+			$infos.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
+			$infos.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
+			
+			If (This.is_mac_target())
+				$infos.ServerPlatform:="mac"
+			Else 
+				$infos.ServerPlatform:="win"
+			End if 
+			
+/*
+			
+$infos.Icon": "DarkMode.icns",
+$infos.IconFolder": "DarkMode",
+$infos.OtherIcon": "DarkMode.icns",
+$infos.OtherIconFolder": "DarkMode",
+			
+*/
+			
+			$infos.MacCertificate:=This.settings.signApplication.macCertificate
+			$infos.MacSignature:=This.settings.signApplication.macSignature
+			
+			$infos.macUpdate:="update.mac.4darchive"
+			
+			$infos["com.4D.HideDataExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
+			
+			$infos["com.4D.HideRuntimeExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
+			
+			$jsonDebug:=JSON Stringify($infos; *)
+			
+			$path:=$Upgrade4DClient.path+"/info.json"
+			
+			$infosFile:=File($path; fk posix path)
+			
+			$infosFile.create()
+			$infosFile.setText(JSON Stringify($infos; *))
+			
+		Else 
+			
+			$Upgrade4DClient.delete(fk recursive)
+			
+		End if 
 		
 	End if 
+	
 	
 	
 	If (This._hasLicenses())
