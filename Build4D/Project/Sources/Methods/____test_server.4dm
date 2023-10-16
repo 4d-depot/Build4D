@@ -6,23 +6,11 @@ var $targets : Collection
 var $path : Text
 
 
+// https://github.com/orgs/4d/projects/119?pane=issue&itemId=32074136
 
 
 
 $targets:=(Is macOS) ? ["x86_64_generic"; "arm64_macOS_lib"] : ["x86_64_generic"]
-
-
-//var $fileMover : cs._path_mover
-
-//$fileMover:=cs._path_mover.new(""; "")
-
-
-//$fileMover.source_is_ready()
-
-//$fileMover.source:=Structure file
-
-//$fileMover.destination:=Folder(fk desktop folder)
-
 
 
 $license:=File("/PACKAGE/Settings/4UUD.license4D")  //UT_Settings.json")
