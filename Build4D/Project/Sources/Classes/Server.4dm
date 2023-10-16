@@ -231,8 +231,9 @@ Function _hasLicenses : Boolean
 	
 	
 	//MARK:-
-Function build()->$success : Boolean
+Function build() : Boolean
 	
+	var $success : Boolean
 	
 	$success:=This._validInstance
 	$success:=($success) ? This._checkDestinationFolder() : False
@@ -361,4 +362,6 @@ $infos.OtherIconFolder": "DarkMode",
 			"message"; "Server application build successful."; \
 			"messageSeverity"; Information message))
 	End if 
+	
+	return $success
 	

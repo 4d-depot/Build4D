@@ -13,14 +13,7 @@
     "excludeModule":[],
     "includePaths":
     [
-        {
-            "source":"./Libraries/",
-            "destination":"./"
-        },
-        {
-            "source":"./Resources/",
-            "destination":"./"
-        }
+
     ],
     "deletePaths":[],
     "signApplication":{

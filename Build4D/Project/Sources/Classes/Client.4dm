@@ -170,6 +170,8 @@ Function _renameExecutable() : Boolean
 	return True
 	
 	
+	//Function _hasEmbedded : Boolean
+	
 	
 Function _show() : cs.Client
 	
@@ -351,6 +353,52 @@ Function _excludeModules() : Boolean
 	
 	
 	
+Function _hasEmbeddedClient : Boolean
+	
+	var $path : Object
+	
+	If (This.settings.databaseToEmbedInClient#Null)
+		
+		$path:=This._resolvePath(This.settings.databaseToEmbedInClient; This._currentProjectPackage)
+		
+		Case of 
+			: (OB Instance of($path; 4D.File)=False)
+			: ($path.exists=False)
+			Else 
+				
+				var $folder : 4D.Folder
+				var $file : 4D.File
+				// may be test if the path is a 4DZ file :...
+				
+				If (This._structureFolder.exists)
+					
+				Else 
+					This._structureFolder.create()
+				End if 
+				
+				This.settings.databaseToEmbedInClient:=$path
+				
+				For each ($folder; $path.parent.folders())
+					
+					$folder.copyTo(This._structureFolder)
+					
+				End for each 
+				
+				For each ($file; $path.parent.files())
+					
+					$file.copyTo(This._structureFolder)
+					
+				End for each 
+				
+				return True
+				
+		End case 
+		
+	End if 
+	return False
+	
+	
+	
 	//MARK:-
 	
 Function build() : Boolean
@@ -368,11 +416,18 @@ Function build() : Boolean
 	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
 	
 	//TODO: 
-	If (True)
-		$success:=($success) ? This._make4dLink() : False
+	
+	
+	If (This._hasEmbeddedClient())
+		
+		
 	Else 
-		$success:=($success) ? This._create4DZ() : False
+		
+		$success:=($success) ? This._make4dLink() : False
+		
 	End if 
+	
+	
 	
 	If (Is macOS & This.is_mac_target())
 		$success:=($success) ? This._sign() : False
