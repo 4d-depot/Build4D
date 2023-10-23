@@ -204,8 +204,14 @@ Function _setAppOptions() : Boolean
 			$identifier:=((This.settings.versioning.companyName#Null) && (This.settings.versioning.companyName#"")) ? This.settings.versioning.companyName : "com.4d"
 			$identifier+="."+This.settings.buildName
 			$appInfo.CFBundleIdentifier:=$identifier
+			
+			$appInfo.serverSelectionAllowed:=This.settings.serverSelectionAllowed
 		Else 
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
+			
+			$exeInfo.serverSelectionAllowed:=This.settings.serverSelectionAllowed
+			
+			
 		End if 
 		
 		If (This.settings.iconPath#Null)  // Set icon
@@ -436,7 +442,7 @@ Function build() : Boolean
 	If ($success)
 		This._log(New object(\
 			"function"; "Build"; \
-			"message"; "Standalone application build successful."; \
+			"message"; "Client application build successful."; \
 			"messageSeverity"; Information message))
 	End if 
 	
@@ -445,7 +451,7 @@ Function build() : Boolean
 	return $success
 	
 	
-Function build_archive()->$result : Object
+Function buildArchive()->$result : Object
 	
 	var $app_folder : 4D.Folder
 	var $zip_archive : 4D.File

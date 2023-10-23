@@ -812,6 +812,17 @@
 		}
 	},
 	"Client": {
+		"buildArchive()": {
+			"Syntax": "**.buildArchive**()->result : Object",
+			"Params": [
+				[
+					"result",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"build()": {
 			"Syntax": "**.build**() : Boolean",
 			"Params": [
@@ -829,17 +840,6 @@
 				[
 					"",
 					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"build_archive()": {
-			"Syntax": "**.build_archive**()->result : Object",
-			"Params": [
-				[
-					"result",
-					"Object",
 					"<-"
 				]
 			],

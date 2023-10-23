@@ -42,7 +42,7 @@ Function build() : Boolean
 	
 	If (This._mac.build())
 		
-		$mac:=This._mac.build_archive()
+		$mac:=This._mac.buildArchive()
 		
 		If ($mac.success)
 			
@@ -55,7 +55,7 @@ Function build() : Boolean
 	
 	If (This._win.build())
 		
-		$win:=This._win.build_archive()
+		$win:=This._win.buildArchive()
 		
 		If ($win.success)
 			
