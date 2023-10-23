@@ -140,7 +140,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			return $path
 			
 		: (Value type($path)=Is text)  // $path is a text
-			var $absolutePath; $platformPath : Text
+			var $absolutePath : Text
 			var $absoluteFolder; $app : 4D.Folder
 			
 			$absoluteFolder:=$baseFolder
@@ -258,7 +258,6 @@ Function _createStructure() : Boolean
 	
 	var $structureFolder; $librariesFolder : 4D.Folder
 	var $deletePaths : Collection
-	var $result : Boolean
 	
 	If (This._validInstance)
 		
