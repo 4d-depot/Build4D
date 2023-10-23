@@ -1,14 +1,31 @@
 {
-	".  compiler": {
-		"methods": [
-			"Compiler_Methods"
-		]
-	},
-	". . private classes": {
+	"____ test methods": {
 		"methods": [
 			"____test_client",
+			"____test_client_embedded",
+			"____test_component",
+			"____test_cs",
+			"____test_cs_embedded",
+			"____test_mac_win_client",
 			"____test_server"
-		],
+		]
+	},
+	". . public classes": {
+		"classes": [
+			"_core",
+			"Client",
+			"CompiledProject",
+			"Component",
+			"Server",
+			"Standalone"
+		]
+	},
+	". . test class": {
+		"classes": [
+			"CS"
+		]
+	},
+	".. settings private classes": {
 		"classes": [
 			"_clientApplication",
 			"_compilerOptions",
@@ -17,13 +34,10 @@
 			"_versioning"
 		]
 	},
-	"Default Folder": {
-		"groups": [
-			"Default Forms",
-			"Default Project Methods"
+	"...  compiler": {
+		"methods": [
+			"Compiler_Methods"
 		]
 	},
-	"Default Forms": {},
-	"Default Project Methods": {},
 	"trash": {}
 }

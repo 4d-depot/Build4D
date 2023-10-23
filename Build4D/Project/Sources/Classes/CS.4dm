@@ -8,8 +8,6 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	
 	This._mac:=cs.Client.new($macSettings)
 	
-	
-	//todo: check VD path
 	This._win:=cs.Client.new($winSettings)
 	
 	
@@ -40,36 +38,36 @@ Function show() : cs.CS
 	
 Function build() : Boolean
 	
-	var $mac; $win; $server : Object
+	var $mac; $win : Object
 	
-	TRACE
 	If (This._mac.build())
+		
 		$mac:=This._mac.build_archive()
 		
 		If ($mac.success)
 			
-			//$mac.application.delete(fk recursive)
 			This.server_settings.macOSClientArchive:=$mac.archive
+			
 		End if 
-		
 		
 	End if 
 	
 	
 	If (This._win.build())
+		
 		$win:=This._win.build_archive()
 		
 		If ($win.success)
 			
-			//$win.application.delete(fk recursive)
 			This.server_settings.windowsClientArchive:=$win.archive
 			
 		End if 
+		
 	End if 
-	
 	
 	
 	If (This._server.build())
 		
 		return True
+		
 	End if 

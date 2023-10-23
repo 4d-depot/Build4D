@@ -5,6 +5,7 @@ var $settings : Object
 var $success : Boolean
 var $infoFile : 4D.File
 var $infos : Object
+var $link : Text
 
 $link:=" (https://dev.azure.com/4dimension/4D/_workitems/edit/"+Substring(Current method name; Position("_TC"; Current method name)+3)+")"
 

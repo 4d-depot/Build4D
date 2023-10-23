@@ -737,10 +737,10 @@
 	},
 	"Server": {
 		"build()": {
-			"Syntax": "**.build**()->success : Boolean",
+			"Syntax": "**.build**() : Boolean",
 			"Params": [
 				[
-					"success",
+					"",
 					"Boolean",
 					"<-"
 				]

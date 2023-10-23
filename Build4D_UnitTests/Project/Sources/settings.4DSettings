@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="9">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="11">
 	<com.4d>
 		<compiler>
-			<options compilation_path="1" target="all"/>
+			<options compilation_path="1" error_file="true" symbol_file="true" target="all"/>
+			<typage default_for_button="2" default_for_numeric="1"/>
 		</compiler>
 		<general execute_host_database_event="true"/>
 	</com.4d>
