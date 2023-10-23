@@ -20,11 +20,11 @@ $win:={}
 
 // RUNTIMES
 
-$mac.sourceAppFolder:="/Applications/4D v20.1/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$mac.sourceAppFolder:="/Applications/4D v20.0/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
-$win.sourceAppFolder:="/Applications/4D v20.1/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
+$win.sourceAppFolder:="/Applications/4D v20.0/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
 
-$server.sourceAppFolder:="/Applications/4D v20.1/4D Server MAC/4D Server.app/"
+$server.sourceAppFolder:="/Applications/4D v20.0/4D Server MAC/4D Server.app/"
 
 // PATHS
 $server.deletePaths:=[]

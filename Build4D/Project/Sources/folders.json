@@ -1,11 +1,16 @@
 {
+	"____ franck": {
+		"methods": [
+			"____test_cs_embedded",
+			"____test_cs_versionning"
+		]
+	},
 	"____ test methods": {
 		"methods": [
 			"____test_client",
 			"____test_client_embedded",
 			"____test_component",
 			"____test_cs",
-			"____test_cs_embedded",
 			"____test_mac_win_client",
 			"____test_server"
 		]

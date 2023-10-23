@@ -321,7 +321,13 @@ $infos.OtherIconFolder": "DarkMode",
 			$infos.MacCertificate:=This.settings.signApplication.macCertificate
 			$infos.MacSignature:=This.settings.signApplication.macSignature
 			
-			$infos.macUpdate:="update.mac.4darchive"
+			If (OB Instance of(This.settings.macOSClientArchive; 4D.File))
+				$infos.macUpdate:="update.mac.4darchive"
+			End if 
+			
+			If (OB Instance of(This.settings.windowsClientArchive; 4D.File))
+				$infos.winUpdate:="update.win.4darchive"
+			End if 
 			
 			$infos["com.4D.HideDataExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
 			
