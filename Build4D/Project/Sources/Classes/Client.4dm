@@ -205,11 +205,12 @@ Function _setAppOptions() : Boolean
 			$identifier+="."+This.settings.buildName
 			$appInfo.CFBundleIdentifier:=$identifier
 			
-			$appInfo.serverSelectionAllowed:=This.settings.serverSelectionAllowed
+			$appInfo["com.4d.xxx.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
+			
 		Else 
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 			
-			$exeInfo.serverSelectionAllowed:=This.settings.serverSelectionAllowed
+			$exeInfo["com.4d.xxx.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 			
 			
 		End if 
