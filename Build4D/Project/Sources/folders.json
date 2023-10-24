@@ -12,7 +12,9 @@
 			"____test_component",
 			"____test_cs",
 			"____test_mac_win_client",
-			"____test_server"
+			"____test_mono",
+			"____test_server",
+			"____van_Client"
 		]
 	},
 	". . public classes": {

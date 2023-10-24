@@ -204,7 +204,7 @@ Function _setAppOptions() : Boolean
 			$identifier+="."+This.settings.buildName
 			$appInfo.CFBundleIdentifier:=$identifier
 			
-			$appInfo["com.4d.xxx.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
+			$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 			
 			
 			If (This.settings.clientUserPreferencesFolderByPath#Null)
@@ -219,7 +219,7 @@ Function _setAppOptions() : Boolean
 			
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 			
-			$exeInfo["com.4d.xxx.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
+			$exeInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 			
 			If (This.settings.clientUserPreferencesFolderByPath#Null)
 				$exeInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "true" : "false"
