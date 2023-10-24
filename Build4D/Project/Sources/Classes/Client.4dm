@@ -192,7 +192,6 @@ Function _setAppOptions() : Boolean
 	If ($infoFile.exists)
 		$appInfo:=New object(\
 			"com.4D.BuildApp.ReadOnlyApp"; "true"; \
-			"com.4D.BuildApp.LastDataPathLookup"; Choose((This.settings.lastDataPathLookup="ByAppName") | (This.settings.lastDataPathLookup="ByAppPath"); This.settings.lastDataPathLookup; "ByAppName"); \
 			"DataFileConversionMode"; "0"\
 			)
 		$appInfo.SDIRuntime:=((This.settings.useSDI#Null) && This.settings.useSDI) ? "1" : "0"
