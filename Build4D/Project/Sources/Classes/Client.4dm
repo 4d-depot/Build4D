@@ -92,11 +92,24 @@ Class constructor($customSettings : Object)
 	
 	
 	
+	//MARK:-
+	
+Function get publishName : Text
+	If (Value type(This.settings.publishName)=Is text)
+		return This.settings.publishName
+	Else 
+		return This.buildName
+	End if 
+	
+	
+	//MARK:-
 	
 Function is_mac_target : Boolean
 	
 	return Bool(This._target="mac")
 	
+	
+	//MARK:-
 	
 Function is_win_target : Boolean
 	
@@ -173,6 +186,7 @@ Function _renameExecutable() : Boolean
 	//Function _hasEmbedded : Boolean
 	
 	
+	//MARK:-
 Function _show() : cs.Client
 	
 	SHOW ON DISK(This.settings.destinationFolder.platformPath)
@@ -194,7 +208,28 @@ Function _setAppOptions() : Boolean
 			"com.4D.BuildApp.ReadOnlyApp"; "true"; \
 			"DataFileConversionMode"; "0"\
 			)
+		
+		$appInfo.BuildName:=This.settings.buildName
+		$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
+		
 		$appInfo.SDIRuntime:=((This.settings.useSDI#Null) && This.settings.useSDI) ? "1" : "0"
+		
+		$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
+		
+		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
+		$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
+		$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
+		
+		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
+		
+		If (This.settings.clientUserPreferencesFolderByPath#Null)
+			$appInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "true" : "false"
+		End if 
+		
+		If (This.settings.ClientServerSystemFolderName#Null)
+			$appInfo["BuildCacheFolderNameClient"]:=This.settings.ClientServerSystemFolderName
+		End if 
+		
 		
 		If (This.is_mac_target())
 			$appInfo.CFBundleName:=This.settings.buildName
@@ -204,17 +239,10 @@ Function _setAppOptions() : Boolean
 			$identifier+="."+This.settings.buildName
 			$appInfo.CFBundleIdentifier:=$identifier
 			
-			$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 			
-			$appInfo.hardLink:=This.settings.hardLink
+			//$appInfo.hardLink:=This.settings.hardLink
 			
-			If (This.settings.clientUserPreferencesFolderByPath#Null)
-				$appInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "true" : "false"
-			End if 
 			
-			If (This.settings.ClientServerSystemFolderName#Null)
-				$appInfo["BuildCacheFolderNameClient"]:=This.settings.ClientServerSystemFolderName
-			End if 
 			
 		Else 
 			
@@ -398,8 +426,6 @@ Function build() : Boolean
 	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
 	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
 	
-	//TODO: 
-	
 	
 	If (This._hasEmbeddedClient())
 		
@@ -409,7 +435,6 @@ Function build() : Boolean
 		$success:=($success) ? This._make4dLink() : False
 		
 	End if 
-	
 	
 	
 	If (Is macOS & This.is_mac_target())

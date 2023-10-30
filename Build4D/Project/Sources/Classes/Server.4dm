@@ -18,6 +18,10 @@ Class constructor($customSettings : Object)
 	
 	If (This._validInstance)
 		
+		If (Value type(This.settings.publishName)#Is text)
+			This.settings.publishName:=This.settings.buildName
+		End if 
+		
 		This.settings.buildName+=Is macOS ? " Server" : "Server"
 		
 		If (This._isDefaultDestinationFolder)
@@ -109,13 +113,24 @@ Class constructor($customSettings : Object)
 	End if 
 	
 	
+	//MARK:-
 	
+Function get publishName : Text
+	If (Value type(This.settings.publishName)=Is text)
+		return This.settings.publishName
+	Else 
+		
+		return This.buildName
+	End if 
+	
+	
+	//MARK:-
 Function is_mac_target : Boolean
 	
 	return (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists))
 	
 	
-	
+	//MARK:-
 Function is_win_target : Boolean
 	
 	return (This.settings.sourceAppFolder.file("4D Server.exe").exists)

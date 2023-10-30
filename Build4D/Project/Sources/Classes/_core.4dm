@@ -84,6 +84,13 @@ Class constructor($target : Text; $customSettings : Object)
 		
 	End if 
 	
+Function get buildName : Text
+	If (Value type(This.settings.buildName)=Is text)
+		return This.settings.buildName
+	Else 
+		return This._projectFile.name
+	End if 
+	
 	//MARK:-
 Function _overrideSettings($settings : Object)
 	

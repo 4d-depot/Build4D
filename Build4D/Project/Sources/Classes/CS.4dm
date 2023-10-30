@@ -5,12 +5,17 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	
 	
 	$macSettings.signApplication:=$serverSettings.signApplication
-	//$win.signApplication:=$signApplication
 	
 	$macSettings.hardLink:=$serverSettings.hardLink
 	$winSettings.hardLink:=$serverSettings.hardLink
 	
+	
 	This._server:=cs.Server.new($serverSettings)
+	
+	$macSettings.publishName:=This._server.publishName
+	$winSettings.publishName:=This._server.publishName
+	
+	
 	
 	This._mac:=cs.Client.new($macSettings)
 	
@@ -26,6 +31,9 @@ Function get valid : Boolean
 	$win_ok:=This._win._validInstance
 	
 	return $mac_ok & $win_ok & $server_ok
+	
+	//Function zip
+	
 	
 	
 	
