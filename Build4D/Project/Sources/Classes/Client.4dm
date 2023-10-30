@@ -206,6 +206,7 @@ Function _setAppOptions() : Boolean
 			
 			$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 			
+			$appInfo.hardLink:=This.settings.hardLink
 			
 			If (This.settings.clientUserPreferencesFolderByPath#Null)
 				$appInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "true" : "false"
@@ -219,6 +220,7 @@ Function _setAppOptions() : Boolean
 			
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 			
+			$exeInfo.hardLink:=This.settings.hardLink
 			$exeInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 			
 			If (This.settings.clientUserPreferencesFolderByPath#Null)
@@ -460,7 +462,7 @@ Function build() : Boolean
 		This._log(New object(\
 			"function"; "Build"; \
 			"message"; "Client application build successful."; \
-			"messageSeverity"; Information message))
+			"severity"; Information message))
 	End if 
 	
 	This._validInstance:=$success
@@ -474,11 +476,13 @@ Function buildArchive()->$result : Object
 	var $zip_archive : 4D.File
 	var $filename : Text
 	
+	$filename:=This.is_mac_target() ? "update.mac.4darchive" : "update.win.4darchive"
+	
 	$app_folder:=This.settings.destinationFolder
+	
 	
 	If ($app_folder.exists)
 		
-		$filename:=This.is_mac_target() ? "update.mac.4darchive" : "update.win.4darchive"
 		
 		$zip_archive:=$app_folder.parent.file($filename)
 		
@@ -495,7 +499,19 @@ Function buildArchive()->$result : Object
 		End if 
 		
 	Else 
-		$result:={success: False; statusText: "executable doesn't exist !"}
+		$result:={success: False; statusText: "folder doesn't exist: "+$app_folder.path}
+	End if 
+	
+	If ($result.success)
+		This._log(New object(\
+			"function"; "buildArchive"; \
+			"message"; "Client archive build successful."; \
+			"severity"; Information message))
+	Else 
+		This._log(New object(\
+			"function"; "buildArchive"; \
+			"message"; "Unable to build Client Archive: "+$result.statusText; \
+			"severity"; Error message))
 	End if 
 	
 	

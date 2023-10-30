@@ -4,6 +4,12 @@
 Class constructor($serverSettings : Object; $macSettings : Object; $winSettings : Object)
 	
 	
+	$macSettings.signApplication:=$serverSettings.signApplication
+	//$win.signApplication:=$signApplication
+	
+	$macSettings.hardLink:=$serverSettings.hardLink
+	$winSettings.hardLink:=$serverSettings.hardLink
+	
 	This._server:=cs.Server.new($serverSettings)
 	
 	This._mac:=cs.Client.new($macSettings)
@@ -39,6 +45,7 @@ Function show() : cs.CS
 Function build() : Boolean
 	
 	var $mac; $win : Object
+	
 	
 	If (This._mac.build())
 		
