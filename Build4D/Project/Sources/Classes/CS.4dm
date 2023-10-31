@@ -15,6 +15,20 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	$macSettings.publishName:=This._server.publishName
 	$winSettings.publishName:=This._server.publishName
 	
+	If (Value type($serverSettings.IPAddress)=Is text) && ($serverSettings.IPAddress#"")
+		
+		$macSettings.IPAddress:=$serverSettings.IPAddress
+		$winSettings.IPAddress:=$serverSettings.IPAddress
+		
+	End if 
+	
+	
+	If (Value type($serverSettings.portNumber)=Is real) && ($serverSettings.portNumber>0) && ($serverSettings.portNumber<32768)
+		
+		$macSettings.portNumber:=$serverSettings.portNumber
+		$winSettings.portNumber:=$serverSettings.portNumber
+		
+	End if 
 	
 	
 	This._mac:=cs.Client.new($macSettings)

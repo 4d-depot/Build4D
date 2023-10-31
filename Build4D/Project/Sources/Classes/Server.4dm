@@ -206,6 +206,10 @@ Function _setAppOptions() : Boolean
 			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=Value type(This.settings.hideAdministrationWindowMenuItem)=Is boolean ? This.settings.hideAdministrationWindowMenuItem : False
 			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=$appInfo["com.4D.HideAdministrationWindowMenuItem"] ? "true" : "false"
 			
+			//only on json file et 4D.link
+			//$appInfo.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
+			//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
+			
 			$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 			
 			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
@@ -273,8 +277,6 @@ Function build() : Boolean
 		var $jsonDebug : Text
 		
 		
-		
-		
 		$path:=This.settings.destinationFolder.path
 		
 		//todo: vérifier sur windows le chemin
@@ -309,10 +311,10 @@ Function build() : Boolean
 			$infos:={}
 			
 			$infos.BuildName:=This.settings.buildName
-			$infos.BuildIPAdress:=""
-			$infos.BuildIPPort:=19813
+			$infos.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
+			$infos.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 			$infos.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
-			$infos.BuildCreator:=Char(0)*4
+			//$infos.BuildCreator:=Char(0)*4
 			$infos.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
 			$infos.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
 			$infos.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
@@ -330,6 +332,8 @@ $infos.Icon": "DarkMode.icns",
 $infos.IconFolder": "DarkMode",
 $infos.OtherIcon": "DarkMode.icns",
 $infos.OtherIconFolder": "DarkMode",
+//$infos["com.4D.HideDataExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
+//$infos["com.4D.HideRuntimeExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
 			
 */
 			
@@ -344,9 +348,6 @@ $infos.OtherIconFolder": "DarkMode",
 				$infos.winUpdate:="update.win.4darchive"
 			End if 
 			
-			$infos["com.4D.HideDataExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
-			
-			$infos["com.4D.HideRuntimeExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
 			
 			$jsonDebug:=JSON Stringify($infos; *)
 			

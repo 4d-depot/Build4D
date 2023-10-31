@@ -204,6 +204,7 @@ Function _setAppOptions() : Boolean
 	$infoFile:=(This.is_mac_target()) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
 	
 	If ($infoFile.exists)
+		
 		$appInfo:=New object(\
 			"com.4D.BuildApp.ReadOnlyApp"; "true"; \
 			"DataFileConversionMode"; "0"\
@@ -216,13 +217,17 @@ Function _setAppOptions() : Boolean
 		
 		$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 		
+		//only on json file et 4D.link
+		//$appInfo.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
+		//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
+		
 		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
 		$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
 		$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
 		
 		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 		
-		If (This.settings.clientUserPreferencesFolderByPath#Null)
+		If (Value type(This.settings.clientUserPreferencesFolderByPath)=Is boolean)
 			$appInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "true" : "false"
 		End if 
 		
@@ -232,6 +237,7 @@ Function _setAppOptions() : Boolean
 		
 		
 		If (This.is_mac_target())
+			
 			$appInfo.CFBundleName:=This.settings.buildName
 			$appInfo.CFBundleDisplayName:=This.settings.buildName
 			$appInfo.CFBundleExecutable:=This.settings.buildName
@@ -239,25 +245,9 @@ Function _setAppOptions() : Boolean
 			$identifier+="."+This.settings.buildName
 			$appInfo.CFBundleIdentifier:=$identifier
 			
-			
-			//$appInfo.hardLink:=This.settings.hardLink
-			
-			
-			
 		Else 
 			
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
-			
-			$exeInfo.hardLink:=This.settings.hardLink
-			$exeInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
-			
-			If (This.settings.clientUserPreferencesFolderByPath#Null)
-				$exeInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "true" : "false"
-			End if 
-			
-			If (This.settings.ClientServerSystemFolderName#Null)
-				$exeInfo["BuildCacheFolderNameClient"]:=This.settings.ClientServerSystemFolderName
-			End if 
 			
 		End if 
 		
