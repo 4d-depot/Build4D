@@ -187,7 +187,7 @@ Function _setAppOptions() : Boolean
 			
 			$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
 			
-			$appInfo["4D_SingleInstance"]:=Value type(This.settings.singleInstance)=Is boolean ? Num(This.settings.singleInstance) : 1
+			$appInfo["4D_SingleInstance"]:="true"  //Value type(This.settings.singleInstance)=Is boolean ? Num(This.settings.singleInstance) : 1
 			
 			$appInfo["com.4d.dataCollection"]:=Value type(This.settings.serverDataCollection)=Is boolean ? This.settings.serverDataCollection : True
 			$appInfo["com.4d.dataCollection"]:=$appInfo["com.4d.dataCollection"] ? "true" : "false"
@@ -281,7 +281,7 @@ Function build() : Boolean
 		
 		//todo: vérifier sur windows le chemin
 		
-		$path+=(Is macOS) ? "Contents/Upgrade4DClient/" : ""
+		$path+=(Is macOS) ? "Contents/Upgrade4DClient/" : "Upgrade4DClient/"
 		
 		$Upgrade4DClient:=Folder($path; fk posix path)
 		
@@ -337,8 +337,23 @@ $infos.OtherIconFolder": "DarkMode",
 			
 */
 			
-			$infos.MacCertificate:=This.settings.signApplication.macCertificate
-			$infos.MacSignature:=This.settings.signApplication.macSignature
+			
+			Case of 
+					
+				: (This.settings.signApplication=Null)
+					
+				: (Bool(This.settings.signApplication.macSignature))
+					
+					$infos.MacCertificate:=This.settings.signApplication.macCertificate
+					$infos.MacSignature:=True
+					
+				Else 
+					
+					
+			End case 
+			
+			
+			
 			
 			If (OB Instance of(This.settings.macOSClientArchive; 4D.File))
 				$infos.macUpdate:="update.mac.4darchive"
@@ -351,7 +366,7 @@ $infos.OtherIconFolder": "DarkMode",
 			
 			$jsonDebug:=JSON Stringify($infos; *)
 			
-			$path:=$Upgrade4DClient.path+"/info.json"
+			$path:=$Upgrade4DClient.path+"info.json"  //#DD
 			
 			$infosFile:=File($path; fk posix path)
 			

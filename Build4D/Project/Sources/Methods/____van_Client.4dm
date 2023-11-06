@@ -22,14 +22,14 @@ $settings.rangeVersMin:=2
 $settings.rangeVersMax:=2
 
 // Define the 4D Volume Desktop path
-$settings.sourceAppFolder:="/Applications/4D v20.0/4D Volume Desktop MAC/4D Volume Desktop.app/"  //Folder(fk documents folder).folder("Boulot/4D v20.1/4D Volume Desktop.app")
+$settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"  //Folder(fk documents folder).folder("Boulot/4D v20.1/4D Volume Desktop.app")
 
 // Delete the unnecessary module 
 //$settings.excludeModules:=["CEF"; "MeCab"]
 
 // Include the folders and files
 var $componentsFolder : 4D.Folder
-$componentsFolder:=Folder(fk applications folder).folder("4D v20.0/4D.app/Contents/Components")
+$componentsFolder:=Folder(fk applications folder).folder("4D v20.1 HF1/4D.app/Contents/Components")
 $settings.includePaths:=[]
 $settings.includePaths.push({source: $componentsFolder.folder("4D WritePro Interface.4dbase").path; destination: "../Components/"})
 $settings.includePaths.push({source: $componentsFolder.folder("4D SVG.4dbase").path; destination: "../Components/"})

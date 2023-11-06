@@ -747,8 +747,19 @@
 			],
 			"Summary": ""
 		},
-		"is_win_target()": {
-			"Syntax": "**.is_win_target**() : Boolean",
+		"get publishName()": {
+			"Syntax": "**.get publishName**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"is_mac_target()": {
+			"Syntax": "**.is_mac_target**() : Boolean",
 			"Params": [
 				[
 					"",
@@ -758,8 +769,8 @@
 			],
 			"Summary": ""
 		},
-		"is_mac_target()": {
-			"Syntax": "**.is_mac_target**() : Boolean",
+		"is_win_target()": {
+			"Syntax": "**.is_win_target**() : Boolean",
 			"Params": [
 				[
 					"",
@@ -834,6 +845,17 @@
 			],
 			"Summary": ""
 		},
+		"is_mac_target()": {
+			"Syntax": "**.is_mac_target**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"is_win_target()": {
 			"Syntax": "**.is_win_target**() : Boolean",
 			"Params": [
@@ -845,12 +867,12 @@
 			],
 			"Summary": ""
 		},
-		"is_mac_target()": {
-			"Syntax": "**.is_mac_target**() : Boolean",
+		"get publishName()": {
+			"Syntax": "**.get publishName**() : Text",
 			"Params": [
 				[
 					"",
-					"Boolean",
+					"Text",
 					"<-"
 				]
 			],
@@ -901,6 +923,17 @@
 		"_inheritedFrom_": "_core"
 	},
 	"_core": {
+		"get buildName()": {
+			"Syntax": "**.get buildName**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"settings": {
 			"Syntax": "settings : Object"
 		},

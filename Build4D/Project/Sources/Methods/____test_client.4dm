@@ -43,13 +43,13 @@ $ws_settings.ClientServerSystemFolderName:="myBeautifullApp"
 
 $ws_settings["//target"]:="Client"
 
-$ws_settings.sourceAppFolder:="/Applications/4D v20.0/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$ws_settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
-$componentsFolder:=Folder(fk applications folder).folder("4D v20.0/4D.app/Contents/Components")
+//$componentsFolder:=Folder(fk applications folder).folder("4D v20.0/4D.app/Contents/Components")
 
-$ws_settings.includePaths:=[]
-$ws_settings.includePaths.push({source: $componentsFolder.folder("4D WritePro Interface.4dbase").path; destination: "../Components/"})
-$ws_settings.includePaths.push({source: $componentsFolder.folder("4D SVG.4dbase").path; destination: "../Components/"})
+//$ws_settings.includePaths:=[]
+//$ws_settings.includePaths.push({source: $componentsFolder.folder("4D WritePro Interface.4dbase").path; destination: "../Components/"})
+//$ws_settings.includePaths.push({source: $componentsFolder.folder("4D SVG.4dbase").path; destination: "../Components/"})
 
 
 

@@ -217,6 +217,9 @@ Function _setAppOptions() : Boolean
 		
 		$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 		
+		$appInfo["4D_SingleInstance"]:=Value type(This.settings.singleInstance)=Is boolean ? (This.settings.singleInstance ? "true" : "false") : "true"
+		
+		
 		//only on json file et 4D.link
 		//$appInfo.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
 		//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
@@ -224,6 +227,10 @@ Function _setAppOptions() : Boolean
 		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
 		$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
 		$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
+		
+		
+		//$appInfo.singleInstance:=Value type(This.settings.singleInstance)=Is boolean ? This.settings.singleInstance : True
+		
 		
 		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 		
@@ -460,7 +467,7 @@ Function buildArchive()->$result : Object
 		$zip_archive:=$app_folder.parent.file($filename)
 		
 		If ($zip_archive.exists)
-			$zip_archive.delete(fk recursive)
+			$zip_archive.delete()  //(fk recursive)
 		End if 
 		
 		$result:=ZIP Create archive($app_folder; $zip_archive; ZIP Without enclosing folder)

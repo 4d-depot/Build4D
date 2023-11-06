@@ -5,11 +5,11 @@
     "xmlKeyLicense":"/PACKAGE/Settings/4D-OEM XML KEY.license4D",
     
     "invalid_LicenseUUD":"/PACKAGE/Settings/invalid_4UUD.license4D",
-    "macVolumeDesktop":"/Applications/4D v20.0/4D Volume Desktop MAC/4D Volume Desktop.app/",
-    "winVolumeDesktop":"C:/Program Files/4D/4D v20.O/4D Volume Desktop WIN/",
+    "macVolumeDesktop":"/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/",
+    "winVolumeDesktop":"C:/Program Files/4D/4D v20.1 HF1/4D Volume Desktop WIN/",
     
-    "macServer":"/Applications/4D v20.0/4D Server MAC/4D Server.app/",
-    "winServer":"/Applications/4D v20.0/4D Server WIN/4D Server.app/",
+    "macServer":"/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app/",
+    "winServer":"/Applications/4D v20.1 HF1/4D Server WIN/4D Server.app/",
     "invalid_macVolumeDesktop":"/Applications/4D v0.0/4D Volume Desktop.app/",
     "invalid_winVolumeDesktop":"C:/Program Files/4D/4D v0.0/4D Volume Desktop/",
     "macCertificate":"Dominique Delahaye"

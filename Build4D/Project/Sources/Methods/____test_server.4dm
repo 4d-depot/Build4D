@@ -29,7 +29,7 @@ internalName: "4DC"; \
 rangeVersMin: 20; \
 rangeVersMax: 21; \
 currentVers: 20; \
-hardLink: "ø∞"; \
+hardLink: "toto"; \
 serverStructureFolderName: "app"\
 }
 

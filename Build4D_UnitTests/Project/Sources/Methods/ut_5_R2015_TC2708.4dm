@@ -28,7 +28,7 @@ $success:=$build.build()
 ASSERT($success; "(Current project) Compiled project build should success"+$link)
 
 If (Is macOS)
-	$buildClient:=$build.settings.destinationFolder.file("Contents/Database/EnginedServer.4Dlink")  //.file($build.settings.buildName+".4DZ")
+	$buildClient:=$build.settings.destinationFolder.file("Contents/Database/EnginedServer.4Dlink")
 Else 
 	// to validate on windows
 	$buildClient:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")

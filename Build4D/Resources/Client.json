@@ -11,16 +11,11 @@
     "currentVers":1,
     "hardLink":"",
     "excludeModule":[],
-    "includePaths":
-    [
-
-    ],
+    "includePaths":[],
     "deletePaths":[],
     "signApplication":{
         "macSignature":false,
         "macCertificate":"",
         "adHocSignature":true
-    }
-    
-    
+    } 
 }
