@@ -12,5 +12,7 @@
     "winServer":"/Applications/4D v20.1 HF1/4D Server WIN/4D Server.app/",
     "invalid_macVolumeDesktop":"/Applications/4D v0.0/4D Volume Desktop.app/",
     "invalid_winVolumeDesktop":"C:/Program Files/4D/4D v0.0/4D Volume Desktop/",
+    "invalid_macServer":"/Applications/4D v0.0/4D Server.app/",
+    "invalid_winServer":"C:/Program Files/4D/4D v0.0/4D Server/",
     "macCertificate":"Dominique Delahaye"
 }
