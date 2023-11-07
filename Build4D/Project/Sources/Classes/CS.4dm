@@ -27,11 +27,6 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 		
 	End if 
 	
-	
-	
-	
-	
-	
 	If (Value type($serverSettings.IPAddress)=Is text) && ($serverSettings.IPAddress#"")
 		
 		$macSettings.IPAddress:=$serverSettings.IPAddress
