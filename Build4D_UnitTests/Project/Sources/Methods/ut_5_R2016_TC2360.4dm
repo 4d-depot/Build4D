@@ -15,13 +15,18 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
+
+
 //$settings.license:=Storage.settings.licenseUUD
+
+// the goal : create a server application application with default name #2360
+
+
+
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
 $build:=cs.Build4D.Server.new($settings)
 
-$destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(Current project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 
 $success:=$build.build()
 
@@ -51,9 +56,6 @@ End if
 $settings.projectFile:=Storage.settings.externalProjectFile
 
 $build:=cs.Build4D.Server.new($settings)
-
-$destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 
 $success:=$build.build()
 
