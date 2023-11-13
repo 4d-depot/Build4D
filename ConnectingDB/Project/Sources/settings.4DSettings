@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="3">
+	<com.4d>
+		<compiler>
+			<options error_file="true" symbol_file="true" target="all"/>
+			<typage default_for_button="2"/>
+		</compiler>
+		<server>
+			<network>
+				<options publication_name="ConnectingDB"/>
+			</network>
+		</server>
+		<general startup_environnement="1"/>
+	</com.4d>
+</preferences>
