@@ -10,14 +10,13 @@ $link:=" (https://github.com/4d/4d/issues/"+Substring(Current method name; Posit
 
 logGitHubActions(Current method name)
 
+
 // MARK:- Current project
 
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 
-// the goal : destinationFolder is an object but not 4D.Folder instance
-$settings.destinationFolder:={path: "./Test/"}
-
+$settings.destinationFolder:="./Test/build/"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
@@ -25,7 +24,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(Current project) Invalid destinationFolder "+$link)
+ASSERT($success; "(Current project) Invalid destinationFolder "+$link)
 
 If ($success)
 	// Cleanup build folder
@@ -40,6 +39,7 @@ If ($success)
 	End if 
 End if 
 
+
 // MARK:- External project
 
 $settings.projectFile:=Storage.settings.externalProjectFile
@@ -48,7 +48,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(External project) Invalid destinationFolder "+$link)
+ASSERT($success; "(External project) Invalid destinationFolder "+$link)
 
 
 If ($success)

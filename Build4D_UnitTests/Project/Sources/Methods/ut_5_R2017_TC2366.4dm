@@ -15,17 +15,17 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 
-// the goal : destinationFolder is an object but not 4D.Folder instance
-$settings.destinationFolder:={path: "./Test/"}
+$settings.destinationFolder:="./Test/"
 
 
-$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
+// the goal :  define any wrong path of 4D Server application
+$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.invalid_macServer) : Folder(Storage.settings.invalid_winServer)
 
 $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(Current project) Invalid destinationFolder "+$link)
+ASSERT($success=False; "(Current project) Invalid 4D Server application path"+$link)
 
 If ($success)
 	// Cleanup build folder
@@ -48,7 +48,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(External project) Invalid destinationFolder "+$link)
+ASSERT($success=False; "(External project) Invalid 4D Server application path"+$link)
 
 
 If ($success)

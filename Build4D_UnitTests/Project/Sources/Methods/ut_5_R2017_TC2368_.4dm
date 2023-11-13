@@ -10,14 +10,14 @@ $link:=" (https://github.com/4d/4d/issues/"+Substring(Current method name; Posit
 
 logGitHubActions(Current method name)
 
+
 // MARK:- Current project
 
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 
-// the goal : destinationFolder is an object but not 4D.Folder instance
-$settings.destinationFolder:={path: "./Test/"}
 
+$settings.destinationFolder:="././Test/"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
@@ -39,6 +39,7 @@ If ($success)
 		
 	End if 
 End if 
+
 
 // MARK:- External project
 

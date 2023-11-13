@@ -16,8 +16,51 @@ $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
 //$settings.license:=Storage.settings.licenseUUD
-$settings.compilerOptions:=New object("targets"; New collection("x86_64_generic"; "arm64_macOS_lib"))  // Silicon compilation mandatory, else no code to sign, so can't check requested result
+
+If (Is macOS)
+	$settings.compilerOptions:=New object("targets"; New collection("x86_64_generic"; "arm64_macOS_lib"))  // Silicon compilation mandatory, else no code to sign, so can't check requested result
+Else 
+	$settings.compilerOptions:=New object("targets"; New collection("x86_64_generic"))
+End if 
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
 $build:=cs.Build4D.Server.new($settings)
+
+$success:=$build.build()
+
+ASSERT($success; "(Current project) Compiled project build should success"+$link)
+
+
+// Cleanup build folder
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
+End if 
+
+
+// MARK:- External project
+
+$settings.projectFile:=Storage.settings.externalProjectFile
+
+$build:=cs.Build4D.Server.new($settings)
+
+$success:=$build.build()
+
+ASSERT($success; "(External project) Compiled project build should success"+$link)
+
+// Cleanup build folder
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
+End if 
