@@ -12,8 +12,8 @@ var $componentsFolder : 4D.Folder
 $settings:={}
 
 //MANDATORY SETTINGS
-$settings.license:=File("/PACKAGE/Settings/4UUD.license4D")
-$settings.sourceAppFolder:="/Applications/4D v20.0/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$settings.license:=File("/PACKAGE/Settings/4UUD20x.license4D")
+$settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
 $settings.destinationFolder:="./Test/"
 
 // PATHS
