@@ -126,6 +126,14 @@ Function _overrideSettings($settings : Object)
 				End if 
 				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; This._currentProjectPackage)
 				
+			: ($entry.key="macCompiledProject")
+				If (Is Windows)
+					If (Value type($settings.macCompiledProject)=Is text)
+						$settings.macCompiledProject:=($settings.macCompiledProject="@/") ? $settings.macCompiledProject : $settings.macCompiledProject+"/"
+					End if 
+					This.settings.macCompiledProject:=This._resolvePath($settings.macCompiledProject; This._currentProjectPackage)
+				End if 
+				
 			Else 
 				This.settings[$entry.key]:=$entry.value
 		End case 

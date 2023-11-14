@@ -91,6 +91,9 @@ Class constructor($customSettings : Object)
 		
 		
 		
+		
+		
+		
 		If (This._validInstance)
 			This._log(New object(\
 				"function"; "Class constuctor"; \
@@ -364,7 +367,7 @@ $infos.OtherIconFolder": "DarkMode",
 			End if 
 			
 			
-			$jsonDebug:=JSON Stringify($infos; *)
+			//$jsonDebug:=JSON Stringify($infos; *)
 			
 			$path:=$Upgrade4DClient.path+"info.json"  //#DD
 			
@@ -379,19 +382,35 @@ $infos.OtherIconFolder": "DarkMode",
 			
 		End if 
 		
-	End if 
-	
-	
-	
-	If (This._hasLicenses())
+		//todo:activer la restriction de plateform
 		
-		$success:=($success) ? This._generateLicense() : False
+		Case of 
+			: (Is macOS)
+				
+			: (Is Windows)
+				
+				If (This.settings.macCompiledProject#Null)
+					// copier dans "server database" le dossier library
+					If (OB Instance of(This.settings.macCompiledProject; 4D.Folder))
+						This.settings.macCompiledProject.copyTo(This._structureFolder)
+					End if 
+				End if 
+				
+				
+		End case 
+		
+		If (This._hasLicenses())
+			
+			$success:=($success) ? This._generateLicense() : False
+			
+		End if 
+		
+		If (Is macOS)
+			$success:=($success) ? This._sign() : False
+		End if 
 		
 	End if 
 	
-	If (Is macOS)
-		$success:=($success) ? This._sign() : False
-	End if 
 	
 	If ($success)
 		This._log(New object(\

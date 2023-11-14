@@ -73,6 +73,15 @@ $server.signApplication:=$signApplication
 */
 
 
+//mark:- SILICON CODE INTO WINSERVER
+
+// copier dans "server database" le dossier library
+$server.macCompiledProject:=Folder(Folder("/PACKAGE/").platformPath; fk platform path).parent.folder("ConnectingDB_Build/ConnectingDB/Libraries/").path
+
+
+
+
+
 // Sign the macOS appplication 
 $server.signApplication:={}
 $server.signApplication.adHocSignature:=True

@@ -376,6 +376,7 @@ Function _hasEmbeddedClient : Boolean
 				
 				var $folder : 4D.Folder
 				var $file : 4D.File
+				
 				// may be test if the path is a 4DZ file :...
 				
 				If (This._structureFolder.exists)
