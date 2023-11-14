@@ -22,7 +22,7 @@ Class constructor($customSettings : Object)
 			This.settings.publishName:=This.settings.buildName
 		End if 
 		
-		//This.settings.buildName+=Is macOS ? " Server" : "Server"
+		//This.settings.buildName+=Is macOS ? " Server" : "Server" //nop
 		
 		If (This._isDefaultDestinationFolder)
 			This.settings.destinationFolder:=This.settings.destinationFolder.folder("Server/")
