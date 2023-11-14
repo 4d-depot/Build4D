@@ -224,9 +224,9 @@ Function _setAppOptions() : Boolean
 		//$appInfo.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
 		//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 		
-		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
-		$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
-		$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
+		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"
+		$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? String(This.settings.rangeVersMax) : "1"
+		$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? String(This.settings.currentVers) : "1"
 		
 		
 		//$appInfo.singleInstance:=Value type(This.settings.singleInstance)=Is boolean ? This.settings.singleInstance : True

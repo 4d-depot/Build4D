@@ -212,9 +212,9 @@ Function _setAppOptions() : Boolean
 			
 			$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 			
-			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
-			$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
-			$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
+			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"
+			$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? String(This.settings.rangeVersMax) : "1"
+			$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? String(This.settings.currentVers) : "1"
 			
 			// clefs specifiques si target windows
 			
@@ -315,9 +315,9 @@ Function build() : Boolean
 			$infos.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 			$infos.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 			//$infos.BuildCreator:=Char(0)*4
-			$infos.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? Int(This.settings.rangeVersMin) : 1
-			$infos.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? Int(This.settings.rangeVersMax) : 1
-			$infos.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? Int(This.settings.currentVers) : 1
+			$infos.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"
+			$infos.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? String(This.settings.rangeVersMax) : "1"
+			$infos.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? String(This.settings.currentVers) : "1"
 			$infos.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
 			
 			If (This.is_mac_target())
