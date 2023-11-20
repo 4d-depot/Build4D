@@ -6,12 +6,13 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	
 	This._server:=cs.Server.new($serverSettings)
 	
+	$serverSettings:=This._server.settings
 	
 	If ($macSettings#Null)
 		$macSettings.signApplication:=OB Copy($serverSettings.signApplication)
 		
 		
-		$macSettings.destinationFolder:=$serverSettings.destinationFolder+"Client/mac/"
+		$macSettings.destinationFolder:=$serverSettings.destinationFolder.path+"Client/mac/"
 		
 		$macSettings.hardLink:=$serverSettings.hardLink
 		
@@ -19,7 +20,7 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	End if 
 	
 	If ($winSettings#Null)
-		$winSettings.destinationFolder:=$serverSettings.destinationFolder+"Client/win/"  // update 
+		$winSettings.destinationFolder:=$serverSettings.destinationFolder.path+"Client/win/"  // update 
 		
 		$winSettings.hardLink:=$serverSettings.hardLink
 		
@@ -68,7 +69,26 @@ Function get valid : Boolean
 Function get server_settings : Object
 	return This._server.settings
 	
+	//MARK:-
 	
+	
+Function _buildZip()->$result : Object
+	
+	$result:={}
+	
+	If (This._server._validInstance)
+		$result.server:=This._server._buildZip()
+		
+	End if 
+	
+	If (This._mac._validInstance)
+		$result.mac:=This._mac._buildZip()
+	End if 
+	
+	
+	If (This._win._validInstance)
+		$result.win:=This._win._buildZip()
+	End if 
 	
 Function show() : cs.CS
 	

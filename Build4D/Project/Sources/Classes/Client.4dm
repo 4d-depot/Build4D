@@ -469,7 +469,7 @@ Function build() : Boolean
 	
 	return $success
 	
-Function buildZip()->$result : Object
+Function _buildZip()->$result : Object
 	
 	var $app_folder : 4D.Folder
 	var $zip_archive : 4D.File

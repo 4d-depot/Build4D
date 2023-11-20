@@ -8,6 +8,8 @@ var $server : Object
 var $mac : Object
 var $win : Object
 
+var $zips : Object
+
 var $signApplication : Object
 
 
@@ -56,6 +58,9 @@ If ($cs.build())
 	
 	
 	$cs.show()
+	
+	$zips:=$cs._buildZip()
+	
 	
 	
 End if 

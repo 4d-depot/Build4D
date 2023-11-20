@@ -7,6 +7,7 @@ var $cs : cs.CS
 var $server : Object
 var $mac : Object
 var $win : Object
+var $zips : Object
 
 var $signApplication : Object
 
@@ -22,11 +23,11 @@ macSignature: True; \
 macCertificate: "Dominique Delahaye"\
 }
 
-$mac.sourceAppFolder:="/Applications/4D v20.1/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$mac.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
-$win.sourceAppFolder:="/Applications/4D v20.1/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
+$win.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
 
-$server.sourceAppFolder:="/Applications/4D v20.1/4D Server MAC/4D Server.app/"
+$server.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app/"
 
 
 $server.deletePaths:=[]
@@ -50,6 +51,9 @@ If ($cs.build())
 	
 	
 	$cs.show()
+	
+	$zips:=$cs._buildZip()
+	
 	
 	
 End if 
