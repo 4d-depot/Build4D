@@ -217,7 +217,7 @@ Function _setAppOptions() : Boolean
 		
 		$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 		
-		$appInfo["4D_SingleInstance"]:=Value type(This.settings.singleInstance)=Is boolean ? (This.settings.singleInstance ? "true" : "false") : "true"
+		$appInfo["4D_SingleInstance"]:=Value type(This.settings.singleInstance)=Is boolean ? (This.settings.singleInstance ? "1" : "0") : "1"
 		
 		
 		//only on json file et 4D.link
@@ -231,6 +231,17 @@ Function _setAppOptions() : Boolean
 		
 		//$appInfo.singleInstance:=Value type(This.settings.singleInstance)=Is boolean ? This.settings.singleInstance : True
 		
+		//$appInfo.shareLocalResourcesOnWindowsClient:="True"  //#3940
+		
+		If (This.settings.databaseToEmbedInClient#Null)
+			//#3763
+			OB REMOVE($appInfo; "PublishName")
+			
+			//$appInfo.PublishName:=""
+			$appInfo["com.4d.BuildApp.dataless"]:="true"
+			$appInfo["4D_MultipleClient"]:="0"
+			$appInfo.RemoteSharedResources:="false"
+		End if 
 		
 		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 		
@@ -239,7 +250,9 @@ Function _setAppOptions() : Boolean
 		End if 
 		
 		If (This.settings.ClientServerSystemFolderName#Null)
-			$appInfo["BuildCacheFolderNameClient"]:=This.settings.ClientServerSystemFolderName
+			$appInfo.BuildCacheFolderNameClient:=This.settings.ClientServerSystemFolderName
+		Else 
+			$appInfo.BuildCacheFolderNameClient:=""
 		End if 
 		
 		
@@ -361,7 +374,7 @@ Function _setAppOptions() : Boolean
 	
 	//MARK:-
 	
-Function _hasEmbeddedClient : Boolean
+Function _hasEmbeddedClient : Boolean  //#3917
 	
 	var $path : Object
 	
@@ -375,7 +388,7 @@ Function _hasEmbeddedClient : Boolean
 			Else 
 				
 				var $folder : 4D.Folder
-				var $file : 4D.File
+				var $file; $fileCopied : 4D.File
 				
 				// may be test if the path is a 4DZ file :...
 				
@@ -395,7 +408,12 @@ Function _hasEmbeddedClient : Boolean
 				
 				For each ($file; $path.parent.files())
 					
-					$file.copyTo(This._structureFolder)
+					$fileCopied:=$file.copyTo(This._structureFolder)
+					
+					If ($file.extension=".4DZ")
+						$file:=$fileCopied.rename(This.settings.buildName+$file.extension)
+					End if 
+					
 					
 				End for each 
 				
@@ -449,6 +467,34 @@ Function build() : Boolean
 	This._validInstance:=$success
 	
 	return $success
+	
+Function buildZip()->$result : Object
+	
+	var $app_folder : 4D.Folder
+	var $zip_archive : 4D.File
+	var $filename : Text
+	
+	$filename:=This.settings.buildName+(This.is_mac_target() ? "-mac.zip" : "-win.zip")
+	$app_folder:=This.settings.destinationFolder
+	
+	If ($app_folder.exists)
+		
+		$zip_archive:=$app_folder.parent.file($filename)
+		
+		If ($zip_archive.exists)
+			$zip_archive.delete()  //(fk recursive)
+		End if 
+		
+		$result:=ZIP Create archive($app_folder; $zip_archive; ZIP Without enclosing folder)
+		If ($result.success)
+			
+			$result.archive:=$zip_archive
+			$result.application:=$app_folder
+			
+		End if 
+	Else 
+		$result:={success: False; statusText: "folder doesn't exist: "+$app_folder.path}
+	End if 
 	
 	
 Function buildArchive()->$result : Object

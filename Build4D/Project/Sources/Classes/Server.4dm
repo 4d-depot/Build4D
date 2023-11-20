@@ -190,7 +190,7 @@ Function _setAppOptions() : Boolean
 			
 			$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
 			
-			$appInfo["4D_SingleInstance"]:="true"  //Value type(This.settings.singleInstance)=Is boolean ? Num(This.settings.singleInstance) : 1
+			$appInfo["4D_SingleInstance"]:="1"  //Value type(This.settings.singleInstance)=Is boolean ? string(Num(This.settings.singleInstance)) : "1"
 			
 			$appInfo["com.4d.dataCollection"]:=Value type(This.settings.serverDataCollection)=Is boolean ? This.settings.serverDataCollection : True
 			$appInfo["com.4d.dataCollection"]:=$appInfo["com.4d.dataCollection"] ? "true" : "false"
