@@ -39,7 +39,7 @@ adHocSignature: True\
 $ws_settings.serverSelectionAllowed:=True
 
 $ws_settings.clientUserPreferencesFolderByPath:=True
-$ws_settings.ClientServerSystemFolderName:="myBeautifullApp"
+$ws_settings.clientServerSystemFolderName:="myBeautifullApp"
 
 $ws_settings["//target"]:="Client"
 

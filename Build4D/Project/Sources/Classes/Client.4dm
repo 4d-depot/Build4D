@@ -206,9 +206,9 @@ Function _setAppOptions() : Boolean
 	If ($infoFile.exists)
 		
 		$appInfo:=New object(\
-			"com.4D.BuildApp.ReadOnlyApp"; "true"; \
-			"DataFileConversionMode"; "0"\
-			)
+			"com.4D.BuildApp.ReadOnlyApp"; "true")
+		
+		
 		
 		$appInfo.BuildName:=This.settings.buildName
 		$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
@@ -231,26 +231,27 @@ Function _setAppOptions() : Boolean
 		
 		//$appInfo.singleInstance:=Value type(This.settings.singleInstance)=Is boolean ? This.settings.singleInstance : True
 		
+		$appInfo.RemoteSharedResources:="false"
+		
+		
 		//$appInfo.shareLocalResourcesOnWindowsClient:="True"  //#3940
 		
-		If (This.settings.databaseToEmbedInClient#Null)
-			//#3763
+		If (This.settings.databaseToEmbedInClient#Null)  //#3763
 			OB REMOVE($appInfo; "PublishName")
 			
-			//$appInfo.PublishName:=""
 			$appInfo["com.4d.BuildApp.dataless"]:="true"
-			$appInfo["4D_MultipleClient"]:="0"
-			$appInfo.RemoteSharedResources:="false"
 		End if 
 		
 		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
 		
-		If (Value type(This.settings.clientUserPreferencesFolderByPath)=Is boolean)
-			$appInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "true" : "false"
+		If (Value type(This.settings.clientUserPreferencesFolderByPath)=Is boolean)  //#3939
+			
+			$appInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "1" : "0"
+			
 		End if 
 		
-		If (This.settings.ClientServerSystemFolderName#Null)
-			$appInfo.BuildCacheFolderNameClient:=This.settings.ClientServerSystemFolderName
+		If (This.settings.clientServerSystemFolderName#Null)
+			$appInfo.BuildCacheFolderNameClient:=This.settings.clientServerSystemFolderName
 		Else 
 			$appInfo.BuildCacheFolderNameClient:=""
 		End if 
