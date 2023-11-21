@@ -9,10 +9,12 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	$serverSettings:=This._server.settings
 	
 	If ($macSettings#Null)
-		$macSettings.signApplication:=OB Copy($serverSettings.signApplication)
 		
+		If ($serverSettings.signApplication#Null)
+			$macSettings.signApplication:=OB Copy($serverSettings.signApplication)
+		End if 
 		
-		$macSettings.destinationFolder:=$serverSettings.destinationFolder.path+"Client/mac/"
+		$macSettings.destinationFolder:=$serverSettings.destinationFolder.parent.parent.path+"Client/mac/"
 		
 		$macSettings.hardLink:=$serverSettings.hardLink
 		
@@ -20,7 +22,8 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	End if 
 	
 	If ($winSettings#Null)
-		$winSettings.destinationFolder:=$serverSettings.destinationFolder.path+"Client/win/"  // update 
+		
+		$winSettings.destinationFolder:=$serverSettings.destinationFolder.parent.parent.path+"Client/win/"  // update 
 		
 		$winSettings.hardLink:=$serverSettings.hardLink
 		

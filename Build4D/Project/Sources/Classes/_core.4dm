@@ -179,12 +179,51 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 							
 						Else   // Absolute path or baseFolder subpath
 							
-							var $pathExists : Boolean
-							$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
-							$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
-							If (Test path name(Convert path POSIX to system($absolutePath))<0)
-								TRACE
-							End if 
+							
+							//var $_path; $_base : Collection
+							
+							//$_base:=($baseFolder=Null) ? [] : Split string($baseFolder.path; "/")  //; sk ignore empty strings)
+							
+							//$_path:=Split string($path; "/")  //; sk ignore empty strings)
+							
+							//$_base.shift()  // remove first empty cell
+							//$_path.shift()  // remove first empty cell
+							
+							
+							Case of 
+								: (Folder($path; *).exists)
+									
+									$absolutePath:=Folder(Folder($path; *).platformPath; fk platform path).path
+									
+								: ($path="@/")
+									
+									$absolutePath:=Folder(Folder($path; *).platformPath; fk platform path).path
+									
+								: (File($path; *).exists)
+									
+									$absolutePath:=File(File($path; *).platformPath; fk platform path).path
+									
+								Else 
+									
+									// nous ne devrions plus jamais se trouver dans ce cas là
+									
+									var $pathExists : Boolean
+									
+									$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
+									$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
+									
+									If (Test path name(Convert path POSIX to system($absolutePath))<0)
+										TRACE
+									End if 
+									
+									
+							End case 
+							
+							
+							
+							
+							
+							
 					End case 
 					
 			End case 

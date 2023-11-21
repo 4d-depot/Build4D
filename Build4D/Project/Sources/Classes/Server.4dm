@@ -308,7 +308,7 @@ Function _buildZip()->$result : Object
 	var $zip_archive : 4D.File
 	var $filename : Text
 	
-	$filename:=This.settings.buildName+(This.is_mac_target() ? "-mac.zip" : "-win.zip")
+	$filename:=This.settings.buildName+(This.is_mac_target() ? "-server-mac.zip" : "-server-win.zip")
 	$app_folder:=This.settings.destinationFolder
 	
 	If ($app_folder.exists)

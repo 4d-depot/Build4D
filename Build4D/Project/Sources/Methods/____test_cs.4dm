@@ -18,10 +18,6 @@ $win:={}
 
 
 
-$signApplication:={\
-macSignature: True; \
-macCertificate: "Dominique Delahaye"\
-}
 
 $mac.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
@@ -30,20 +26,13 @@ $win.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop WIN/"  //4D 
 $server.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app/"
 
 
-$server.deletePaths:=[]
-$server.deletePaths.push("../Components/4D SVG.4dbase")
 
-$mac.deletePaths:=[]
-$mac.deletePaths.push("../Components/4D SVG.4dbase")
+//mark:-  SIGNATURE
 
-$win.deletePaths:=[]
-$win.deletePaths.push("../Components/4D SVG.4dbase")
+// Sign the macOS appplication 
+$server.signApplication:={}
+$server.signApplication.adHocSignature:=True
 
-
-
-$server.signApplication:=$signApplication
-$mac.signApplication:=$signApplication
-$win.signApplication:=$signApplication  // juste pour tester l'impact
 
 $cs:=cs.CS.new($server; $mac; $win)
 
