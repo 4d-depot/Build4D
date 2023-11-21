@@ -40,7 +40,7 @@ Class constructor($target : Text; $customSettings : Object)
 	End if 
 	This._isDefaultDestinationFolder:=False
 	
-	$settings:=($customSettings#Null) ? $customSettings : New object()
+	$settings:=($customSettings#Null) ? $customSettings : {}
 	
 	This._validInstance:=True
 	This._isCurrentProject:=True
@@ -127,12 +127,11 @@ Function _overrideSettings($settings : Object)
 				This.settings.sourceAppFolder:=This._resolvePath($settings.sourceAppFolder; This._currentProjectPackage)
 				
 			: ($entry.key="macCompiledProject")
-				If (Is Windows)
-					If (Value type($settings.macCompiledProject)=Is text)
-						$settings.macCompiledProject:=($settings.macCompiledProject="@/") ? $settings.macCompiledProject : $settings.macCompiledProject+"/"
-					End if 
-					This.settings.macCompiledProject:=This._resolvePath($settings.macCompiledProject; This._currentProjectPackage)
+				If (Value type($settings.macCompiledProject)=Is text)
+					$settings.macCompiledProject:=($settings.macCompiledProject="@/") ? $settings.macCompiledProject : $settings.macCompiledProject+"/"
 				End if 
+				This.settings.macCompiledProject:=This._resolvePath($settings.macCompiledProject; This._currentProjectPackage)
+				
 				
 			Else 
 				This.settings[$entry.key]:=$entry.value
@@ -183,6 +182,9 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 							var $pathExists : Boolean
 							$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
 							$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
+							If (Test path name(Convert path POSIX to system($absolutePath))<0)
+								TRACE
+							End if 
 					End case 
 					
 			End case 

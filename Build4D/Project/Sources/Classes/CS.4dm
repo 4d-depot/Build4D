@@ -137,20 +137,40 @@ Function _build_win : Boolean
 	
 Function build() : Boolean
 	
-	var $mac; $win : Object
+	var $abort : Boolean
+	
+	Case of 
+			
+		: (This._mac=Null)
+			
+		: (This._build_mac())
+			
+		Else 
+			$abort:=True
+	End case 
 	
 	
-	If (This._build_mac())
-		
-	End if 
+	Case of 
+			
+		: ($abort)
+			
+		: (This._win=Null)
+			
+		: (This._build_win())
+			
+		Else 
+			$abort:=True
+			
+	End case 
 	
-	If (This._build_win())
-		
-	End if 
-	
-	
-	If (This._server.build())
-		
-		return True
-		
-	End if 
+	Case of 
+			
+		: ($abort)
+			
+		: (This._server=Null)
+			
+		: (This._server.build())
+			
+			return True
+			
+	End case 

@@ -64,25 +64,7 @@ $server.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app
 
 
 //mark:-  SIGNATURE
-/*
-$signApplication:={\
-macSignature: True; \
-macCertificate: "Dominique Delahaye"\
-}
-$server.signApplication:=$signApplication
-*/
 
-
-//mark:- SILICON CODE INTO WINSERVER
-
-// copier dans "server database" le dossier library
-$server.macCompiledProject:=Folder(Folder("/PACKAGE/").platformPath; fk platform path).parent.folder("ConnectingDB_Build/ConnectingDB/Libraries/").path
-
-
-
-
-
-// Sign the macOS appplication 
 $server.signApplication:={}
 $server.signApplication.adHocSignature:=True
 

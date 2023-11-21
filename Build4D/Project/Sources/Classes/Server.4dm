@@ -11,7 +11,11 @@ Class constructor($customSettings : Object)
 		$sourceAppInfo : Object
 	
 	var \
-		$fileCheck : Boolean
+		$librariesFolder : 4D.Folder
+	
+	var \
+		$fileCheck; \
+		$is_conform : Boolean
 	
 	Super("Server"; $customSettings)
 	
@@ -90,7 +94,54 @@ Class constructor($customSettings : Object)
 		End if 
 		
 		
-		
+		//mark:- requirement #2061
+		If (This._validInstance)
+			
+			If (This.is_win_target())
+				
+				If (OB Instance of(This.settings.macCompiledProject; 4D.Folder))
+					
+					
+					$librariesFolder:=This.settings.macCompiledProject.folder("Libraries")
+					
+					Case of 
+							
+						: (This.settings.macCompiledProject.exists=False)
+							This._log(New object(\
+								"function"; "Class constuctor"; \
+								"message"; "macCompiledProject don't exist."; \
+								"severity"; Error message))
+							
+							
+						: (This.settings.macCompiledProject.file(This.settings.buildName+".4DZ").exists=False)
+							This._log(New object(\
+								"function"; "Class constuctor"; \
+								"message"; "macCompiledProject 4DZ not found."; \
+								"severity"; Error message))
+							
+							
+						: ($librariesFolder.exists=False)
+							This._log(New object(\
+								"function"; "Class constuctor"; \
+								"message"; "macCompiledProject Libraries folder don't exist."; \
+								"severity"; Error message))
+							
+						: ($librariesFolder.file("lib4d-arm64.dylib").exists=False)
+							This._log(New object(\
+								"function"; "Class constuctor"; \
+								"message"; "macCompiledProject lib4d-arm64.dylib in Libraries folder not found."; \
+								"severity"; Error message))
+							
+						Else 
+							$is_conform:=True
+					End case 
+					
+					This._validInstance:=$is_conform
+					
+				End if 
+			End if 
+			
+		End if 
 		
 		
 		
@@ -301,13 +352,11 @@ Function build() : Boolean
 	
 	If ($success)
 		
-		var $Upgrade4DClient : 4D.Folder
-		var $path : Text
+		var $Upgrade4DClient; $libraries_folder : 4D.Folder
+		var $4DZ; $infosFile : 4D.File
+		var $path; $jsonDebug : Text
 		var $hasClients : Boolean
 		var $infos : Object
-		var $infosFile : 4D.File
-		var $jsonDebug : Text
-		
 		
 		$path:=This.settings.destinationFolder.path
 		
@@ -395,10 +444,7 @@ $infos.OtherIconFolder": "DarkMode",
 				$infos.winUpdate:="update.win.4darchive"
 			End if 
 			
-			
-			//$jsonDebug:=JSON Stringify($infos; *)
-			
-			$path:=$Upgrade4DClient.path+"info.json"  //#DD
+			$path:=$Upgrade4DClient.path+"info.json"
 			
 			$infosFile:=File($path; fk posix path)
 			
@@ -411,22 +457,40 @@ $infos.OtherIconFolder": "DarkMode",
 			
 		End if 
 		
-		//todo:activer la restriction de plateform
+		//mark:- #2061
 		
-		Case of 
-			: (Is macOS)
+		If (Is Windows)
+			
+			If (This.settings.macCompiledProject#Null)
 				
-			: (Is Windows)
-				
-				If (This.settings.macCompiledProject#Null)
-					// copier dans "server database" le dossier library
-					If (OB Instance of(This.settings.macCompiledProject; 4D.Folder))
-						This.settings.macCompiledProject.copyTo(This._structureFolder)
+				If (OB Instance of(This.settings.macCompiledProject; 4D.Folder))
+					
+					$4DZ:=This._structureFolder.file(This.settings.buildName+".4DZ")
+					
+					If ($4DZ.exists)
+						$4DZ.delete()
 					End if 
+					
+					$4DZ:=This.settings.macCompiledProject.file(This.settings.buildName+".4DZ")
+					
+					$4DZ.copyTo(This._structureFolder; fk overwrite)
+					
+					//----
+					
+					$libraries_folder:=This._structureFolder.folder("Libraries")
+					
+					If ($libraries_folder.exists)
+						$libraries_folder.delete(fk recursive)
+					End if 
+					$libraries_folder:=This.settings.macCompiledProject.folder("Libraries"; fk overwrite)
+					
+					$libraries_folder.copyTo(This._structureFolder)
+					
 				End if 
 				
-				
-		End case 
+			End if 
+			
+		End if 
 		
 		If (This._hasLicenses())
 			

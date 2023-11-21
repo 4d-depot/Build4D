@@ -2,6 +2,7 @@
 	"____ franck": {
 		"methods": [
 			"____test_cs_embedded",
+			"____test_cs_silicon_on_win",
 			"____test_cs_versionning"
 		]
 	},
@@ -28,18 +29,18 @@
 			"Standalone"
 		]
 	},
-	". . test class": {
-		"classes": [
-			"CS"
-		]
-	},
-	".. settings private classes": {
+	". . settings private classes": {
 		"classes": [
 			"_clientApplication",
 			"_compilerOptions",
 			"_settings",
 			"_signApplication",
 			"_versioning"
+		]
+	},
+	". . test class": {
+		"classes": [
+			"CS"
 		]
 	},
 	"...  compiler": {
