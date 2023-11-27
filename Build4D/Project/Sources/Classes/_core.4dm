@@ -213,16 +213,16 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 									$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
 									
 									If (Test path name(Convert path POSIX to system($absolutePath))<0)
-										TRACE
+										This._validInstance:=False
+										This._log(New object(\
+											"function"; "Resolve path"; \
+											"message"; "Path resolution could not be done"; \
+											"severity"; Error message); \
+											"path"; $path)
+										
 									End if 
 									
-									
 							End case 
-							
-							
-							
-							
-							
 							
 					End case 
 					
@@ -352,6 +352,7 @@ Function _createStructure() : Boolean
 Function _includePaths($pathsObj : Collection) : Boolean
 	
 	var $pathObj; $sourcePath; $destinationPath : Object
+	var $is_string_path : Boolean
 	
 	If (($pathsObj#Null) && ($pathsObj.length>0))
 		For each ($pathObj; $pathsObj)
@@ -377,7 +378,16 @@ Function _includePaths($pathsObj : Collection) : Boolean
 			If (Undefined($pathObj.destination))
 				$destinationPath:=This._structureFolder
 			Else 
-				If ((Value type($pathObj.destination)=Is text) || (OB Instance of($pathObj.destination; 4D.Folder)))
+				
+				$is_string_path:=(Value type($pathObj.destination)=Is text)
+				If ($is_string_path || (OB Instance of($pathObj.destination; 4D.Folder)))
+					
+					If ($is_string_path)
+						If ($pathObj.destination#"@/")
+							$pathObj.destination+="/"
+						End if 
+					End if 
+					
 					$destinationPath:=This._resolvePath($pathObj.destination; This._structureFolder)
 				Else 
 					This._log(New object(\

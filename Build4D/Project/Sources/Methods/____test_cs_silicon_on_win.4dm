@@ -19,12 +19,9 @@ $server.destinationFolder:="../Test/Dominique/"
 
 //mark:-  RUNTIMES
 
-$win.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
+//$win.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
 
-$server.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app/"
-
-
-
+$server.sourceAppFolder:="/Applications/4D v20.2/4D Server MAC/4D Server.app/"
 
 
 //mark:- SILICON CODE INTO WINSERVER  requirement #2061
