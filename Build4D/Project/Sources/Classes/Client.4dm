@@ -141,6 +141,21 @@ Function _make4dLink() : Boolean
 		"server_database_name"; This.settings.buildName; \
 		"server_path"; ":"+String(This.settings.portNumber))
 	
+	
+	//#2091
+	Case of 
+		: (This.settings.clientServerSystemFolderName=Null)
+		: (Value type(This.settings.clientServerSystemFolderName)#Is text)
+		: (Bool(This.settings.clientServerSystemFolderName=""))
+			
+			
+		Else 
+			
+			DOM SET XML ATTRIBUTE($xml; "cache_folder_name"; This.settings.clientServerSystemFolderName)  //#4118
+			
+	End case 
+	
+	
 	DOM EXPORT TO VAR($xml; $text)
 	DOM CLOSE XML($xml)
 	

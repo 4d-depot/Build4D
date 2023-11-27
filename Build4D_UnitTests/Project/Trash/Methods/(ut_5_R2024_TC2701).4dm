@@ -59,7 +59,6 @@ End if
 
 // Cleanup build folder
 If ($success)
-	
 	If (Is macOS)
 		
 		$build.settings.destinationFolder.parent.delete(fk recursive)
@@ -69,7 +68,6 @@ If ($success)
 		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 		
 	End if 
-	
 End if 
 
 
