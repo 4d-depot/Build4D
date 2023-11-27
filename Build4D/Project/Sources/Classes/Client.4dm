@@ -243,13 +243,13 @@ Function _setAppOptions() : Boolean
 		
 		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"  // #2080
 		
-		If (Value type(This.settings.clientUserPreferencesFolderByPath)=Is boolean)  //#3939
+		If (Value type(This.settings.clientUserPreferencesFolderByPath)=Is boolean)  //#2088  #3939
 			
 			$appInfo["4D_MultipleClient"]:=This.settings.clientUserPreferencesFolderByPath ? "1" : "0"
 			
 		End if 
 		
-		If (This.settings.clientServerSystemFolderName#Null)
+		If (This.settings.clientServerSystemFolderName#Null)  //#2087
 			$appInfo.BuildCacheFolderNameClient:=This.settings.clientServerSystemFolderName
 		Else 
 			$appInfo.BuildCacheFolderNameClient:=""
