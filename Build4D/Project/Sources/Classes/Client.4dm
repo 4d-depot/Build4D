@@ -234,7 +234,6 @@ Function _setAppOptions() : Boolean
 		$appInfo.RemoteSharedResources:="false"
 		
 		
-		//$appInfo.shareLocalResourcesOnWindowsClient:="True"  //#3940
 		
 		If (This.settings.databaseToEmbedInClient#Null)  //#3763
 			OB REMOVE($appInfo; "PublishName")
@@ -242,7 +241,7 @@ Function _setAppOptions() : Boolean
 			$appInfo["com.4d.BuildApp.dataless"]:="true"
 		End if 
 		
-		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"
+		$appInfo["com.4D.BuildApp.ServerSelectionAllowed"]:=This.settings.serverSelectionAllowed ? "true" : "false"  // #2080
 		
 		If (Value type(This.settings.clientUserPreferencesFolderByPath)=Is boolean)  //#3939
 			
@@ -256,8 +255,10 @@ Function _setAppOptions() : Boolean
 			$appInfo.BuildCacheFolderNameClient:=""
 		End if 
 		
-		
 		If (This.is_mac_target())
+			
+			
+			$appInfo.RemoteSharedResources:="false"  //#3829 #3940
 			
 			$appInfo.CFBundleName:=This.settings.buildName
 			$appInfo.CFBundleDisplayName:=This.settings.buildName
@@ -267,6 +268,15 @@ Function _setAppOptions() : Boolean
 			$appInfo.CFBundleIdentifier:=$identifier
 			
 		Else 
+			
+			If (This.shareLocalResourcesOnWindowsClient=Null)
+				
+				$appInfo.RemoteSharedResources:=Bool(This.shareLocalResourcesOnWindowsClient) ? "true" : "false"  //#3829 #3940
+			Else 
+				
+				$appInfo.RemoteSharedResources:="false"  //#3829 #3940
+			End if 
+			
 			
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 			
