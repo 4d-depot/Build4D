@@ -31,3 +31,4 @@ zzz*.4dm
 *Build/
 *buildApp.4DSettings
 Test-x
+____test_hfs.4dm
