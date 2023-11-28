@@ -12,6 +12,9 @@ logGitHubActions(Current method name)
 
 // MARK:- Current project
 
+var $source : 4D.File
+var $path : Object
+
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
@@ -28,12 +31,13 @@ End if
 //$settings.signApplication:={adHocSignature: True}
 
 $source:=File("/PACKAGE/README.md")
-$settings.includePaths:=[\
-{\
+$path:={\
 source: $source.path; \
-destination: "/Users/4d/Desktop/Program/build4D/Build4D_UnitTests/Test/Build4D_UnitTests.app/Contents/Server\\ Database/Ressources"\
-}\
-]
+destination: "/Contents/Server Database/Ressources"\
+}
+
+$settings.includePaths:=[$path]
+
 
 $build:=cs.Build4D.Server.new($settings)
 
@@ -42,25 +46,15 @@ $success:=$build.build()
 
 ASSERT($success; "(Current project) Compiled project build should success"+$link)
 
-var $siliconCodeFile : 4D.File
-$siliconCodeFile:=$build.settings.destinationFolder.file("Contents/Server Database/Libraries/lib4d-arm64.dylib")
-If ($siliconCodeFile.exists)
-	var $siliconCodePath : Text
-	var $verificationWorker : 4D.SystemWorker
+If ($success)
 	
-	$siliconCodePath:=Replace string($siliconCodeFile.path; " "; "\\ ")  // Server Database -> Server\ Database
+	$file:=Folder($settings.includePaths[0].destination).file($source.fullName)
 	
-	$verificationWorker:=4D.SystemWorker.new("codesign -dv --verbose=4 "+$siliconCodePath)
-	$verificationWorker.wait(120)
-	If ($verificationWorker.terminated)
-		If ($verificationWorker.exitCode=0)
-			// The file is signed if a line "Runtime Version=versionNumber" exists
-			var $lines : Collection
-			$lines:=Split string($verificationWorker.responseError; "\n")
-			ASSERT(Not(Undefined($lines.find(Formula($1.value=$2); "Runtime Version=@"))); "(Current project) Component should be signed. Verification response: "+$verificationWorker.responseError+$link)
-		End if 
-	End if 
+	ASSERT($file.exists; "(Current project) file added not found "+$source.path+" "+$link)
+	
+	
 End if 
+
 
 // Cleanup build folder
 
@@ -80,6 +74,8 @@ End if
 
 $settings.projectFile:=Storage.settings.externalProjectFile
 
+
+$path.destination:="/Contents/Server Database/Ressources"
 $build:=cs.Build4D.Server.new($settings)
 
 
@@ -87,35 +83,23 @@ $success:=$build.build()
 
 ASSERT($success; "(External project) Compiled project build should success"+$link)
 
-var $siliconCodeFile : 4D.File
-$siliconCodeFile:=$build.settings.destinationFolder.file("Contents/Server Database/Libraries/lib4d-arm64.dylib")
-If ($siliconCodeFile.exists)
-	var $siliconCodePath : Text
-	var $verificationWorker : 4D.SystemWorker
+If ($success)
 	
-	$siliconCodePath:=Replace string($siliconCodeFile.path; " "; "\\ ")  // Server Database -> Server\ Database
+	$file:=Folder($settings.includePaths[0].destination).file($source.fullName)
 	
-	$verificationWorker:=4D.SystemWorker.new("codesign -dv --verbose=4 "+$siliconCodePath)
-	$verificationWorker.wait(120)
-	If ($verificationWorker.terminated)
-		If ($verificationWorker.exitCode=0)
-			// The file is signed if a line "Runtime Version=versionNumber" exists
-			var $lines : Collection
-			$lines:=Split string($verificationWorker.responseError; "\n")
-			ASSERT(Not(Undefined($lines.find(Formula($1.value=$2); "Runtime Version=@"))); "(Current project) Component should be signed. Verification response: "+$verificationWorker.responseError+$link)
-		End if 
-	End if 
+	ASSERT($file.exists; "(External project) file added not found "+$source.path+" "+$link)
+	
 End if 
 
+
 // Cleanup build folder
-If ($success)
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 
