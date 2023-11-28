@@ -272,7 +272,6 @@ Function _setAppOptions() : Boolean
 		
 		If (This.is_mac_target())
 			
-			
 			$appInfo.RemoteSharedResources:="false"  //#3829 #3940
 			
 			$appInfo.CFBundleName:=This.settings.buildName
@@ -287,9 +286,11 @@ Function _setAppOptions() : Boolean
 			If (This.shareLocalResourcesOnWindowsClient=Null)
 				
 				$appInfo.RemoteSharedResources:=Bool(This.shareLocalResourcesOnWindowsClient) ? "true" : "false"  //#3829 #3940
+				
 			Else 
 				
 				$appInfo.RemoteSharedResources:="false"  //#3829 #3940
+				
 			End if 
 			
 			

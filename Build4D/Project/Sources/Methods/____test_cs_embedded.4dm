@@ -17,10 +17,16 @@ $win:={}
 
 
 
-//$server.hardLink:="toto"
-$server.IPAddress:=""
-//$server.portNumber:=29814
 
+$server.buildName:="myFabulousApp"
+$server.publishName:="myPublishName"
+$server.hardLink:="meineStarkeVerbindung"
+
+$server.useSDI:=False
+$server.obfuscated:=False
+
+$server.portNumber:=29813  // attention le numéro de port est fixé dans les settings de la base. il n'existe pas de clef pour le fixer par code
+$server.IPAddress:="192.168.75.13"
 
 $mac.singleInstance:=True
 /*
@@ -28,8 +34,6 @@ $mac.singleInstance:=True
 //$win.singleInstance:=True
 
 
-$server.obfuscated:=False
-$server.useSDI:=False
 
 */
 
@@ -47,8 +51,27 @@ $server.sourceAppFolder:="/Applications/4D v20.2/4D Server MAC/4D Server.app/"
 
 //mark:-  PATHS
 
-//$server.deletePaths:=[]
-//$server.deletePaths.push("../Components/4D SVG.4dbase")
+
+var $source : 4D.File
+var $path : Object
+var $package : 4D.Folder
+
+
+$package:=Folder(Folder("/PACKAGE/").platformPath; fk platform path)
+
+$source:=$package.parent.file("README.md")
+
+$path:={\
+source: $source.path; \
+destination: "/Ressources"\
+}
+
+$server.includePaths:=[$path]
+
+$server.deletePaths:=[]
+$server.deletePaths.push("../Components/4D Widgets.4dbase")
+$server.deletePaths.push("../Components/4D Progress.4dbase")
+$server.deletePaths.push("../Components/4D WritePro Interface.4dbase")
 
 //$mac.deletePaths:=[]
 //$mac.deletePaths.push("../Components/4D SVG.4dbase")
@@ -67,17 +90,6 @@ $server.sourceAppFolder:="/Applications/4D v20.2/4D Server MAC/4D Server.app/"
 
 $server.signApplication:={}
 $server.signApplication.adHocSignature:=True
-
-$server.buildName:="myFabulousApp"
-$server.publishName:="myPublishName"
-$server.hardLink:="meineStarkeVerbindung"
-
-$server.obfuscated:=False
-$server.useSDI:=False
-
-
-$server.portNumber:=29813
-$server.IPAddress:="192.168.75.13"
 
 
 $cs:=cs.CS.new($server; $mac)  //; $win) // mac only

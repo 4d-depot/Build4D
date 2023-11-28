@@ -156,20 +156,27 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 		: (Value type($path)=Is text)  // $path is a text
 			var $absolutePath : Text
 			var $absoluteFolder; $app : 4D.Folder
+			var $pathExists : Boolean
 			
 			$absoluteFolder:=$baseFolder
+			
 			Case of 
+					
 				: ($path="./@")  // Relative path inside $baseFolder
 					$path:=Substring($path; 3)
 					$absolutePath:=$absoluteFolder.path+$path
+					
 				: ($path="../@")  // Relative path outside $baseFolder
 					While ($path="../@")
 						$absoluteFolder:=$absoluteFolder.parent
 						$path:=Substring($path; 4)
 					End while 
 					$absolutePath:=$absoluteFolder.path+$path
+					
 				Else   // Absolute path or custom fileSystem
+					
 					Case of 
+							
 						: ($path="/4DCOMPONENTS/@")
 							$app:=(Is macOS) ? Folder(Application file; fk platform path).folder("Contents/Components") : File(Application file; fk platform path).parent.folder("Components")
 							$absolutePath:=$app.path+Substring($path; 15)
@@ -179,25 +186,15 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 							
 						Else   // Absolute path or baseFolder subpath
 							
-							
-							//var $_path; $_base : Collection
-							
-							//$_base:=($baseFolder=Null) ? [] : Split string($baseFolder.path; "/")  //; sk ignore empty strings)
-							
-							//$_path:=Split string($path; "/")  //; sk ignore empty strings)
-							
-							//$_base.shift()  // remove first empty cell
-							//$_path.shift()  // remove first empty cell
-							
-							
 							Case of 
+									
 								: (Folder($path; *).exists)
 									
 									$absolutePath:=Folder(Folder($path; *).platformPath; fk platform path).path
 									
-								: ($path="@/")
+									//: ($path="@/")
 									
-									$absolutePath:=Folder(Folder($path; *).platformPath; fk platform path).path
+									//$absolutePath:=Folder(Folder($path; *).platformPath; fk platform path).path
 									
 								: (File($path; *).exists)
 									
@@ -205,22 +202,53 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 									
 								Else 
 									
-									// nous ne devrions plus jamais se trouver dans ce cas là
+									//$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
+									//$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
 									
-									var $pathExists : Boolean
 									
-									$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
-									$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
+									//If ($pathExists)
 									
-									If (Test path name(Convert path POSIX to system($absolutePath))<0)
-										This._validInstance:=False
-										This._log(New object(\
-											"function"; "Resolve path"; \
-											"message"; "Path resolution could not be done"; \
-											"severity"; Error message); \
-											"path"; $path)
+									//$absolutePath:=$path
+									
+									//Else 
+									
+									var $path_root; $base_root : Text
+									var $_path; $_base; $_volume : Collection
+									
+									$_base:=($baseFolder=Null) ? [] : Split string($baseFolder.path; "/"; sk ignore empty strings)
+									
+									$_path:=Split string($path; "/"; sk ignore empty strings)
+									
+									$base_root:=Split string($baseFolder.platformPath; Folder separator)[0]
+									$path_root:=Split string(Folder($path; fk posix path).platformPath; Folder separator)[0]
+									
+									
+									If ($path_root=$base_root)  // we are on se same root volume path
+										
+										If ($_base[0]=$_path[0])  // are we on the same root
+											$absolutePath:=$path
+										Else   // thi is an absolute path
+											$absolutePath:=$absoluteFolder.path+$path
+										End if 
+										
+									Else 
+										
+										// a path on different volume ?
+										
+										$_volume:=Get system info.volumes.query(" name = :1 "; $path_root)
+										If ($_volume.length>0)
+											$absolutePath:=$path
+										Else 
+											$absolutePath:=$absoluteFolder.path+$path  // stranger thing
+										End if 
 										
 									End if 
+									
+									
+									
+									$absolutePath:=Replace string($absolutePath; "//"; "/")
+									
+									//End if 
 									
 							End case 
 							
@@ -252,7 +280,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 					return File($file.platformPath; fk platform path)
 					
 				Else 
-					return Folder($folder.platformPath; fk platform path)  // Folder(Folder($absolutePath; *).platformPath; fk platform path)
+					return Folder($folder.platformPath; fk platform path)
 					
 			End case 
 			
@@ -776,6 +804,7 @@ check your network configuration proxy .....
 							"severity"; Error message))
 						return False
 					End if 
+					
 				Else 
 					This._log(New object(\
 						"function"; "Signature"; \
@@ -783,6 +812,7 @@ check your network configuration proxy .....
 						"severity"; Error message))
 					return False
 				End if 
+				
 			Else 
 				This._log(New object(\
 					"function"; "Signature"; \

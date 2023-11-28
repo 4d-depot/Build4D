@@ -358,7 +358,6 @@ Function build() : Boolean
 		
 		$path:=This.settings.destinationFolder.path
 		
-		//todo: vérifier sur windows le chemin
 		
 		$path+=(Is macOS) ? "Contents/Upgrade4DClient/" : "Upgrade4DClient/"
 		
