@@ -18,7 +18,28 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 		
 		$macSettings.hardLink:=$serverSettings.hardLink
 		
+		$macSettings.buildName:=This._server.buildName
+		
 		$macSettings.publishName:=This._server.publishName
+		
+		If (Value type($serverSettings.IPAddress)=Is text) && ($serverSettings.IPAddress#"")
+			
+			$macSettings.IPAddress:=$serverSettings.IPAddress
+			
+		End if 
+		
+		If (Value type($serverSettings.portNumber)=Is real) && ($serverSettings.portNumber>0) && ($serverSettings.portNumber<32768)
+			
+			$macSettings.portNumber:=$serverSettings.portNumber
+			
+		End if 
+		
+		$macSettings.obfuscated:=($serverSettings.obfuscated=Null) ? Null : $serverSettings.obfuscated
+		$macSettings.useSDI:=($serverSettings.useSDI=Null) ? Null : $serverSettings.useSDI
+		
+		
+		
+		This._mac:=cs.Client.new($macSettings)
 	End if 
 	
 	If ($winSettings#Null)
@@ -27,32 +48,32 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 		
 		$winSettings.hardLink:=$serverSettings.hardLink
 		
+		$winSettings.buildName:=This._server.buildName
+		
 		$winSettings.publishName:=This._server.publishName
 		
-	End if 
-	
-	If (Value type($serverSettings.IPAddress)=Is text) && ($serverSettings.IPAddress#"")
+		If (Value type($serverSettings.IPAddress)=Is text) && ($serverSettings.IPAddress#"")
+			
+			$winSettings.IPAddress:=$serverSettings.IPAddress
+			
+		End if 
 		
-		$macSettings.IPAddress:=$serverSettings.IPAddress
-		$winSettings.IPAddress:=$serverSettings.IPAddress
 		
-	End if 
-	
-	
-	If (Value type($serverSettings.portNumber)=Is real) && ($serverSettings.portNumber>0) && ($serverSettings.portNumber<32768)
+		If (Value type($serverSettings.portNumber)=Is real) && ($serverSettings.portNumber>0) && ($serverSettings.portNumber<32768)
+			
+			$winSettings.portNumber:=$serverSettings.portNumber
+			
+		End if 
 		
-		$macSettings.portNumber:=$serverSettings.portNumber
-		$winSettings.portNumber:=$serverSettings.portNumber
 		
-	End if 
-	
-	If ($macSettings#Null)
-		This._mac:=cs.Client.new($macSettings)
-	End if 
-	
-	If ($winSettings#Null)
+		$winSettings.obfuscated:=($serverSettings.obfuscated=Null) ? Null : $serverSettings.obfuscated
+		$winSettings.useSDI:=($serverSettings.useSDI=Null) ? Null : $serverSettings.useSDI
+		
+		
 		This._win:=cs.Client.new($winSettings)
 	End if 
+	
+	
 	
 Function get valid : Boolean
 	

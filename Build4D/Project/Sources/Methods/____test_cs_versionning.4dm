@@ -31,21 +31,21 @@ $win.rangeVersMin:=1
 $win.rangeVersMax:=1
 $win.currentVers:=1
 
-// RUNTIMES
 
-$mac.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
+//mark:-  RUNTIMES
 
-$win.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
+$mac.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
-$server.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app/"
+$win.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
+
+$server.sourceAppFolder:="/Applications/4D v20.2/4D Server MAC/4D Server.app/"
 
 
-// SIGNATURE
 
-$signApplication:={\
-macSignature: True; \
-macCertificate: "Dominique Delahaye"\
-}
+//mark:-  SIGNATURE
+
+$server.signApplication:={}
+$server.signApplication.adHocSignature:=True
 
 
 $server.signApplication:=$signApplication

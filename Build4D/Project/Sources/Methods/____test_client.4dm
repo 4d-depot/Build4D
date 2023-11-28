@@ -25,7 +25,7 @@ excludeModule: []; \
 includePaths: []; \
 deletePaths: []; \
 signApplication: Null; \
-IPAdress: ""; \
+IPAddress: ""; \
 portNumber: 19813\
 }
 
@@ -43,7 +43,7 @@ $ws_settings.clientServerSystemFolderName:="myBeautifullApp"
 
 $ws_settings["//target"]:="Client"
 
-$ws_settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$ws_settings.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
 $componentsFolder:=Folder(fk applications folder).folder("4D v20.0/4D.app/Contents/Components")
 
@@ -66,13 +66,7 @@ If ($client.build())
 	
 	$result:=$client.buildArchive()
 	
-	If ($result.success)
-		
-		SHOW ON DISK($result.archive.platformPath)
-		
-		
-	End if 
-	
+	$client._show()
 	
 Else 
 	

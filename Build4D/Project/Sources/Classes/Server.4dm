@@ -1,8 +1,6 @@
 Class extends _core
 
 
-
-
 //MARK:-
 Class constructor($customSettings : Object)
 	
@@ -260,7 +258,7 @@ Function _setAppOptions() : Boolean
 			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=$appInfo["com.4D.HideAdministrationWindowMenuItem"] ? "true" : "false"
 			
 			//only on json file et 4D.link
-			//$appInfo.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
+			//$appInfo.BuildIPAddress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
 			//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 			
 			$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
@@ -356,6 +354,7 @@ Function build() : Boolean
 		var $path; $jsonDebug : Text
 		var $hasClients : Boolean
 		var $infos : Object
+		var $portNumber : Integer
 		
 		$path:=This.settings.destinationFolder.path
 		
@@ -375,6 +374,8 @@ Function build() : Boolean
 			
 			This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
 			
+			
+			
 			$hasClients:=True
 		End if 
 		
@@ -391,7 +392,7 @@ Function build() : Boolean
 			$infos:={}
 			
 			$infos.BuildName:=This.settings.buildName
-			$infos.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
+			$infos.BuildIPAddress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
 			$infos.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 			$infos.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 			//$infos.BuildCreator:=Char(0)*4

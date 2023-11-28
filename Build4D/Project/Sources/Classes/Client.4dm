@@ -120,7 +120,7 @@ Function is_win_target : Boolean
 	
 	
 	//MARK:-
-	//TODO: append publication port for client/server on settings by default 19813
+	
 	
 Function _make4dLink() : Boolean
 	
@@ -139,7 +139,7 @@ Function _make4dLink() : Boolean
 	DOM SET XML ATTRIBUTE($xml; \
 		"is_remote"; "true"; \
 		"server_database_name"; This.settings.buildName; \
-		"server_path"; ":"+String(This.settings.portNumber))
+		"server_path"; ((This.settings.IPAddress#Null) ? This.settings.IPAddress : "")+(":"+String(This.settings.portNumber)))
 	
 	
 	//#2091
@@ -151,7 +151,7 @@ Function _make4dLink() : Boolean
 			
 		Else 
 			
-			DOM SET XML ATTRIBUTE($xml; "cache_folder_name"; This.settings.clientServerSystemFolderName)  //#4118
+			DOM SET XML ATTRIBUTE($xml; "cache_folder_name"; This.settings.clientServerSystemFolderName)  //#2091 #4118
 			
 	End case 
 	
@@ -236,7 +236,7 @@ Function _setAppOptions() : Boolean
 		
 		
 		//only on json file et 4D.link
-		//$appInfo.BuildIPAdress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
+		//$appInfo.BuildIPAddress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
 		//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 		
 		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"

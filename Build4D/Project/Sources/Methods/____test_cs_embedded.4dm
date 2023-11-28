@@ -39,11 +39,11 @@ $server.destinationFolder:="../Test/Dominique/"
 
 //mark:-  RUNTIMES
 
-$mac.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$mac.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
-$win.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
+$win.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop WIN/"  //4D Volume Desktop.4DE"
 
-$server.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app/"
+$server.sourceAppFolder:="/Applications/4D v20.2/4D Server MAC/4D Server.app/"
 
 //mark:-  PATHS
 
@@ -68,10 +68,17 @@ $server.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app
 $server.signApplication:={}
 $server.signApplication.adHocSignature:=True
 
-
+$server.buildName:="myFabulousApp"
+$server.publishName:="myPublishName"
+$server.hardLink:="meineStarkeVerbindung"
 
 $server.obfuscated:=False
 $server.useSDI:=False
+
+
+$server.portNumber:=29813
+$server.IPAddress:="192.168.75.13"
+
 
 $cs:=cs.CS.new($server; $mac)  //; $win) // mac only
 

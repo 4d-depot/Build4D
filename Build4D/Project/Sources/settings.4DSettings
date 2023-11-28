@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="50">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="51">
 	<com.4d>
 		<general component_classStore_name="Build4D"/>
 		<compiler>
@@ -10,5 +10,10 @@
 				<qodlystudio enabled="true"/>
 			</standalone_server>
 		</web>
+		<server>
+			<network>
+				<options publication_name="Build4D" publication_port="29813"/>
+			</network>
+		</server>
 	</com.4d>
 </preferences>

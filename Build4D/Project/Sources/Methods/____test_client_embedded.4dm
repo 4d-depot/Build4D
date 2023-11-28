@@ -10,8 +10,8 @@ $settings:={}
 
 
 
-$settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop WIN/"
-$settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$settings.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop WIN/"
+$settings.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
 
 // Sign the macOS appplication 
@@ -30,7 +30,7 @@ If ($client.build())
 	
 	$client._show()
 	
-	$client.buildZip()
+	$client._buildZip()
 	
 	
 	
