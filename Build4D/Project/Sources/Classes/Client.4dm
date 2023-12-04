@@ -283,7 +283,7 @@ Function _setAppOptions() : Boolean
 			
 		Else 
 			
-			If (This.shareLocalResourcesOnWindowsClient=Null)
+			If (This.shareLocalResourcesOnWindowsClient#Null)
 				
 				$appInfo.RemoteSharedResources:=Bool(This.shareLocalResourcesOnWindowsClient) ? "true" : "false"  //#3829 #3940
 				
