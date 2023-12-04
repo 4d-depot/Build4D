@@ -1,6 +1,8 @@
 //%attributes = {}
 //Performs automatic unit tests on target 1: standalone
 
+// https://github.com/orgs/4d/projects/119/views/5
+
 var $target : Text
 $target:=Substring(Current method name; Length(Current method name))
 

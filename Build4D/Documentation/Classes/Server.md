@@ -149,6 +149,6 @@ $settings.signApplication.macSignature:=True
 $settings.signApplication.macCertificate:="xxxxxx"
 
 // Launch the build
-$build:=cs.Build4D.Standalone.new($settings) 
+$build:=cs.Build4D.Server.new($settings) 
 $success:=$build.build()
 ```

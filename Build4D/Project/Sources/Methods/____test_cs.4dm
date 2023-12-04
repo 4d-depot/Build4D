@@ -9,7 +9,6 @@ var $mac : Object
 var $win : Object
 var $zips : Object
 
-var $signApplication : Object
 
 
 $server:={}

@@ -351,13 +351,12 @@ Function build() : Boolean
 		
 		var $Upgrade4DClient; $libraries_folder : 4D.Folder
 		var $4DZ; $infosFile : 4D.File
-		var $path; $jsonDebug : Text
+		var $path : Text
 		var $hasClients : Boolean
 		var $infos : Object
-		var $portNumber : Integer
+		//var $portNumber : Integer
 		
 		$path:=This.settings.destinationFolder.path
-		
 		
 		$path+=(Is macOS) ? "Contents/Upgrade4DClient/" : "Upgrade4DClient/"
 		
@@ -373,9 +372,8 @@ Function build() : Boolean
 			
 			This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
 			
-			
-			
 			$hasClients:=True
+			
 		End if 
 		
 		If (OB Instance of(This.settings.windowsClientArchive; 4D.File))
@@ -383,6 +381,7 @@ Function build() : Boolean
 			This.settings.windowsClientArchive.moveTo($Upgrade4DClient)
 			
 			$hasClients:=True
+			
 		End if 
 		
 		
@@ -431,9 +430,6 @@ $infos.OtherIconFolder": "DarkMode",
 					
 					
 			End case 
-			
-			
-			
 			
 			If (OB Instance of(This.settings.macOSClientArchive; 4D.File))
 				$infos.macUpdate:="update.mac.4darchive"

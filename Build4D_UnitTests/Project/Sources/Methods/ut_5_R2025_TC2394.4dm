@@ -33,7 +33,7 @@ End if
 $source:=File("/PACKAGE/README.md")
 $path:={\
 source: $source.path; \
-destination: "/Contents/Server Database/Ressources"\
+destination: "/Ressources"\
 }
 
 $settings.includePaths:=[$path]
@@ -75,7 +75,7 @@ End if
 $settings.projectFile:=Storage.settings.externalProjectFile
 
 
-$path.destination:="/Contents/Server Database/Ressources"
+//$path.destination:="/Ressources"
 $build:=cs.Build4D.Server.new($settings)
 
 

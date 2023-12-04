@@ -8,7 +8,6 @@ var $server : Object
 var $mac : Object
 var $win : Object
 
-var $signApplication : Object
 
 
 $server:={}

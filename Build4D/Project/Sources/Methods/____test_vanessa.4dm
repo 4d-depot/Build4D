@@ -6,7 +6,7 @@ var $settings : Object
 var $success : Boolean
 
 
-var $componentsFolder : 4D.Folder
+//var $componentsFolder : 4D.Folder
 
 //$componentsFolder:=Folder(fk documents folder).folder("bbb/4D v20.1/4D.app/Contents/Components/")
 

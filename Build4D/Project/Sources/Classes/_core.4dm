@@ -149,14 +149,17 @@ Function _log($log : Object)
 	//MARK:-
 Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 	
+	var $absolutePath : Text
+	var $absoluteFolder; $app; $folder : 4D.Folder
+	var $file : 4D.File
+	
 	Case of 
 		: ((Value type($path)=Is object) && (OB Instance of($path; 4D.File) || OB Instance of($path; 4D.Folder)))  // $path is a File or a Folder
 			return $path
 			
 		: (Value type($path)=Is text)  // $path is a text
-			var $absolutePath : Text
-			var $absoluteFolder; $app : 4D.Folder
-			var $pathExists : Boolean
+			
+			
 			
 			$absoluteFolder:=$baseFolder
 			
@@ -192,9 +195,6 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 									
 									$absolutePath:=Folder(Folder($path; *).platformPath; fk platform path).path
 									
-									//: ($path="@/")
-									
-									//$absolutePath:=Folder(Folder($path; *).platformPath; fk platform path).path
 									
 								: (File($path; *).exists)
 									
@@ -260,8 +260,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			//https://github.com/4d/4d/issues/2139
 			//return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
 			
-			var $file : 4D.File
-			var $folder : 4D.Folder
+			
 			
 			$folder:=Folder($absolutePath; *)
 			If ($absolutePath="@/")
