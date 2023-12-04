@@ -17,7 +17,7 @@ $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 
 
-$settings.destinationFolder:="././Test/"
+$settings.destinationFolder:="/toto/"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
@@ -29,6 +29,9 @@ ASSERT($success=False; "(Current project) Invalid destinationFolder "+$link)
 
 If ($success)
 	// Cleanup build folder
+	
+	SHOW ON DISK($build.settings.destinationFolder.platformPath)
+	
 	If (Is macOS)
 		
 		$build.settings.destinationFolder.parent.delete(fk recursive)

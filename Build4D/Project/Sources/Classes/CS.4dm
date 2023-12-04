@@ -14,7 +14,7 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 			$macSettings.signApplication:=OB Copy($serverSettings.signApplication)
 		End if 
 		
-		$macSettings.destinationFolder:=$serverSettings.destinationFolder.parent.path+"Client/mac/"
+		$macSettings.destinationFolder:=$serverSettings.destinationFolder.parent.parent.path+"mac/"
 		
 		$macSettings.hardLink:=$serverSettings.hardLink
 		
@@ -44,7 +44,7 @@ Class constructor($serverSettings : Object; $macSettings : Object; $winSettings 
 	
 	If ($winSettings#Null)
 		
-		$winSettings.destinationFolder:=$serverSettings.destinationFolder.parent.path+"Client/win/"  // update 
+		$winSettings.destinationFolder:=$serverSettings.destinationFolder.parent.parent.path+"win/"  // update 
 		
 		$winSettings.hardLink:=$serverSettings.hardLink
 		
@@ -116,7 +116,7 @@ Function _buildZip()->$result : Object
 	
 Function show() : cs.CS
 	
-	SHOW ON DISK(This.server_settings.destinationFolder.platformPath)
+	SHOW ON DISK(This.server_settings.destinationFolder.parent.platformPath)
 	
 	return This
 	

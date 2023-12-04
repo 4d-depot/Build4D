@@ -65,12 +65,12 @@ source: $source.path; \
 destination: "/Ressources"\
 }
 
-$server.includePaths:=[$path]
+//$server.includePaths:=[$path]
 
 $server.deletePaths:=[]
-$server.deletePaths.push("../Components/4D Widgets.4dbase")
-$server.deletePaths.push("../Components/4D Progress.4dbase")
-$server.deletePaths.push("../Components/4D WritePro Interface.4dbase")
+//$server.deletePaths.push("../Components/4D Widgets.4dbase")
+//$server.deletePaths.push("../Components/4D Progress.4dbase")
+//$server.deletePaths.push("../Components/4D WritePro Interface.4dbase")
 
 //$mac.deletePaths:=[]
 //$mac.deletePaths.push("../Components/4D SVG.4dbase")
@@ -91,7 +91,7 @@ $server.signApplication:={}
 $server.signApplication.adHocSignature:=True
 
 
-$cs:=cs.CS.new($server; $mac)  //; $win) // mac only
+$cs:=cs.CS.new($server; $mac; $win)  // mac only
 
 If ($cs.build())
 	

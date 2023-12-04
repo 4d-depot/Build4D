@@ -42,6 +42,13 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	$settings:=($customSettings#Null) ? $customSettings : {}
 	
+	If ($settings.destinationFolder=Null)
+		$settings.destinationFolder:="/"+$target+"/"
+	Else 
+		$settings.destinationFolder+=(($settings.destinationFolder="@/") ? "" : "/")+$target+"/"
+	End if 
+	
+	
 	This._validInstance:=True
 	This._isCurrentProject:=True
 	//This._target:=""
@@ -152,14 +159,14 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 	var $absolutePath : Text
 	var $absoluteFolder; $app; $folder : 4D.Folder
 	var $file : 4D.File
+	var $path_root; $base_root : Text
+	var $_path; $_base; $_volume : Collection
 	
 	Case of 
 		: ((Value type($path)=Is object) && (OB Instance of($path; 4D.File) || OB Instance of($path; 4D.Folder)))  // $path is a File or a Folder
 			return $path
 			
 		: (Value type($path)=Is text)  // $path is a text
-			
-			
 			
 			$absoluteFolder:=$baseFolder
 			
@@ -202,26 +209,12 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 									
 								Else 
 									
-									//$pathExists:=($path="@/") ? Folder(Folder($path; *).platformPath; fk platform path).exists : File(File($path; *).platformPath; fk platform path).exists
-									//$absolutePath:=($pathExists) ? $path : Choose($baseFolder#Null; $absoluteFolder.path; "")+$path
-									
-									
-									//If ($pathExists)
-									
-									//$absolutePath:=$path
-									
-									//Else 
-									
-									var $path_root; $base_root : Text
-									var $_path; $_base; $_volume : Collection
-									
 									$_base:=($baseFolder=Null) ? [] : Split string($baseFolder.path; "/"; sk ignore empty strings)
 									
 									$_path:=Split string($path; "/"; sk ignore empty strings)
 									
 									$base_root:=Split string($baseFolder.platformPath; Folder separator)[0]
 									$path_root:=Split string(Folder($path; fk posix path).platformPath; Folder separator)[0]
-									
 									
 									If ($path_root=$base_root)  // we are on se same root volume path
 										
@@ -243,8 +236,6 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 										End if 
 										
 									End if 
-									
-									
 									
 									$absolutePath:=Replace string($absolutePath; "//"; "/")
 									

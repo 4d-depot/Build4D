@@ -8,6 +8,8 @@ Class constructor($customSettings : Object)
 	var $currentAppInfo; $sourceAppInfo : Object
 	var $fileCheck : Boolean
 	
+	
+	
 	Super("Client"; $customSettings)
 	
 	This._target:=""  // 
@@ -283,9 +285,9 @@ Function _setAppOptions() : Boolean
 			
 		Else 
 			
-			If (This.shareLocalResourcesOnWindowsClient#Null)  // #4330
+			If (This.settings.shareLocalResourcesOnWindowsClient#Null)  // #4330
 				
-				$appInfo.RemoteSharedResources:=Bool(This.shareLocalResourcesOnWindowsClient) ? "true" : "false"  //#3829 #3940 
+				$appInfo.RemoteSharedResources:=Bool(This.settings.shareLocalResourcesOnWindowsClient) ? "true" : "false"  //#3829 #3940 
 				
 			Else 
 				

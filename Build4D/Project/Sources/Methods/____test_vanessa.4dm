@@ -15,14 +15,15 @@ $settings:={}
 // Configure the application
 $settings.buildName:="myAppBuild"
 $settings.publishName:="myAppBuild"
-$settings.destinationFolder:="../Test/Vanessa/Client/"
+$settings.destinationFolder:="../Test/Vanessa/"
+
 $settings.singleInstance:=True
 //$settings.serverSelectionAllowed:=True
 $settings.hardLink:=""
 
 // Define the 4D Volume Desktop path
 //$settings.sourceAppFolder:=Folder(fk desktop folder).folder("4D v20.1/4D Volume Desktop.app")
-$settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Volume Desktop MAC/4D Volume Desktop.app/"
+$settings.sourceAppFolder:="/Applications/4D v20.2/4D Volume Desktop MAC/4D Volume Desktop.app/"
 
 
 // Include the folders and files
@@ -35,6 +36,7 @@ $settings.signApplication:={}
 $settings.signApplication.adHocSignature:=True
 
 // Launch the build
+TRACE
 $buildClient:=cs.Client.new($settings)
 $success:=$buildClient.build()
 
@@ -50,7 +52,8 @@ $settings:={}
 // Configure the application
 $settings.buildName:="myAppBuild"
 $settings.publishName:="myAppBuild"
-$settings.destinationFolder:="../Test/Vanessa/Server/"
+$settings.destinationFolder:="../Test/Vanessa/"
+
 $settings.obfuscated:=False
 $settings.useSDI:=False
 
@@ -59,7 +62,7 @@ $settings.macOSClientArchive:=$archive.archive
 
 // Define the 4D Server path
 //$settings.sourceAppFolder:=Folder(fk desktop folder).folder("4D v20.1/4D Server.app")
-$settings.sourceAppFolder:="/Applications/4D v20.1 HF1/4D Server MAC/4D Server.app/"
+$settings.sourceAppFolder:="/Applications/4D v20.2/4D Server MAC/4D Server.app/"
 
 // Sign the macOS appplication 
 $settings.signApplication:={}
