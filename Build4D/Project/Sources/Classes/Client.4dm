@@ -143,6 +143,17 @@ Function _make4dLink() : Boolean
 		"server_database_name"; This.settings.buildName; \
 		"server_path"; ((This.settings.IPAddress#Null) ? This.settings.IPAddress : "")+(":"+String(This.settings.portNumber)))
 	
+	Case of 
+			
+		: (This.settings.shareLocalResourcesOnWindowsClient=Null)
+			
+		: (Value type(This.settings.shareLocalResourcesOnWindowsClient)#Is boolean)
+			
+		: (This.settings.shareLocalResourcesOnWindowsClient=False)
+		Else 
+			
+			DOM SET XML ATTRIBUTE($xml; "remote_shared_resources"; "true")
+	End case 
 	
 	//#2091
 	Case of 
