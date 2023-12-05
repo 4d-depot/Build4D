@@ -10,12 +10,13 @@ Class constructor($customSettings : Object)
 	
 	
 	
-	Super("Client"; $customSettings)
+	Super("Client"; $customSettings)  //#2067
 	
 	This._target:=""  // 
 	
 	If (This._validInstance)
 		
+		//#2068
 		Case of 
 				
 			: (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists))
@@ -147,7 +148,7 @@ Function _make4dLink() : Boolean
 		"server_database_name"; This.settings.buildName; \
 		"server_path"; $server_path)
 	
-	//##3829
+	//#3829
 	Case of 
 			
 		: (This.is_mac_target())  //#3940

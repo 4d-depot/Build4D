@@ -42,11 +42,11 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	$settings:=($customSettings#Null) ? $customSettings : {}
 	
-	If ($settings.destinationFolder=Null)
-		$settings.destinationFolder:="/"+$target+"/"
-	Else 
-		$settings.destinationFolder+=(($settings.destinationFolder="@/") ? "" : "/")+$target+"/"
-	End if 
+	//If ($settings.destinationFolder=Null)
+	//$settings.destinationFolder:="/"+$target+"/"
+	//Else 
+	//$settings.destinationFolder+=(($settings.destinationFolder="@/") ? "" : "/")+$target+"/"
+	//End if 
 	
 	
 	This._validInstance:=True
