@@ -25,7 +25,7 @@ $server.useSDI:=False
 $server.obfuscated:=False
 
 $server.portNumber:=29813  // attention le numéro de port est fixé dans les settings de la base. il n'existe pas de clef pour le fixer par code
-$server.IPAddress:="192.168.75.13"
+//$server.IPAddress:="192.168.75.13"
 
 $mac.singleInstance:=True
 /*

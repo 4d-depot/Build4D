@@ -126,7 +126,7 @@ Function is_win_target : Boolean
 	
 Function _make4dLink() : Boolean
 	
-	var $xml; $text : Text
+	var $xml; $text; $server_path : Text
 	var $4DLink : 4D.File
 	
 	
@@ -138,10 +138,14 @@ Function _make4dLink() : Boolean
 	
 	$xml:=DOM Create XML Ref("database_shortcut")
 	
+	
+	$server_path:=((This.settings.IPAddress#Null) ? This.settings.IPAddress : "")+(":"+String(This.settings.portNumber))
+	
+	
 	DOM SET XML ATTRIBUTE($xml; \
 		"is_remote"; "true"; \
 		"server_database_name"; This.settings.buildName; \
-		"server_path"; ((This.settings.IPAddress#Null) ? This.settings.IPAddress : "")+(":"+String(This.settings.portNumber)))
+		"server_path"; $server_path)
 	
 	//##3829
 	Case of 
@@ -258,13 +262,7 @@ Function _setAppOptions() : Boolean
 		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"
 		$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? String(This.settings.rangeVersMax) : "1"
 		$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? String(This.settings.currentVers) : "1"
-		
-		
-		//$appInfo.singleInstance:=Value type(This.settings.singleInstance)=Is boolean ? This.settings.singleInstance : True
-		
-		$appInfo.RemoteSharedResources:="false"
-		
-		
+		$appInfo.RemoteSharedResources:="false"  //#3829
 		
 		If (This.settings.databaseToEmbedInClient#Null)  //#3763
 			OB REMOVE($appInfo; "PublishName")

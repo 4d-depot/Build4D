@@ -32,10 +32,23 @@ Class constructor($customSettings : Object)
 		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+Choose(Is macOS; ".app"; "")+"/")
 		This._structureFolder:=This.settings.destinationFolder.folder(Choose(Is macOS; "Contents/"; "")+"Server Database/")
 		
+		//mark:#2028
+		If (This.settings.startElevated=Null)
+			This.settings.startElevated:=False
+		End if 
+		
+		//mark:#2031
+		If (This.settings.obfuscated=Null)
+			This.settings.obfuscated:=False
+		End if 
+		
+		//mark:#2033
+		If (This.settings.packedProject=Null)
+			This.settings.packedProject:=True
+		End if 
 		
 		//Checking license
 		If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
-			//This._validInstance:=False
 			This._log(New object(\
 				"function"; "License file checking"; \
 				"message"; "License file is not defined"; \
@@ -227,7 +240,7 @@ Function _setAppOptions() : Boolean
 	var $infoFile : 4D.File
 	var $appInfo : Object
 	
-	If (Super._setAppOptions())
+	If (Super._setAppOptions())  //#2034 #2140
 		
 		$infoFile:=(This.is_mac_target()) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
 		
@@ -237,35 +250,36 @@ Function _setAppOptions() : Boolean
 			
 			$appInfo.BuildName:=This.settings.buildName
 			
-			$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
+			$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName  //#2055 #2092
 			
-			$appInfo["4D_SingleInstance"]:="1"  //Value type(This.settings.singleInstance)=Is boolean ? string(Num(This.settings.singleInstance)) : "1"
+			$appInfo["4D_SingleInstance"]:="1"  //Value type(This.settings.singleInstance)=Is boolean ? string(Num(This.settings.singleInstance)) : "1"//#2054 #2053
 			
-			$appInfo["com.4d.dataCollection"]:=Value type(This.settings.serverDataCollection)=Is boolean ? This.settings.serverDataCollection : True
-			$appInfo["com.4d.dataCollection"]:=$appInfo["com.4d.dataCollection"] ? "true" : "false"
+			$appInfo["com.4d.dataCollection"]:=Value type(This.settings.serverDataCollection)=Is boolean ? This.settings.serverDataCollection : True  //#2052
+			$appInfo["com.4d.dataCollection"]:=$appInfo["com.4d.dataCollection"] ? "true" : "false"  //#2051
 			
 			$appInfo["com.4d.ServerCacheFolderName"]:=Value type(This.settings.serverStructureFolderName)=Is text ? This.settings.serverStructureFolderName : ""  //#2060
 			
-			$appInfo["com.4D.HideDataExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False
-			$appInfo["com.4D.HideDataExplorerMenuItem"]:=$appInfo["com.4D.HideDataExplorerMenuItem"] ? "true" : "false"
+			$appInfo["com.4D.HideDataExplorerMenuItem"]:=Value type(This.settings.hideDataExplorerMenuItem)=Is boolean ? This.settings.hideDataExplorerMenuItem : False  //#2045
+			$appInfo["com.4D.HideDataExplorerMenuItem"]:=$appInfo["com.4D.HideDataExplorerMenuItem"] ? "true" : "false"  //#2044
 			
 			
-			$appInfo["com.4D.HideRuntimeExplorerMenuItem"]:=Value type(This.settings.hideRuntimeExplorerMenuItem)=Is boolean ? This.settings.hideRuntimeExplorerMenuItem : False
-			$appInfo["com.4D.HideRuntimeExplorerMenuItem"]:=$appInfo["com.4D.HideRuntimeExplorerMenuItem"] ? "true" : "false"
+			$appInfo["com.4D.HideRuntimeExplorerMenuItem"]:=Value type(This.settings.hideRuntimeExplorerMenuItem)=Is boolean ? This.settings.hideRuntimeExplorerMenuItem : False  //#2047
+			$appInfo["com.4D.HideRuntimeExplorerMenuItem"]:=$appInfo["com.4D.HideRuntimeExplorerMenuItem"] ? "true" : "false"  //#2046
 			
 			
-			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=Value type(This.settings.hideAdministrationWindowMenuItem)=Is boolean ? This.settings.hideAdministrationWindowMenuItem : False
-			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=$appInfo["com.4D.HideAdministrationWindowMenuItem"] ? "true" : "false"
+			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=Value type(This.settings.hideAdministrationWindowMenuItem)=Is boolean ? This.settings.hideAdministrationWindowMenuItem : False  //#2050
+			$appInfo["com.4D.HideAdministrationWindowMenuItem"]:=$appInfo["com.4D.HideAdministrationWindowMenuItem"] ? "true" : "false"  //#2049
 			
 			//only on json file et 4D.link
 			//$appInfo.BuildIPAddress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
 			//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 			
-			$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
+			$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""  //#2059
 			
-			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"
-			$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? String(This.settings.rangeVersMax) : "1"
-			$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? String(This.settings.currentVers) : "1"
+			$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"  //#2056 #2165
+			$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? String(This.settings.rangeVersMax) : "1"  //#2057 #2166
+			$appInfo.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? String(This.settings.currentVers) : "1"  //#2058 #2167
+			
 			
 			// clefs specifiques si target windows
 			
@@ -341,10 +355,10 @@ Function build() : Boolean
 	$success:=($success) ? This._copySourceApp() : False
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False
-	$success:=($success) ? This._excludeModules() : False
-	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
-	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
-	$success:=($success) ? This._create4DZ() : False
+	$success:=($success) ? This._excludeModules() : False  //#2029
+	$success:=($success) ? This._includePaths(This.settings.includePaths) : False  //#2025
+	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False  //#2026
+	$success:=($success) ? This._create4DZ() : False  //#2030 #2032
 	
 	
 	If ($success)
@@ -368,7 +382,7 @@ Function build() : Boolean
 		
 		$Upgrade4DClient.create()
 		
-		If (OB Instance of(This.settings.macOSClientArchive; 4D.File))
+		If (OB Instance of(This.settings.macOSClientArchive; 4D.File))  //#2062
 			
 			This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
 			
@@ -376,7 +390,7 @@ Function build() : Boolean
 			
 		End if 
 		
-		If (OB Instance of(This.settings.windowsClientArchive; 4D.File))
+		If (OB Instance of(This.settings.windowsClientArchive; 4D.File))  //#2063
 			
 			This.settings.windowsClientArchive.moveTo($Upgrade4DClient)
 			
@@ -385,7 +399,7 @@ Function build() : Boolean
 		End if 
 		
 		
-		If ($hasClients)
+		If ($hasClients)  //#2064
 			
 			$infos:={}
 			
@@ -452,8 +466,7 @@ $infos.OtherIconFolder": "DarkMode",
 			
 		End if 
 		
-		//mark:- #2061
-		
+		//#2061
 		If (Is Windows)
 			
 			If (This.settings.macCompiledProject#Null)

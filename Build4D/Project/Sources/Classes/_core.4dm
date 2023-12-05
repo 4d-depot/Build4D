@@ -25,10 +25,9 @@ settings : Object
 
 Class constructor($target : Text; $customSettings : Object)
 	
-	ON ERR CALL("onError"; ek global)
-	
 	var $settings : Object
 	
+	ON ERR CALL("onError"; ek global)
 	
 	This.logs:=New collection
 	This.settings:=New object()
@@ -38,6 +37,7 @@ Class constructor($target : Text; $customSettings : Object)
 	If (File("/RESOURCES/"+$target+".json").exists)
 		This._overrideSettings(JSON Parse(File("/RESOURCES/"+$target+".json").getText()))  // Loads target default settings
 	End if 
+	
 	This._isDefaultDestinationFolder:=False
 	
 	$settings:=($customSettings#Null) ? $customSettings : {}
@@ -106,7 +106,9 @@ Function _overrideSettings($settings : Object)
 	
 	$entries:=OB Entries($settings)
 	For each ($entry; $entries)
+		
 		Case of 
+				
 			: ($entry.key="destinationFolder")
 				This.settings.destinationFolder:=This._resolvePath($settings.destinationFolder; This._currentProjectPackage)
 				If (Not(OB Instance of(This.settings.destinationFolder; 4D.Folder)))
@@ -139,10 +141,11 @@ Function _overrideSettings($settings : Object)
 				End if 
 				This.settings.macCompiledProject:=This._resolvePath($settings.macCompiledProject; This._currentProjectPackage)
 				
-				
 			Else 
 				This.settings[$entry.key]:=$entry.value
+				
 		End case 
+		
 	End for each 
 	
 	//MARK:-
@@ -163,6 +166,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 	var $_path; $_base; $_volume : Collection
 	
 	Case of 
+			
 		: ((Value type($path)=Is object) && (OB Instance of($path; 4D.File) || OB Instance of($path; 4D.Folder)))  // $path is a File or a Folder
 			return $path
 			
@@ -239,7 +243,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 									
 									$absolutePath:=Replace string($absolutePath; "//"; "/")
 									
-									//End if 
+									
 									
 							End case 
 							
@@ -247,11 +251,8 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 					
 			End case 
 			
-			
 			//https://github.com/4d/4d/issues/2139
 			//return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
-			
-			
 			
 			$folder:=Folder($absolutePath; *)
 			If ($absolutePath="@/")
@@ -263,6 +264,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			End if 
 			
 			Case of 
+					
 				: ($folder.isPackage)
 					return Folder($folder.platformPath; fk platform path)
 					
@@ -277,6 +279,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			
 		Else 
 			return Null
+			
 	End case 
 	
 	//MARK:-
@@ -373,6 +376,7 @@ Function _includePaths($pathsObj : Collection) : Boolean
 	var $is_string_path : Boolean
 	
 	If (($pathsObj#Null) && ($pathsObj.length>0))
+		
 		For each ($pathObj; $pathsObj)
 			
 			If (Undefined($pathObj.source))
@@ -424,6 +428,7 @@ Function _includePaths($pathsObj : Collection) : Boolean
 					"destinationPath"; $destinationPath.path))
 				return False
 			End if 
+			
 			If ($sourcePath.exists)
 				$destinationPath:=$sourcePath.copyTo($destinationPath; fk overwrite)
 				If ($destinationPath.exists)
@@ -441,6 +446,7 @@ Function _includePaths($pathsObj : Collection) : Boolean
 						"sourcePath"; $sourcePath.path; \
 						"destinationPath"; $destinationPath.path))
 				End if 
+				
 			Else 
 				This._log(New object(\
 					"function"; "Paths include"; \
@@ -448,12 +454,16 @@ Function _includePaths($pathsObj : Collection) : Boolean
 					"severity"; Warning message; \
 					"sourcePath"; $sourcePath.path))
 			End if 
+			
 		End for each 
+		
 	Else 
+		
 		This._log(New object(\
 			"function"; "Paths include"; \
 			"message"; "Empty paths collection"; \
 			"severity"; Information message))
+		
 	End if 
 	
 	return True
@@ -465,6 +475,7 @@ Function _deletePaths($paths : Collection) : Boolean
 	var $deletePath : Object
 	
 	If (($paths#Null) && ($paths.length>0))
+		
 		For each ($path; $paths)
 			
 			If ((Value type($path)=Is text) || ((OB Instance of($path; 4D.Folder)) || (OB Instance of($path; 4D.File))))
@@ -476,8 +487,6 @@ Function _deletePaths($paths : Collection) : Boolean
 					"severity"; Error message))
 				return False
 			End if 
-			
-			
 			
 			//If ($deletePath.exists)//https://github.com/4d/4d/issues/2139
 			If (Test path name($deletePath.platformPath)>=0)
@@ -494,13 +503,18 @@ Function _deletePaths($paths : Collection) : Boolean
 					"severity"; Warning message; \
 					"path"; $deletePath.path))
 			End if 
+			
 		End for each 
+		
 	Else 
+		
 		This._log(New object(\
 			"function"; "Paths delete"; \
 			"message"; "Empty paths collection"; \
 			"severity"; Information message))
+		
 	End if 
+	
 	return True
 	
 	//MARK:-
@@ -511,11 +525,13 @@ Function _create4DZ() : Boolean
 	var $return : Object
 	
 	If ((This._validInstance) && (This.settings.packedProject))
+		
 		$structureFolder:=This._structureFolder
 		$zipStructure:=New object
 		$zipStructure.files:=New collection($structureFolder.folder("Project"))
 		$zipStructure.encryption:=(This.settings.obfuscated) ? -1 : ZIP Encryption none
 		$return:=ZIP Create archive($zipStructure; $structureFolder.file(This.settings.buildName+".4DZ"))
+		
 		If ($return.success)
 			$structureFolder.folder("Project").delete(Delete with contents)
 		Else 
@@ -526,7 +542,9 @@ Function _create4DZ() : Boolean
 				"result"; $return))
 			return False
 		End if 
+		
 	End if 
+	
 	return True
 	
 	//MARK:-
@@ -550,6 +568,7 @@ Function _excludeModules() : Boolean
 			$paths:=New collection
 			$basePath:=(Is macOS) ? This.settings.destinationFolder.path+"Contents/" : This.settings.destinationFolder.path
 			$optionalModules:=JSON Parse($optionalModulesFile.getText())
+			
 			For each ($excludedModule; This.settings.excludeModules)
 				$modules:=$optionalModules.modules.query("name = :1"; $excludedModule)
 				If ($modules.length>0)
@@ -565,6 +584,7 @@ Function _excludeModules() : Boolean
 					End if 
 				End if 
 			End for each 
+			
 			This._deletePaths($paths)
 		Else 
 			This._log(New object(\
@@ -687,14 +707,16 @@ Function _setAppOptions() : Boolean
 		End if 
 		
 	Else 
+		
 		This._log(New object(\
 			"function"; "Setting app options"; \
 			"message"; "Info.plist file doesn't exist: "+$infoFile.path; \
 			"severity"; Warning message))
+		
 		return False
 	End if 
 	
-	If (Is Windows)  // Updater elevation rights
+	If (Is Windows)  // Updater elevation rights #2027
 		$manifestFile:=((This.settings.startElevated#Null) && (This.settings.startElevated))\
 			 ? This.settings.destinationFolder.file("Resources/Updater/elevated.manifest")\
 			 : This.settings.destinationFolder.file("Resources/Updater/normal.manifest")
