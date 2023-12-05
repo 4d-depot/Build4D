@@ -25,7 +25,7 @@ $settings.compilerOptions:={targets: ["x86_64_generic"]}
 
 //the goal : Build a server application and add a file located at an absolute path to a destination located at an absolute path
 $settings.includePaths:=New collection(New object(\
-"source"; "/README.md"; \
+"source"; "/Custom Folder/"; \
 "destination"; "/Ressources EN/")\
 )
 
@@ -39,17 +39,16 @@ ASSERT($success; "(Current project) Compiled project build should success"+$link
 
 
 var $folder : 4D.Folder
-var $file : 4D.File
 
 // Cleanup build folder
 If ($success)
 	
 	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database"+$settings.includePaths[0].destination)
 	
-	$file:=$folder.file(Substring($settings.includePaths[0].source; 2))
+	$folder:=$folder.folder(Substring($settings.includePaths[0].source; 2))
 	
 	
-	ASSERT($file.exists; "(Current project) The file was not copied to the specified location. "+$link)
+	ASSERT($folder.exists; "(Current project) The folder was not copied to the specified location. "+$link)
 	
 	If (Is macOS)
 		
@@ -81,9 +80,9 @@ If ($success)
 	
 	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database"+$settings.includePaths[0].destination)
 	
-	$file:=$folder.file(Substring($settings.includePaths[0].source; 2))
+	$folder:=$folder.folder(Substring($settings.includePaths[0].source; 2))
 	
-	ASSERT($file.exists; "(External project) The file was not copied to the specified location. "+$link)
+	ASSERT($file.exists; "(External project) The folder was not copied to the specified location. "+$link)
 	
 	If (Is macOS)
 		
