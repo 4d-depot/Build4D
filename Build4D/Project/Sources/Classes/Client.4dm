@@ -145,6 +145,8 @@ Function _make4dLink() : Boolean
 	
 	Case of 
 			
+		: (This.is_mac_target())
+			
 		: (This.settings.shareLocalResourcesOnWindowsClient=Null)
 			
 		: (Value type(This.settings.shareLocalResourcesOnWindowsClient)#Is boolean)
