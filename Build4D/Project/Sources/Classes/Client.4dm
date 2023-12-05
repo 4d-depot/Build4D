@@ -143,9 +143,10 @@ Function _make4dLink() : Boolean
 		"server_database_name"; This.settings.buildName; \
 		"server_path"; ((This.settings.IPAddress#Null) ? This.settings.IPAddress : "")+(":"+String(This.settings.portNumber)))
 	
+	//##3829
 	Case of 
 			
-		: (This.is_mac_target())
+		: (This.is_mac_target())  //#3940
 			
 		: (This.settings.shareLocalResourcesOnWindowsClient=Null)
 			
