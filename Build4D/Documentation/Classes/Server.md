@@ -102,11 +102,8 @@ $settings.projectFile:=Folder(fk documents folder).file("Contact/Project/Contact
 
 // Configure the application
 $settings.buildName:="myApp" 
-$settings.destinationFolder:="Test/" 
+$settings.destinationFolder:="Test/Server/" 
 $settings.obfuscated:=True 
-$settings.packedProject:=True 
-$settings.useSDI:=False 
-$settings.startElevated:=False 
 $settings.lastDataPathLookup:="ByAppPath"
 
 // Specify the components required for compilation
