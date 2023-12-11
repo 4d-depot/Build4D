@@ -31,7 +31,7 @@ $manifestFile:=$build.settings.destinationFolder.file("Resources/Updater/Updater
 ASSERT($manifestFile.exists; "(Current project) Standalone Updater manifest should exist: "+$manifestFile.platformPath+$link)
 
 $manifestContent:=$manifestFile.getText()
-ASSERT($manifestContent="@level=\"asInvoker\"@"; "(Current project) Standalone Updater manifest should contain normal rights"+$link)
+ASSERT($manifestContent="@level=\"asInvoker\"@"; "(Current project) Server Updater manifest should contain normal rights"+$link)
 
 // Cleanup build folder
 If (Is macOS)
