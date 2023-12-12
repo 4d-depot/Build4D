@@ -1,10 +1,10 @@
-//%attributes = {"invisible":true}
+//%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.Server
+var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
-var $buildClient : 4D.File
+var $buildServer : 4D.File
 var $infoPlist : 4D.File
 var $link : Text
 $link:=" (https://github.com/4d/4d/issues/"+Substring(Current method name; Position("_TC"; Current method name)+3)+")"
@@ -17,13 +17,16 @@ $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
 
-$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
+$settings.publishName:="MainServer"
 
-$build:=cs.Build4D.Server.new($settings)
+$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macVolumeDesktop) : Folder(Storage.settings.winVolumeDesktop)
+
+$build:=cs.Build4D.Client.new($settings)
+
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Server build should success"+$link)
+ASSERT($success; "(Current project) Client build should success"+$link)
 
 If (Is macOS)
 	$infoPlist:=$build.settings.destinationFolder.file("Contents/Info.plist")
@@ -32,12 +35,18 @@ Else
 	$infoPlist:=$build.settings.destinationFolder.file("Resources/Info.plist")
 End if 
 
+
+ASSERT($infoPlist.exists; "(Current project) Info.plist file should exist: "+$link)
+
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
 	
-	ASSERT($infos["BuildRangeVersMax"]="1"; "(Current project) Info.plist BuildRangeVersMax Key should have value: 1")
+	ASSERT($infos.PublishName=$settings.publishName; "(Current project) Info.plist PublishName Key should have value: "+$settings.publishName)
+	
 	
 End if 
+
+
 
 
 // Cleanup build folder
@@ -55,11 +64,13 @@ End if
 
 $settings.projectFile:=Storage.settings.externalProjectFile
 
-$build:=cs.Build4D.Server.new($settings)
+$build:=cs.Build4D.Client.new($settings)
+
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Server build should success"+$link)
+
+ASSERT($success; "(External project) Client build should success"+$link)
 
 If (Is macOS)
 	$infoPlist:=$build.settings.destinationFolder.file("Contents/Info.plist")
@@ -68,10 +79,14 @@ Else
 	$infoPlist:=$build.settings.destinationFolder.file("Resources/Info.plist")
 End if 
 
+
+ASSERT($infoPlist.exists; "(External project) Info.plist file should exist: "+$buildServer.platformPath+$link)
+
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
 	
-	ASSERT($infos["BuildRangeVersMax"]="1"; "(External project) Info.plist BuildRangeVersMax Key should have value: 1")
+	ASSERT($infos.PublishName=$settings.publishName; "(External project) Info.plist PublishName Key should have value: "+$settings.publishName)
+	
 	
 End if 
 

@@ -1,10 +1,10 @@
 //%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
-var $buildServer : 4D.File
+var $buildServer; $file : 4D.File
 var $link : Text
 $link:=" (https://github.com/4d/4d/issues/"+Substring(Current method name; Position("_TC"; Current method name)+3)+")"
 
@@ -44,7 +44,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Compiled project build should success"+$link)
+ASSERT($success; "(Current project) Server build should success"+$link)
 
 If ($success)
 	
@@ -53,21 +53,21 @@ If ($success)
 	ASSERT($file.exists; "(Current project) file added not found "+$source.path+" "+$link)
 	
 	
+	
+	// Cleanup build folder
+	
+	If (Is macOS)
+		
+		$build.settings.destinationFolder.parent.delete(fk recursive)
+		
+	Else 
+		// to validate on windows
+		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+		
+	End if 
+	
+	
 End if 
-
-
-// Cleanup build folder
-
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
-
 
 
 // MARK:- External project
@@ -81,7 +81,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Compiled project build should success"+$link)
+ASSERT($success; "(External project) Server build should success"+$link)
 
 If ($success)
 	
@@ -89,17 +89,18 @@ If ($success)
 	
 	ASSERT($file.exists; "(External project) file added not found "+$source.path+" "+$link)
 	
-End if 
-
-
-// Cleanup build folder
-
-If (Is macOS)
 	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
 	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	// Cleanup build folder
+	
+	If (Is macOS)
+		
+		$build.settings.destinationFolder.parent.delete(fk recursive)
+		
+	Else 
+		// to validate on windows
+		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+		
+	End if 
 	
 End if 

@@ -1,6 +1,6 @@
 //%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -15,7 +15,7 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
-//$settings.license:=Storage.settings.licenseUUD
+
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
 
@@ -23,14 +23,13 @@ $settings.license:=File("/PACKAGE/Settings/4DSRV20x.license4D")
 
 $settings.xmlKeyLicense:=File("/PACKAGE/Settings/4DOEM20x.license4D")
 
-//$settings.xmlKeyLicense:=File("/PACKAGE/Settings/4DOEM-BAD.license4D")
 
 $build:=cs.Build4D.Server.new($settings)
 
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Compiled project build should success"+$link)
+ASSERT($success; "(Current project) Server build should success"+$link)
 
 If (Is macOS)
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/").file($build.settings.buildName+".4DZ")
@@ -38,7 +37,7 @@ Else
 	// to validate on windows
 	$buildServer:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
 End if 
-ASSERT($buildServer.exists; "(Current project) Compiled project should exist: "+$buildServer.platformPath+$link)
+ASSERT($buildServer.exists; "(Current project) Server should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
 If (Is macOS)
@@ -60,14 +59,14 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Compiled project build should success"+$link)
+ASSERT($success; "(External project) Server build should success"+$link)
 
 If (Is macOS)
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/").file($build.settings.buildName+".4DZ")
 Else 
 	$buildServer:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
 End if 
-ASSERT($buildServer.exists; "(External project) Compiled project should exist: "+$buildServer.platformPath+$link)
+ASSERT($buildServer.exists; "(External project) Server should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
 If (Is macOS)

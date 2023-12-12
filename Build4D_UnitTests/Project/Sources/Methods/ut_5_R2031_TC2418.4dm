@@ -1,6 +1,6 @@
 //%attributes = {}
 // Build a compiled project and archive it in an unzippable zip file
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $4DZ : 4D.File
@@ -26,7 +26,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Compiled project build should success"+$link)
+ASSERT($success; "(Current project) Server build should success"+$link)
 
 $folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
 
@@ -46,7 +46,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Compiled project build should success"+$link)
+ASSERT($success; "(External project) Server build should success"+$link)
 
 $folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
 

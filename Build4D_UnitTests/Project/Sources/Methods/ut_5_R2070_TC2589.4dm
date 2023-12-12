@@ -1,6 +1,6 @@
 //%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.Server
+var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -15,35 +15,35 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
-//$settings.license:=Storage.settings.licenseUUD
-$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
+
+$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macVolumeDesktop) : Folder(Storage.settings.winVolumeDesktop)
 
 $settings.versioning:={}
 $settings.versioning.companyName:="theCompanyName"
 
-$build:=cs.Build4D.Server.new($settings)
+$build:=cs.Build4D.Client.new($settings)
 
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Server build should success "+$link)
+ASSERT($success; "(Current project) Client build should success "+$link)
 
 If (Is macOS)
 	$infoFile:=$build.settings.destinationFolder.file("Contents/Info.plist")
 	$infos:=$infoFile.getAppInfo()
 	
-	ASSERT($infos.CFBundleIdentifier="theCompanyName.@"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
+	ASSERT($infos.CFBundleIdentifier="theCompanyName.@"; "(Current project) Client companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
 	
 Else 
 	$exeFile:=$build.settings.destinationFolder.file($build.settings.buildName+".exe")
 	If ($exeFile.exists)
 		$infos:=$exeFile.getAppInfo()
-		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
+		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Client companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
 		
 		
 	Else 
 		
-		ASSERT(False; "(Current project) Server exe file does not exist: "+$exeFile.path)
+		ASSERT(False; "(Current project) Client exe file does not exist: "+$exeFile.path)
 	End if 
 End if 
 
@@ -62,26 +62,26 @@ End if
 
 $settings.projectFile:=Storage.settings.externalProjectFile
 
-$build:=cs.Build4D.Server.new($settings)
+$build:=cs.Build4D.Client.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Server build should success "+$link)
+ASSERT($success; "(External project) Client build should success "+$link)
 
 
 If (Is macOS)
 	$infoFile:=$build.settings.destinationFolder.file("Contents/Info.plist")
 	$infos:=$infoFile.getAppInfo()
 	
-	ASSERT($infos.CFBundleIdentifier="theCompanyName.@"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
+	ASSERT($infos.CFBundleIdentifier="theCompanyName.@"; "(Current project) Client companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
 	
 Else 
 	$exeFile:=$build.settings.destinationFolder.file($build.settings.buildName+".exe")
 	If ($exeFile.exists)
 		$infos:=$exeFile.getAppInfo()
-		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
+		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Client companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
 	Else 
-		ASSERT(False; "(Current project) Server exe file does not exist:"+$exeFile.path)
+		ASSERT(False; "(Current project) Client exe file does not exist:"+$exeFile.path)
 	End if 
 End if 
 

@@ -1,6 +1,6 @@
 //%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -35,7 +35,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Compiled project build should success"+$link)
+ASSERT($success; "(Current project) Server build should success"+$link)
 
 
 var $folder : 4D.Folder
@@ -51,6 +51,7 @@ If ($success)
 	
 	ASSERT($file.exists; "(Current project) The file was not copied to the specified location. "+$link)
 	
+	
 	If (Is macOS)
 		
 		$build.settings.destinationFolder.parent.delete(fk recursive)
@@ -60,8 +61,8 @@ If ($success)
 		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 		
 	End if 
+	
 End if 
-
 
 // MARK:- External project
 
@@ -72,7 +73,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Compiled project build should success"+$link)
+ASSERT($success; "(External project) Server build should success"+$link)
 
 
 // Cleanup build folder
@@ -85,6 +86,7 @@ If ($success)
 	
 	ASSERT($file.exists; "(External project) The file was not copied to the specified location. "+$link)
 	
+	
 	If (Is macOS)
 		
 		$build.settings.destinationFolder.parent.delete(fk recursive)
@@ -94,4 +96,5 @@ If ($success)
 		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 		
 	End if 
+	
 End if 

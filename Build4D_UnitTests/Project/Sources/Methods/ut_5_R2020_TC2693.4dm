@@ -1,6 +1,6 @@
 //%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -15,7 +15,7 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
-//$settings.license:=Storage.settings.licenseUUD
+
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
 
@@ -28,7 +28,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(Current project) Compiled project build should success"+$link)
+ASSERT($success=False; "(Current project) Server build should success"+$link)
 
 If (Is macOS)
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/").file($build.settings.buildName+".4DZ")
@@ -36,19 +36,18 @@ Else
 	// to validate on windows
 	$buildServer:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
 End if 
-ASSERT($buildServer.exists; "(Current project) Compiled project should exist: "+$buildServer.platformPath+$link)
+ASSERT($buildServer.exists; "(Current project) Server should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
-If ($success)
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 
 
 
@@ -61,24 +60,23 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Compiled project build should success"+$link)
+ASSERT($success; "(External project) Server build should success"+$link)
 
 If (Is macOS)
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/").file($build.settings.buildName+".4DZ")
 Else 
 	$buildServer:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
 End if 
-ASSERT($buildServer.exists; "(External project) Compiled project should exist: "+$buildServer.platformPath+$link)
+ASSERT($buildServer.exists; "(External project) Server should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
-If ($success)
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 

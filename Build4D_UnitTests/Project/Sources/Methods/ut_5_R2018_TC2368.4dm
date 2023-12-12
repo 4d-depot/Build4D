@@ -1,6 +1,6 @@
 //%attributes = {"invisible":true}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -27,20 +27,18 @@ $success:=$build.build()
 
 ASSERT($success=False; "(Current project) Invalid destinationFolder "+$link)
 
-If ($success)
-	// Cleanup build folder
+// Cleanup build folder
+
+SHOW ON DISK($build.settings.destinationFolder.platformPath)
+
+If (Is macOS)
 	
-	SHOW ON DISK($build.settings.destinationFolder.platformPath)
+	$build.settings.destinationFolder.parent.delete(fk recursive)
 	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 
 
 
@@ -55,15 +53,13 @@ $success:=$build.build()
 ASSERT($success=False; "(External project) Invalid destinationFolder "+$link)
 
 
-If ($success)
-	// Cleanup build folder
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+// Cleanup build folder
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 

@@ -1,7 +1,7 @@
 //%attributes = {"invisible":true}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
-var $settings : Object
+var $build : cs.Build4D.Client
+var $settings; $infos : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
 var $buildClient : 4D.File

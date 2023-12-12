@@ -1,6 +1,6 @@
 //%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -35,7 +35,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Compiled project build should success"+$link)
+ASSERT($success; "(Current project) Server build should success"+$link)
 
 var $siliconCodeFile : 4D.File
 $siliconCodeFile:=$build.settings.destinationFolder.file("Contents/Server Database/Libraries/lib4d-arm64.dylib")
@@ -52,25 +52,23 @@ If ($siliconCodeFile.exists)
 			// The file is signed if a line "Runtime Version=versionNumber" exists
 			var $lines : Collection
 			$lines:=Split string($verificationWorker.responseError; "\n")
-			ASSERT(Not(Undefined($lines.find(Formula($1.value=$2); "Runtime Version=@"))); "(Current project) Component should be signed. Verification response: "+$verificationWorker.responseError+$link)
+			ASSERT(Not(Undefined($lines.find(Formula($1.value=$2); "Runtime Version=@"))); "(Current project) Server should be signed. Verification response: "+$verificationWorker.responseError+$link)
 		End if 
 	End if 
 End if 
 
 // Cleanup build folder
-If ($success)
+
+If (Is macOS)
 	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 	
 End if 
+
 
 
 // MARK:- External project
@@ -82,7 +80,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Compiled project build should success"+$link)
+ASSERT($success; "(External project) Server build should success"+$link)
 
 var $siliconCodeFile : 4D.File
 $siliconCodeFile:=$build.settings.destinationFolder.file("Contents/Server Database/Libraries/lib4d-arm64.dylib")
@@ -99,20 +97,18 @@ If ($siliconCodeFile.exists)
 			// The file is signed if a line "Runtime Version=versionNumber" exists
 			var $lines : Collection
 			$lines:=Split string($verificationWorker.responseError; "\n")
-			ASSERT(Not(Undefined($lines.find(Formula($1.value=$2); "Runtime Version=@"))); "(Current project) Component should be signed. Verification response: "+$verificationWorker.responseError+$link)
+			ASSERT(Not(Undefined($lines.find(Formula($1.value=$2); "Runtime Version=@"))); "(Current project) Server should be signed. Verification response: "+$verificationWorker.responseError+$link)
 		End if 
 	End if 
 End if 
 
 // Cleanup build folder
-If ($success)
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 

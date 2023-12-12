@@ -1,6 +1,6 @@
 //%attributes = {}
 // Build a compiled project and archive it in an unzippable zip file
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $4DZ : 4D.File
@@ -26,13 +26,13 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(Current project) Compiled project build should success"+$link)
+ASSERT($success; "(Current project) Server build should success"+$link)
 
 $folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
 
 $4DZ:=$folder.file($build.settings.buildName+".4DZ")
 
-ASSERT($4DZ.exists; "(Current project) Compiled project 4DZ file should exist: "+$compiledProject.platformPath+$link)
+ASSERT($4DZ.exists; "(Current project) Compiled project 4DZ file should exist: "+$4DZ.platformPath+$link)
 
 // Cleanup build folder
 Folder("/PACKAGE/Test").delete(fk recursive)
@@ -45,7 +45,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success; "(External project) Compiled project build should success"+$link)
+ASSERT($success; "(External project) Server build should success"+$link)
 
 $folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
 

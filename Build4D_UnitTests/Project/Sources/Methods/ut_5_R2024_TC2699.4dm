@@ -1,6 +1,6 @@
 //%attributes = {}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -30,14 +30,12 @@ $settings.signApplication:=New object(\
 "macCertificate"; "junkyCertificat")
 
 
-
 $build:=cs.Build4D.Server.new($settings)
 
 
 $success:=$build.build()
 
-ASSERT($success=False; "(Current project) Compiled project build should not success"+$link)
-
+ASSERT($success=False; "(Current project) Server build should not success"+$link)
 
 
 // Cleanup build folder
@@ -62,7 +60,7 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(External project) Compiled project build should not success "+$link)
+ASSERT($success=False; "(External project) Server build should not success "+$link)
 
 
 // Cleanup build folder

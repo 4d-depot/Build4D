@@ -1,6 +1,6 @@
 //%attributes = {"invisible":true}
 // Test _build() function in the default folder
-var $build : cs.Build4D.CompiledProject
+var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean
 var $destinationFolder : 4D.Folder
@@ -24,20 +24,19 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(Current project) Compiled project build should success"+$link)
+ASSERT($success=False; "(Current project) Server build should success"+$link)
 
 
 // Cleanup build folder
-If ($success)
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 
 
 // MARK:- External project
@@ -48,17 +47,15 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(External project) Compiled project build should success"+$link)
+ASSERT($success=False; "(External project) Server build should success"+$link)
 
 // Cleanup build folder
-If ($success)
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
+If (Is macOS)
+	
+	$build.settings.destinationFolder.parent.delete(fk recursive)
+	
+Else 
+	// to validate on windows
+	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	
 End if 
