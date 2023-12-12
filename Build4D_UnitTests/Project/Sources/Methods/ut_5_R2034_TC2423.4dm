@@ -17,6 +17,8 @@ $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
 
+$settings.lastDataPathLookup:="ByAppPath"
+
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
 
@@ -37,7 +39,7 @@ End if
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
 	
-	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppName"; "(Current project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppName.")
+	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppPath"; "(Current project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppPath.")
 Else 
 	ASSERT(False; "(Current project) Info.plist file doesnt exist.")
 End if 
@@ -74,7 +76,7 @@ End if
 
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
-	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppPath"; "(External project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppName")
+	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppPath"; "(External project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppPath")
 Else 
 	ASSERT(False; "(External project) Info.plist file doesnt exist.")
 	

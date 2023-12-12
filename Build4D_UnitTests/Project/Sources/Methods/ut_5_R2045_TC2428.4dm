@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"invisible":true}
 // Test _build() function in the default folder
 var $build : cs.Build4D.CompiledProject
 var $settings; $infos : Object
@@ -17,15 +17,16 @@ $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
 
+
+
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
-
 $build:=cs.Build4D.Server.new($settings)
+
 
 $success:=$build.build()
 
 ASSERT($success; "(Current project) Compiled project build should success"+$link)
-
 
 If (Is macOS)
 	$infoPlist:=$build.settings.destinationFolder.file("Contents/Info.plist")
@@ -34,14 +35,16 @@ Else
 	$infoPlist:=$build.settings.destinationFolder.file("Resources/Info.plist")
 End if 
 
+
+ASSERT($infoPlist.exists; "(Current project) Info.plist file should exist: "+$buildServer.platformPath+$link)
+
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
 	
-	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppName"; "(Current project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppName.")
-Else 
-	ASSERT(False; "(Current project) Info.plist file doesnt exist.")
+	ASSERT($infos["com.4D.HideDataExplorerMenuItem"]="false"; "(Current project) Info.plist com.4D.HideDataExplorerMenuItem Key should have value: false")
+	
+	
 End if 
-
 
 // Cleanup build folder
 If (Is macOS)
@@ -60,10 +63,10 @@ $settings.projectFile:=Storage.settings.externalProjectFile
 
 $build:=cs.Build4D.Server.new($settings)
 
-
 $success:=$build.build()
 
 ASSERT($success; "(External project) Compiled project build should success"+$link)
+
 
 If (Is macOS)
 	$infoPlist:=$build.settings.destinationFolder.file("Contents/Info.plist")
@@ -72,11 +75,14 @@ Else
 	$infoPlist:=$build.settings.destinationFolder.file("Resources/Info.plist")
 End if 
 
+
+ASSERT($infoPlist.exists; "(External project) Info.plist file should exist: "+$buildServer.platformPath+$link)
+
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
-	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppPath"; "(External project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppName")
-Else 
-	ASSERT(False; "(External project) Info.plist file doesnt exist.")
+	
+	ASSERT($infos["com.4D.HideDataExplorerMenuItem"]="false"; "(External project) Info.plist com.4D.HideDataExplorerMenuItem Key should have value: false")
+	
 	
 End if 
 

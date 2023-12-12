@@ -19,6 +19,9 @@ $settings.destinationFolder:="./Test/"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
+$settings.deletePaths:=[]
+$settings.deletePaths.push("../Components/4D Widgets.4dbase")
+$settings.deletePaths.push("../Resources/cpp/")
 
 $build:=cs.Build4D.Server.new($settings)
 

@@ -19,6 +19,7 @@ $settings.destinationFolder:="./Test/"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
+$settings.lastDataPathLookup:="ByAppName"
 
 $build:=cs.Build4D.Server.new($settings)
 
@@ -74,7 +75,7 @@ End if
 
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
-	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppPath"; "(External project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppName")
+	ASSERT($infos["com.4D.BuildApp.LastDataPathLookup"]="ByAppName"; "(External project) Info.plist com.4D.BuildApp.LastDataPathLookup Key should have value: ByAppName")
 Else 
 	ASSERT(False; "(External project) Info.plist file doesnt exist.")
 	

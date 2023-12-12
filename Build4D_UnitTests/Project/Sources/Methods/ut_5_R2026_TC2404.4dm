@@ -19,6 +19,9 @@ $settings.destinationFolder:="./Test/"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
+$settings.deletePaths:=[]
+$settings.deletePaths.push("../Resources/default.4DProject")
+$settings.deletePaths.push("../Resources/default.4DPreferences")
 
 $build:=cs.Build4D.Server.new($settings)
 
