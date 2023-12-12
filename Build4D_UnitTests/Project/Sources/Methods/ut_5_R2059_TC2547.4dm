@@ -80,7 +80,7 @@ ASSERT($infoPlist.exists; "(External project) Info.plist file should exist: "+$b
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
 	
-	ASSERT($infos["BuildHardLink"]=$settings.hardLink; "(External project) Info.plist 4D_SingleInstance Key should have value: "+$settings.hardLink)
+	ASSERT($infos["BuildHardLink"]=$settings.hardLink; "(External project) Info.plist BuildHardLink Key should have value: "+$settings.hardLink)
 	
 	
 End if 
