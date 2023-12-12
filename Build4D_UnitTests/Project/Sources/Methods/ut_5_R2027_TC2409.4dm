@@ -19,6 +19,7 @@ If (Is Windows)  // Only on Windows
 	$settings.formulaForLogs:=Formula(logGitHubActions($1))
 	$settings.destinationFolder:="./Test/"
 	
+	$settings.startElevated:=True
 	
 	$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 	
@@ -71,5 +72,4 @@ If (Is Windows)  // Only on Windows
 		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 		
 	End if 
-	
 End if 

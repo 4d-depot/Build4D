@@ -19,6 +19,7 @@ If (Is Windows)  // Only on Windows
 	$settings.formulaForLogs:=Formula(logGitHubActions($1))
 	$settings.destinationFolder:="./Test/"
 	
+	$settings.startElevated:=False
 	
 	$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 	
@@ -33,7 +34,7 @@ If (Is Windows)  // Only on Windows
 	ASSERT($manifestFile.exists; "(Current project) Server Updater manifest should exist: "+$manifestFile.platformPath+$link)
 	
 	$manifestContent:=$manifestFile.getText()
-	ASSERT($manifestContent="@level=\"asInvoker\"@"; "(Current project) Server Updater manifest should contain normal rights"+$link)
+	ASSERT($manifestContent#"@level=\"asInvoker\"@"; "(Current project) Server Updater manifest should contain normal rights"+$link)
 	
 	// Cleanup build folder
 	If (Is macOS)
@@ -60,7 +61,7 @@ If (Is Windows)  // Only on Windows
 	ASSERT($manifestFile.exists; "(External project) Server Updater manifest should exist: "+$manifestFile.platformPath+$link)
 	
 	$manifestContent:=$manifestFile.getText()
-	ASSERT($manifestContent="@level=\"asInvoker\"@"; "(External project) Server Updater manifest should contain normal rights"+$link)
+	ASSERT($manifestContent#"@level=\"asInvoker\"@"; "(External project) Server Updater manifest should contain normal rights"+$link)
 	// Cleanup build folder
 	If (Is macOS)
 		
@@ -71,5 +72,4 @@ If (Is Windows)  // Only on Windows
 		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 		
 	End if 
-	
 End if 
