@@ -33,12 +33,11 @@ If (Is Windows)  // windows only
 	
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/Libraries/").file("lib4d-arm64.dylib")
 	
-	ASSERT($buildServer.exists; "(Current project) Silicon Code folder should exist: "+$buildServer.platformPath+$link)
+	ASSERT($buildServer.exists=False; "(Current project) Silicon Code folder should exist: "+$buildServer.platformPath+$link)
 	
 	// Cleanup build folder
 	
 	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
 	
 	
 	// MARK:- External project
@@ -57,10 +56,10 @@ If (Is Windows)  // windows only
 	
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/Libraries/").file("lib4d-arm64.dylib")
 	
-	ASSERT($buildServer.exists; "(External project) Silicon Code folder should exist: "+$buildServer.platformPath+$link)
+	ASSERT($buildServer.exists=False; "(External project) Silicon Code folder should exist: "+$buildServer.platformPath+$link)
 	
 	
-	// Cleanup build folder
+	
 	
 	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
 	
