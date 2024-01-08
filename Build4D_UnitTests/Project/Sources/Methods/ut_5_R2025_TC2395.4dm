@@ -28,9 +28,9 @@ Else
 End if 
 
 //the goal : signApp app
-//$settings.signApplication:={adHocSignature: True}
+$settings.signApplication:={adHocSignature: True}
 
-$source:=File("/PACKAGE/README.md")
+
 $path:={\
 source: "../README.md"; \
 destination: "../"\
@@ -48,7 +48,7 @@ ASSERT($success; "(Current project) Server build should success"+$link)
 
 If ($success)
 	
-	$file:=$build.settings.destinationFolder.folder("Contents/doc/").file($source.fullName)
+	$file:=$build.settings.destinationFolder.file("Contents/README.md")
 	
 	ASSERT($file.exists; "(Current project) file added not found "+$source.path+" "+$link)
 	
@@ -86,7 +86,7 @@ ASSERT($success; "(External project) Server build should success"+$link)
 
 If ($success)
 	
-	$file:=$build.settings.destinationFolder.folder("Contents/doc/").file($source.fullName)
+	$file:=$build.settings.destinationFolder.file("Contents/README.md")
 	
 	ASSERT($file.exists; "(External project) file added not found "+$source.path+" "+$link)
 	
