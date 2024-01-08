@@ -60,7 +60,7 @@ End if
 
 ASSERT($clientArchive.exists; "(Current project) "+$clientArchive.fullName+" file should exist: "+$clientArchive.platformPath+$link)
 
-
+// il faut checker aussi le contenu du fichier json
 
 // Cleanup build folder
 If (Is macOS)
