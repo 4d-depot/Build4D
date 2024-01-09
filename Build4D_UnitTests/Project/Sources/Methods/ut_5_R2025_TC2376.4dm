@@ -27,8 +27,7 @@ Else
 	$settings.compilerOptions:=New object("targets"; New collection("x86_64_generic"))
 End if 
 
-//the goal : signApp app
-//$settings.signApplication:={adHocSignature: True}
+
 
 $source:=File("/PACKAGE/README.md")
 $path:={\

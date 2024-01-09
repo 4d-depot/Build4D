@@ -15,7 +15,6 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
-$settings.signApplication:={adHocSignature: True}
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
