@@ -27,7 +27,7 @@ $server.sourceAppFolder:="/Applications/4D v20.2/4D Server MAC/4D Server.app/"
 //mark:- SILICON CODE INTO WINSERVER  requirement #2061
 
 // copier dans "server database" le dossier library
-$server.macCompiledProject:=Folder(Folder("/PACKAGE/").platformPath; fk platform path).parent.folder("Mac Compiled Database - #2061/Build4D/").path
+$server.macCompiledProject:=Folder(Folder("/PACKAGE/").platformPath; fk platform path).parent.folder("Build4D_UnitTests/ConnectingDB_Build/ConnectingDB/Libraries/").path
 
 
 
