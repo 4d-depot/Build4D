@@ -21,7 +21,7 @@ If (Is Windows)  // windows only
 	
 	$settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 	
-	$settings.macCompiledProject:=Folder(Folder("/PACKAGE/").platformPath; fk platform path).parent.folder("ConnectingDB_Build/ConnectingDB/Libraries/").path
+	$settings.macCompiledProject:=Folder(Folder("/PACKAGE/").platformPath; fk platform path).folder("ConnectingDB_Build/ConnectingDB/Libraries/").path
 	
 	
 	$build:=cs.Build4D.Server.new($settings)
@@ -46,7 +46,7 @@ If (Is Windows)  // windows only
 	
 	$build:=cs.Build4D.Server.new($settings)
 	
-	$destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
+	$destinationFolder:=$build._projectPackage.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
 	ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 	
 	$success:=$build.build()
