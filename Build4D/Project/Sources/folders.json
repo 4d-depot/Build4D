@@ -1,25 +1,4 @@
 {
-	"____ franck": {
-		"methods": [
-			"____test_cs_embedded",
-			"____test_cs_silicon_on_win",
-			"____test_cs_versionning"
-		]
-	},
-	"____ test methods": {
-		"methods": [
-			"____test_client",
-			"____test_client_embedded",
-			"____test_component",
-			"____test_cs",
-			"____test_hfs",
-			"____test_mac_win_client",
-			"____test_mono",
-			"____test_server",
-			"____test_vanessa",
-			"____van_Client"
-		]
-	},
 	". . public classes": {
 		"classes": [
 			"_core",
@@ -30,7 +9,33 @@
 			"Standalone"
 		]
 	},
-	". . settings private classes": {
+	"...  compiler": {
+		"methods": [
+			"Compiler_Methods"
+		]
+	},
+	"(____ franck)": {
+		"methods": [
+			"(____test_cs_embedded)",
+			"(____test_cs_silicon_on_win)",
+			"(____test_cs_versionning)"
+		]
+	},
+	"(____ test methods)": {
+		"methods": [
+			"(____test_client_embedded)",
+			"(____test_client)",
+			"(____test_component)",
+			"(____test_cs)",
+			"(____test_hfs)",
+			"(____test_mac_win_client)",
+			"(____test_mono)",
+			"(____test_server)",
+			"(____test_vanessa)",
+			"(____van_Client)"
+		]
+	},
+	"(. . settings private classes)": {
 		"classes": [
 			"_clientApplication",
 			"_compilerOptions",
@@ -39,15 +44,17 @@
 			"_versioning"
 		]
 	},
-	". . test class": {
+	"(. . test class)": {
 		"classes": [
 			"CS"
 		]
 	},
-	"...  compiler": {
-		"methods": [
-			"Compiler_Methods"
+	"trash": {
+		"groups": [
+			"(____ franck)",
+			"(____ test methods)",
+			"(. . settings private classes)",
+			"(. . test class)"
 		]
-	},
-	"trash": {}
+	}
 }
