@@ -1,26 +1,69 @@
-property \
-_validInstance; \
-_isCurrentProject; \
-_isDefaultDestinationFolder; \
-_noError : Boolean
+
+//mark:- DOCUMENTAION PRIVATE PROPERTIES
+
+/*
+
+PRIVATE PROPERTIES
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Attributes                    |   Type           |      Description
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_validInstance                |   Boolean        |      True if the instanciated object can be used for build. False if a condition is not filled (e.g. project doesn't exist).
+_projectFile                  |   File           |      Project file.
+_projectPackage               |   Folder         |      Folder of the project package.
+_isCurrentProject.            |   Boolean        |      True if the project is the current one.
+_isDefaultDestinationFolder   |   Boolean        |      True if the destination folder is the one computed automatically.
+_structureFolder              |   Folder         |      Folder of the destination structure.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-property \
-_projectFile : 4D.File
 
 
-property \
-_currentProjectPackage; \
-_projectPackage; \
-_structureFolder : 4D.Folder
+*/
+
+//mark:- DOCUMENTATION PRIVATE FUNCTIONS
+
+/*
+
+PRIVATE FUNCTIONS
 
 
-property \
-logs : Collection
 
 
-property \
-settings : Object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+property _validInstance : Boolean
+property _isCurrentProject : Boolean
+property _isDefaultDestinationFolder : Boolean
+property _noError : Boolean
+
+property _projectFile : 4D.File
+
+property _currentProjectPackage : 4D.Folder
+property _projectPackage : 4D.Folder
+property _structureFolder : 4D.Folder
+
+property logs : Collection
+
+property settings : Object
 
 
 Class constructor($target : Text; $customSettings : Object)
@@ -42,16 +85,17 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	$settings:=($customSettings#Null) ? $customSettings : {}
 	
+	//NOTE : if you want to create a container for the target ...
 	//If ($settings.destinationFolder=Null)
-	//$settings.destinationFolder:="/"+$target+"/"
+	// $settings.destinationFolder:="/"+$target+"/"
 	//Else 
-	//$settings.destinationFolder+=(($settings.destinationFolder="@/") ? "" : "/")+$target+"/"
+	// $settings.destinationFolder+=(($settings.destinationFolder="@/") ? "" : "/")+$target+"/"
 	//End if 
 	
 	
 	This._validInstance:=True
 	This._isCurrentProject:=True
-	//This._target:=""
+	
 	This._projectFile:=File(Structure file(*); fk platform path)
 	This._currentProjectPackage:=Folder(Folder("/PACKAGE/"; *).platformPath; fk platform path)
 	If (($settings#Null) && ($settings.projectFile#Null) && \
@@ -98,7 +142,19 @@ Function get buildName : Text
 		return This._projectFile.name
 	End if 
 	
-	//MARK:-
+	//MARK:- Overrides the default target settings with the $settings parameter.
+	
+/*
+	
+Function _overrideSettings($settings : Object)
+....................................................................................
+Parameter      Type          in/out         Description
+....................................................................................
+$settings.     Object          in           Settings passed by the derived class to override the default settings.
+....................................................................................
+	
+*/
+	
 Function _overrideSettings($settings : Object)
 	
 	var $entries : Collection
@@ -148,7 +204,19 @@ Function _overrideSettings($settings : Object)
 		
 	End for each 
 	
-	//MARK:-
+	//MARK:-Calls the settings.formulaForLogs formula with the $log object parameter.
+	
+/*
+	
+Function _log($log : Object)
+....................................................................................
+Parameter      Type          in/out         Description
+....................................................................................
+$log           Object         in            Object containing the attributes: "function", "message", "messageSeverity", and optionnaly: "result", "path", "sourcePath", "destinationPath".
+....................................................................................
+	
+*/
+	
 Function _log($log : Object)
 	
 	This.logs.push($log)
@@ -156,7 +224,20 @@ Function _log($log : Object)
 		This.settings.logger($log)
 	End if 
 	
-	//MARK:-
+	//MARK:- Resolves a relative/absolute/filesystem string path to a Folder/File object.
+	
+/*
+Function _resolvePath($path : Text; $baseFolder : 4D.Folder) -> $object : Object
+....................................................................................
+Parameter      Type                     in/out         Description
+....................................................................................
+$path.         Text                      in            Relative path to $baseFolder.
+$baseFolder    4D.Folder                 in            Absolute path.
+$object        4D.Folder or 4D.File.     out           4D folder or 4D File.
+....................................................................................
+	
+*/
+	
 Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 	
 	var $absolutePath : Text
@@ -282,7 +363,19 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			
 	End case 
 	
-	//MARK:-
+	//MARK:- Checks the destination folder.
+	
+/*
+	
+Function _checkDestinationFolder() -> $status : Boolean
+....................................................................................
+Parameter      Type          in/out        Description
+....................................................................................
+$status       Boolean        out          True if the destination folder exists.
+....................................................................................
+	
+*/
+	
 Function _checkDestinationFolder() : Boolean
 	
 	This._noError:=True
@@ -302,7 +395,19 @@ Function _checkDestinationFolder() : Boolean
 	
 	return This._noError
 	
-	//MARK:-
+	//MARK:- Compiles the project with the settings.compilerOptions (if it exists).
+	
+/*
+	
+Function _compileProject() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean        out         True if the compilation has succeeded. Otherwise, the compilation's result object is included in an error log.
+....................................................................................
+	
+*/
+	
 Function _compileProject() : Boolean
 	
 	If (This._validInstance)
@@ -330,7 +435,19 @@ Function _compileProject() : Boolean
 		End if 
 	End if 
 	
-	//MARK:-
+	//MARK:- Creates the destination structure folders and files.
+	
+/*
+	
+Function _createStructure() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the destination structure has been correctly created.
+....................................................................................
+	
+*/
+	
 Function _createStructure() : Boolean
 	
 	var $structureFolder; $librariesFolder : 4D.Folder
@@ -369,7 +486,20 @@ Function _createStructure() : Boolean
 		End if 
 	End if 
 	
-	//MARK:-
+	//MARK:- Includes folders and files into the destination structure.
+	
+/*
+	
+Function _includePaths($pathsObj : Collection) -> $status : Boolean
+....................................................................................
+Parameter      Type                     in/out        Description
+....................................................................................
+$paths.        Collection of objects     in           List of folder and file objects to include.
+$status        Boolean.                  out         True if all paths have been correctly copied. Otherwise, an error log is created with "sourcePath" and "destinationPath" information.
+....................................................................................
+	
+*/
+	
 Function _includePaths($pathsObj : Collection) : Boolean
 	
 	var $pathObj; $sourcePath; $destinationPath : Object
@@ -468,7 +598,20 @@ Function _includePaths($pathsObj : Collection) : Boolean
 	
 	return True
 	
-	//MARK:-
+	//MARK:- Deletes folders and files from the destination structure.
+	
+/*
+	
+Function _deletePaths($paths : Collection) -> $status : Boolean
+....................................................................................
+Parameter      Type                   in/out        Description
+....................................................................................
+$paths.        Collection of texts     in           List of folders and files to delete.
+$status        Boolean                 out          True if all paths have been correctly removed. Otherwise, an error log is created with "path" information.
+....................................................................................
+	
+*/
+	
 Function _deletePaths($paths : Collection) : Boolean
 	
 	var $path : Variant
@@ -517,7 +660,19 @@ Function _deletePaths($paths : Collection) : Boolean
 	
 	return True
 	
-	//MARK:-
+	//MARK:- Creates the 4DZ file of the project, and deletes the Project folder if successful.
+	
+/*
+	
+Function _create4DZ() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the compression has succeeded. Otherwise, the archive creation's result object is included in an error log.
+....................................................................................
+	
+*/
+	
 Function _create4DZ() : Boolean
 	
 	var $structureFolder : 4D.Folder
@@ -547,13 +702,37 @@ Function _create4DZ() : Boolean
 	
 	return True
 	
-	//MARK:-
+	//MARK:- Copies the source application (4D Volume Desktop or 4D Server) in the destination folder.
+	
+/*
+	
+Function _copySourceApp() -> $status : Boolean
+....................................................................................
+Parameter      Type           in/out        Description
+....................................................................................
+$status        Boolean         out          True if the copy is successful.
+....................................................................................
+	
+*/
+	
 Function _copySourceApp() : Boolean
 	This._noError:=True
 	This.settings.sourceAppFolder.copyTo(This.settings.destinationFolder.parent; This.settings.destinationFolder.fullName)
 	return This._noError
 	
-	//MARK:-
+	//MARK:- Deletes the folders and files composing the module to be removed according to the information in the "/RESOURCES/BuildappOptionalModules.json" file.
+	
+/*
+	
+Function _excludeModules() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out         Description
+....................................................................................
+$status        Boolean        out          True if all modules have been correctly removed. Otherwise, an error log is created with "path" information.
+....................................................................................
+	
+*/
+	
 Function _excludeModules() : Boolean
 	var $excludedModule; $path; $basePath : Text
 	var $optionalModulesFile : 4D.File
@@ -597,7 +776,19 @@ Function _excludeModules() : Boolean
 	
 	return This._noError
 	
-	//MARK:-
+	//MARK:- Sets the information to the application.
+	
+/*
+	
+Function _setAppOptions()-> $status : Boolean
+....................................................................................
+Parameter      Type.         in/out.        Description
+....................................................................................
+$status        Boolean        out           True if the information has been correctly added.
+....................................................................................
+	
+*/
+	
 Function _setAppOptions() : Boolean
 	var $appInfo; $exeInfo : Object
 	var $infoFile; $exeFile; $manifestFile : 4D.File
@@ -727,7 +918,19 @@ Function _setAppOptions() : Boolean
 	
 	return This._noError
 	
-	//MARK:-
+	//MARK:- Creates the deployment license file in the license folder of the generated application.
+	
+/*
+	
+Function _generateLicense() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out         Description
+....................................................................................
+$status.       Boolean        out          True if the deployment license have been correctly created. Otherwise, xxx.
+....................................................................................
+	
+*/
+	
 Function _generateLicense() : Boolean
 	var $status : Object
 	
@@ -753,7 +956,17 @@ Function _generateLicense() : Boolean
 			"severity"; Error message))
 	End if 
 	
-	//MARK:-
+	//MARK:- Signs the project
+	
+/*
+Function _sign()-> $status : Boolean
+....................................................................................
+Parameter      Type          in/out         Description
+....................................................................................
+$status        Boolean        out           True if the signature is successful.
+....................................................................................
+*/
+	
 Function _sign() : Boolean
 	
 	If (Is macOS && (This.settings.signApplication#Null))
