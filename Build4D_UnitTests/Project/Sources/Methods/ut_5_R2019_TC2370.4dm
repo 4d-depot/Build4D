@@ -38,7 +38,7 @@ Else
 	$exeFile:=$build.settings.destinationFolder.file($build.settings.buildName+".exe")
 	If ($exeFile.exists)
 		$infos:=$exeFile.getAppInfo()
-		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
+		ASSERT($infos.CompanyName="theCompanyName"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
 		
 		
 	Else 
@@ -48,15 +48,7 @@ Else
 End if 
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -79,7 +71,7 @@ Else
 	$exeFile:=$build.settings.destinationFolder.file($build.settings.buildName+".exe")
 	If ($exeFile.exists)
 		$infos:=$exeFile.getAppInfo()
-		ASSERT($infos.CompanyName="UT_companyName"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
+		ASSERT($infos.CompanyName="theCompanyName"; "(Current project) Server companyName should be set (https://github.com/orgs/4d/projects/119/views/4?pane=issue&itemId=37680117")
 	Else 
 		ASSERT(False; "(Current project) Server exe file does not exist:"+$exeFile.path)
 	End if 
@@ -87,12 +79,4 @@ End if
 
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)

@@ -17,7 +17,7 @@ $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 
 
-$settings.destinationFolder:="/toto/"
+$settings.destinationFolder:=":::"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
@@ -29,17 +29,6 @@ ASSERT($success=False; "(Current project) Invalid destinationFolder "+$link)
 
 // Cleanup build folder
 
-SHOW ON DISK($build.settings.destinationFolder.platformPath)
-
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
 
 
 // MARK:- External project
@@ -52,14 +41,3 @@ $success:=$build.build()
 
 ASSERT($success=False; "(External project) Invalid destinationFolder "+$link)
 
-
-// Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 

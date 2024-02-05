@@ -42,15 +42,7 @@ End if
 ASSERT($buildServer.name=$settings.buildName; "(Current project) Build Server Name should be: "+$settings.buildName+$link)
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -70,12 +62,4 @@ End if
 ASSERT($buildServer.name=$settings.buildName; "(External project)  Build Server Name should be: "+$settings.buildName+$link)
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)

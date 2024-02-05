@@ -28,23 +28,19 @@ $success:=$build.build()
 
 ASSERT($success; "(Current project) Server build should success"+$link)
 
-
-If (Is macOS)
-	$file:=$build.settings.destinationFolder.file("Contents/Server Database/Ressources/UnitTests.txt")
-Else 
-	// to validate on windows
-	$file:=$build.settings.destinationFolder.folder("Server Database/Ressources/UnitTests.txt")
+If ($success)
+	If (Is macOS)
+		$folder:=Folder($build.settings.destinationFolder.path+"Contents/Resources/mecab/")
+	Else 
+		// to validate on windows
+		$folder:=Folder($build.settings.destinationFolder.path+"Resources/mecab/")
+	End if 
+	
+	ASSERT($folder.exists=False; "the exculed module must be deleted.")
 End if 
 
-ASSERT($file.exists; "(Current project) UnitTest.txt file doesnt exist.")
-
-
-
-
-
 // Cleanup build folder
-
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 // MARK:- External project
@@ -59,17 +55,16 @@ $success:=$build.build()
 ASSERT($success; "(External project) Server build should success"+$link)
 
 
-If (Is macOS)
-	$file:=$build.settings.destinationFolder.file("Contents/Server Database/Ressources/UnitTests.txt")
-Else 
-	// to validate on windows
-	$file:=$build.settings.destinationFolder.folder("Server Database/Ressources/UnitTests.txt")
+If ($success)
+	If (Is macOS)
+		$folder:=Folder($build.settings.destinationFolder.path+"Contents/Resources/mecab/")
+	Else 
+		// to validate on windows
+		$folder:=Folder($build.settings.destinationFolder.path+"Resources/mecab/")
+	End if 
+	
+	ASSERT($folder.exists=False; "the exculed module must be deleted.")
 End if 
 
-ASSERT($file.exists; "(External project) UnitTest.txt file doesnt exist.")
-
-
-
-
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

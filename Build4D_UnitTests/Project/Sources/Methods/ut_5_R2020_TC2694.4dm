@@ -23,26 +23,19 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(Current project) Server build should success"+$link)
+ASSERT($success; "(Current project) Server build should success"+$link)
 
 If (Is macOS)
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/").file($build.settings.buildName+".4DZ")
 Else 
 	// to validate on windows
-	$buildServer:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
+	$buildServer:=$build.settings.destinationFolder.folder("Server Database/").file($build.settings.buildName+".4DZ")
 End if 
 ASSERT($buildServer.exists; "(Current project) Server should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
+
 
 
 // MARK:- External project
@@ -59,17 +52,10 @@ ASSERT($success; "(External project) Server build should success"+$link)
 If (Is macOS)
 	$buildServer:=$build.settings.destinationFolder.folder("Contents/Server Database/").file($build.settings.buildName+".4DZ")
 Else 
-	$buildServer:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
+	$buildServer:=$build.settings.destinationFolder.folder("Server Database/").file($build.settings.buildName+".4DZ")
 End if 
 ASSERT($buildServer.exists; "(External project) Server should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
+

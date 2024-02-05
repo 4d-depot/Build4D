@@ -36,13 +36,10 @@ Else
 	$folder:=$build.settings.destinationFolder.folder("Resources/ja.lproj/")
 End if 
 
-ASSERT($folder.exists; "(Current project) /Resources/ja.lproj folder should'nt exist: "+$folder.platformPath+$link)
-
-
+ASSERT($folder.exists=False; "(Current project) /Resources/ja.lproj folder should'nt exist: "+$folder.platformPath+$link)
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
-
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -63,7 +60,7 @@ Else
 End if 
 
 
-ASSERT($folder.exists; "(External project) /Resources/ja.lproj folder should'nt exist: "+$folder.platformPath+$link)
+ASSERT($folder.exists=False; "(External project) /Resources/ja.lproj folder should'nt exist: "+$folder.platformPath+$link)
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

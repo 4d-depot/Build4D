@@ -38,11 +38,6 @@ ASSERT($success=False; "(Current project) Server build should'nt success"+$link)
 
 
 
-// Cleanup build folder
-
-
-$build.settings.destinationFolder.parent.delete(fk recursive)
-
 // MARK:- External project
 
 $settings.projectFile:=Storage.settings.externalProjectFile
@@ -54,8 +49,3 @@ $success:=$build.build()
 
 ASSERT($success=False; "(External project) Server build should't success"+$link)
 
-
-// Cleanup build folder
-
-
-$build.settings.destinationFolder.parent.delete(fk recursive)

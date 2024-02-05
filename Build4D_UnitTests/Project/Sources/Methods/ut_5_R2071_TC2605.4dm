@@ -20,7 +20,7 @@ $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macVolumeDesktop
 
 
 //the goal : set custom icon to app
-$settings.iconPath:=File("/RESOURCES/myIcon.icns")
+$settings.iconPath:=(Is macOS) ? File("/RESOURCES/myIcon.icns") : File("/RESOURCES/myIcon.ico")
 
 $build:=cs.Build4D.Client.new($settings)
 
@@ -38,16 +38,7 @@ End if
 ASSERT($buildServer.exists; "(Current project) Custom icon should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
-
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 
@@ -71,14 +62,4 @@ End if
 ASSERT($buildServer.exists; "(Current project) Custom icon should exist: "+$buildServer.platformPath+$link)
 
 // Cleanup build folder
-If ($success)
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)

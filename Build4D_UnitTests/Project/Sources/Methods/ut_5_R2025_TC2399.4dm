@@ -44,25 +44,21 @@ var $file : 4D.File
 // Cleanup build folder
 If ($success)
 	
-	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database"+$settings.includePaths[0].destination)
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Database"+$settings.includePaths[0].destination)
+	Else 
+		$folder:=$build.settings.destinationFolder.folder("Server Database"+$settings.includePaths[0].destination)
+	End if 
 	
 	$file:=$folder.file(Substring($settings.includePaths[0].source; 2))
 	
-	
 	ASSERT($file.exists; "(Current project) The file was not copied to the specified location. "+$link)
 	
-	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
-	
 End if 
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)
+
 
 // MARK:- External project
 
@@ -79,22 +75,17 @@ ASSERT($success; "(External project) Server build should success"+$link)
 // Cleanup build folder
 If ($success)
 	
-	
-	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database"+$settings.includePaths[0].destination)
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Database"+$settings.includePaths[0].destination)
+	Else 
+		$folder:=$build.settings.destinationFolder.folder("Server Database"+$settings.includePaths[0].destination)
+	End if 
 	
 	$file:=$folder.file(Substring($settings.includePaths[0].source; 2))
 	
 	ASSERT($file.exists; "(External project) The file was not copied to the specified location. "+$link)
 	
-	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
-	
 End if 
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)

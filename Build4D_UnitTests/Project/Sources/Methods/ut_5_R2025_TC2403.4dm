@@ -42,20 +42,18 @@ var $folder : 4D.Folder
 // Cleanup build folder
 If ($success)
 	
-	$folder:=$build.settings.destinationFolder.folder("Contents/Server Resources/")
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Resources/")
+	Else 
+		$folder:=$build.settings.destinationFolder.folder("Server Resources/")
+	End if 
 	
 	ASSERT($folder.exists; "(Current project) The folder was not copied to the specified location. "+$link)
 	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
 End if 
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 // MARK:- External project
@@ -73,18 +71,15 @@ ASSERT($success; "(External project) Server build should success"+$link)
 // Cleanup build folder
 If ($success)
 	
-	$folder:=$build.settings.destinationFolder.folder("Contents/Server Resources/")
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Resources/")
+	Else 
+		$folder:=$build.settings.destinationFolder.folder("Server Resources/")
+	End if 
 	
 	ASSERT($folder.exists; "(External project) The folder was not copied to the specified location. "+$link)
 	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		
-	End if 
-	
 End if 
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)

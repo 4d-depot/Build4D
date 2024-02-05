@@ -36,8 +36,7 @@ If (Is Windows)  // windows only
 	ASSERT($buildServer.exists; "(Current project) Silicon Code folder should exist: "+$buildServer.platformPath+$link)
 	
 	// Cleanup build folder
-	
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	Folder("/PACKAGE/Test").delete(fk recursive)
 	
 	
 	
@@ -61,8 +60,7 @@ If (Is Windows)  // windows only
 	
 	
 	// Cleanup build folder
-	
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	Folder("/PACKAGE/Test").delete(fk recursive)
 	
 	
 	

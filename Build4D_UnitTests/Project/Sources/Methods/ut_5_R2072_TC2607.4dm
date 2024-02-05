@@ -44,8 +44,7 @@ If ($verificationWorker.terminated)
 End if 
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
-
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -70,6 +69,5 @@ If ($verificationWorker.terminated)
 	End if 
 End if 
 
-
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

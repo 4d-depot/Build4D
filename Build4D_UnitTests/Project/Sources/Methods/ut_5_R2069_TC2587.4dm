@@ -26,16 +26,6 @@ $success:=$build.build()
 ASSERT($success=False; "(Current project) Client build should success"+$link)
 
 
-// Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
 
 // MARK:- External project
 
@@ -47,14 +37,3 @@ $success:=$build.build()
 
 ASSERT($success=False; "(External project) Client build should success"+$link)
 
-
-// Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 

@@ -21,8 +21,6 @@ $settings.destinationFolder:="./Test/"
 
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 
-
-
 $settings.obfuscated:=False
 
 $build:=cs.Build4D.Server.new($settings)
@@ -31,11 +29,21 @@ $success:=$build.build()
 
 ASSERT($success; "(Current project) Server build should success"+$link)
 
-$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
 
-$4DZ:=$folder.file($build.settings.buildName+".4DZ")
-$zip:=ZIP Read archive($4DZ)
-ASSERT($zip#Null; "(Current project) Compiled project 4DZ file should be unzippable"+$link)
+If ($success)
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
+	Else 
+		// to validate on windows
+		$folder:=$build.settings.destinationFolder.folder("Server Database/")
+	End if 
+	
+	$4DZ:=$folder.file($build.settings.buildName+".4DZ")
+	$zip:=ZIP Read archive($4DZ)
+	ASSERT($zip#Null; "(Current project) Compiled project 4DZ file should be unzippable"+$link)
+	
+End if 
+
 $zip:=Null
 
 // Cleanup build folder
@@ -51,12 +59,19 @@ $success:=$build.build()
 
 ASSERT($success; "(External project) Server build should success"+$link)
 
-$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
-
-$4DZ:=$folder.file($build.settings.buildName+".4DZ")
-$zip:=ZIP Read archive($4DZ)
-ASSERT($zip#Null; "Compiled project 4DZ file should be unzippable"+$link)
-$zip:=Null
+If ($success)
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
+	Else 
+		// to validate on windows
+		$folder:=$build.settings.destinationFolder.folder("Server Database/")
+	End if 
+	
+	$4DZ:=$folder.file($build.settings.buildName+".4DZ")
+	$zip:=ZIP Read archive($4DZ)
+	ASSERT($zip#Null; "(Current project) Compiled project 4DZ file should be unzippable"+$link)
+	
+End if 
 
 // Cleanup build folder
 Folder("/PACKAGE/Test").delete(fk recursive)

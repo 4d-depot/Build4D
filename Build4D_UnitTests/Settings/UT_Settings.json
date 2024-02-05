@@ -8,12 +8,12 @@
     "invalid_licenseServer":"/PACKAGE/Settings/invalid_4DSRV20x.license4D",
     "invalid_xmlKeyLicense":"/PACKAGE/Settings/invalid_4DOEM20x.license4D",
   
-    "macVolumeDesktop":"/Applications/4D v20.2/4D Volume Desktop MAC/4D Volume Desktop.app/",
+    "macVolumeDesktop":"/Applications/4D v20.2/4D Volume Desktop.app/",
     "winVolumeDesktop":"C:/Program Files/4D/4D v20.2/4D Volume Desktop WIN/",
     "invalid_macVolumeDesktop":"/Applications/4D v0.0/4D Volume Desktop.app/",
     "invalid_winVolumeDesktop":"C:/Program Files/4D/4D v0.0/4D Volume Desktop/",
    
-    "macServer":"/Applications/4D v20.2/4D Server MAC/4D Server.app/",
+    "macServer":"/Applications/4D v20.2/4D Server.app/",
     "winServer":"/Applications/4D v20.2/4D Server WIN/4D Server.app/",
     "invalid_macServer":"/Applications/4D v0.0/4D Server.app/",
     "invalid_winServer":"C:/Program Files/4D/4D v0.0/4D Server/",

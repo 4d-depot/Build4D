@@ -40,21 +40,14 @@ ASSERT($infoPlist.exists; "(Current project) Info.plist file should exist: "+$bu
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
 	
-	ASSERT($infos["BuildHardLink"]=""; "(Current project) Info.plist BuildHardLink Key should have value: \"\"")
+	ASSERT($infos["BuildHardLink"]=Null; "(Current project) Info.plist BuildHardLink Key should have value: \"\"")
 	
 	
 End if 
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
+
 
 // MARK:- External project
 
@@ -80,18 +73,10 @@ ASSERT($infoPlist.exists; "(External project) Info.plist file should exist: "+$b
 If ($infoPlist.exists)
 	$infos:=$infoPlist.getAppInfo()
 	
-	ASSERT($infos["BuildHardLink"]=""; "(External project) Info.plist BuildHardLink Key should have value: \"\"")
+	ASSERT($infos["BuildHardLink"]=Null; "(External project) Info.plist BuildHardLink Key should have value: \"\"")
 	
 	
 End if 
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)

@@ -51,23 +51,12 @@ If ($success)
 	
 	ASSERT($file.exists; "(Current project) file added not found "+$source.path+" "+$link)
 	
-	
-	
-	// Cleanup build folder
-	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		//$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	End if 
-	
-	
 End if 
+
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)
+
 
 
 // MARK:- External project
@@ -89,20 +78,7 @@ If ($success)
 	
 	ASSERT($file.exists; "(External project) file added not found "+$source.path+" "+$link)
 	
-	
-	
-	// Cleanup build folder
-	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		//$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-		
-	End if 
-	
 End if 
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)

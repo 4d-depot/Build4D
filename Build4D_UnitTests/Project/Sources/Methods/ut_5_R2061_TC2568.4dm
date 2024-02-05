@@ -36,8 +36,7 @@ If (Is Windows)  // windows only
 	ASSERT($buildServer.exists=False; "(Current project) Silicon Code folder should exist: "+$buildServer.platformPath+$link)
 	
 	// Cleanup build folder
-	
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	Folder("/PACKAGE/Test").delete(fk recursive)
 	
 	
 	// MARK:- External project
@@ -58,10 +57,8 @@ If (Is Windows)  // windows only
 	
 	ASSERT($buildServer.exists=False; "(External project) Silicon Code folder should exist: "+$buildServer.platformPath+$link)
 	
-	
-	
-	
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
+	// Cleanup build folder
+	Folder("/PACKAGE/Test").delete(fk recursive)
 	
 	
 	

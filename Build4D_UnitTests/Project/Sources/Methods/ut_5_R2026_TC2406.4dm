@@ -31,21 +31,18 @@ ASSERT($success; "(Current project) Server build should success"+$link)
 
 
 If (Is macOS)
-	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/Ressources/")
+	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/Resources/")
 Else 
 	// to validate on windows
-	$folder:=$build.settings.destinationFolder.folder("Server Database/Ressources/")
+	$folder:=$build.settings.destinationFolder.folder("Server Database/Resources/")
 End if 
 
-ASSERT($folder.exists; "(Current project) Resources folder doesnt exist.")
-
-
-
+ASSERT($folder.exists=False; "(Current project) Resources folder doesnt exist.")
 
 
 // Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)
 
-$build.settings.destinationFolder.parent.delete(fk recursive)
 
 
 // MARK:- External project
@@ -61,15 +58,14 @@ ASSERT($success; "(External project) Server build should success"+$link)
 
 
 If (Is macOS)
-	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/Ressources/")
+	$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/Resources/")
 Else 
 	// to validate on windows
-	$folder:=$build.settings.destinationFolder.folder("Server Database/Ressources/")
+	$folder:=$build.settings.destinationFolder.folder("Server Database/Resources/")
 End if 
 
-ASSERT($folder.exists; "(External project) Resources folder doesnt exist.")
-
+ASSERT($folder.exists=False; "(External project) Resources folder doesnt exist.")
 
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

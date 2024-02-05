@@ -42,10 +42,13 @@ var $c_link : cs._4DLink
 $c_link:=cs._4DLink.new($4DLink)
 
 Case of 
-	: (Asserted($c_link.is_valid=False; "(Current project) EnginedServer.4Dlink file should exist: "+$link))
-	: (Asserted($c_link.has_database_name=False; "(Current project) EnginedServer.4Dlink database_name should exist: "+$link))
-	: (Asserted($c_link.has_path=False; "(Current project) EnginedServer.4Dlink database_path exist: "+$link))
-	: (Asserted($c_link.has_port=False; "(Current project) EnginedServer.4Dlink port should exist: "+$link))
+	: (Asserted($c_link.is_valid; "(Current project) EnginedServer.4Dlink file should exist: "+$link))
+		
+	: (Asserted($c_link.has_database_name; "(Current project) EnginedServer.4Dlink database_name should exist: "+$link))
+		
+	: (Asserted($c_link.has_path; "(Current project) EnginedServer.4Dlink database_path exist: "+$link))
+		
+	: (Asserted($c_link.has_port; "(Current project) EnginedServer.4Dlink port should exist: "+$link))
 		
 	Else 
 		
@@ -89,10 +92,10 @@ var $c_link : cs._4DLink
 $c_link:=cs._4DLink.new($4DLink)
 
 Case of 
-	: (Asserted($c_link.is_valid=False; "(External project) EnginedServer.4Dlink file should exist: "+$link))
-	: (Asserted($c_link.has_database_name=False; "(External project) EnginedServer.4Dlink database_name should exist: "+$link))
-	: (Asserted($c_link.has_path=False; "(External project) EnginedServer.4Dlink database_path exist: "+$link))
-	: (Asserted($c_link.has_port=False; "(External project) EnginedServer.4Dlink port should exist: "+$link))
+	: (Asserted($c_link.is_valid; "(External project) EnginedServer.4Dlink file should exist: "+$link))
+	: (Asserted($c_link.has_database_name; "(External project) EnginedServer.4Dlink database_name should exist: "+$link))
+	: (Asserted($c_link.has_path; "(External project) EnginedServer.4Dlink database_path exist: "+$link))
+	: (Asserted($c_link.has_port; "(External project) EnginedServer.4Dlink port should exist: "+$link))
 		
 	Else 
 		
@@ -101,12 +104,4 @@ Case of
 End case 
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)

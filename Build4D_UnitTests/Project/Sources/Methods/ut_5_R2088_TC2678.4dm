@@ -46,8 +46,7 @@ If ($infoPlist.exists)
 End if 
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
-
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -79,4 +78,4 @@ If ($infoPlist.exists)
 End if 
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

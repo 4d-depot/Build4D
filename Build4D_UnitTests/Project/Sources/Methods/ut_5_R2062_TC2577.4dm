@@ -63,15 +63,8 @@ ASSERT($clientArchive.exists=False; "(Current project) "+$clientArchive.fullName
 // il faut checker aussi le contenu du fichier json
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
+
 
 // MARK:- External project
 
@@ -98,21 +91,7 @@ End if
 ASSERT($clientArchive.exists=False; "(External project) "+$clientArchive.fullName+" file should not exist: "+$buildServer.platformPath+$link)
 
 
-
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
 
-
-//cleanup client folder
-
-
-$client.settings.destinationFolder.parent.delete(fk recursive)
 

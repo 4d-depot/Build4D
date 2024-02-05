@@ -31,21 +31,16 @@ ASSERT($success; "(Current project) Server build should success"+$link)
 
 
 If (Is macOS)
-	$file:=$build.settings.destinationFolder.file("Contents/Server Database/Ressources/UnitTests.txt")
+	$file:=$build.settings.destinationFolder.file("Contents/Server Database/Resources/UnitTests.txt")
 Else 
 	// to validate on windows
-	$file:=$build.settings.destinationFolder.folder("Server Database/Ressources/UnitTests.txt")
+	$file:=$build.settings.destinationFolder.folder("Server Database/Resources/UnitTests.txt")
 End if 
 
-ASSERT($file.exists; "(Current project) UnitTest.txt file doesnt exist.")
-
-
-
-
+ASSERT($file.exists=False; "(Current project) UnitTest.txt file doesnt exist.")
 
 // Cleanup build folder
-
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 // MARK:- External project
@@ -61,16 +56,13 @@ ASSERT($success; "(External project) Server build should success"+$link)
 
 
 If (Is macOS)
-	$file:=$build.settings.destinationFolder.file("Contents/Server Database/Ressources/UnitTests.txt")
+	$file:=$build.settings.destinationFolder.file("Contents/Server Database/Resources/UnitTests.txt")
 Else 
 	// to validate on windows
-	$file:=$build.settings.destinationFolder.folder("Server Database/Ressources/UnitTests.txt")
+	$file:=$build.settings.destinationFolder.folder("Server Database/Resources/UnitTests.txt")
 End if 
 
-ASSERT($file.exists; "(External project) UnitTest.txt file doesnt exist.")
-
-
-
+ASSERT($file.exists=False; "(External project) UnitTest.txt file doesnt exist.")
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

@@ -28,11 +28,19 @@ $success:=$build.build()
 
 ASSERT($success; "(Current project) Server build should success"+$link)
 
-$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
 
-$4DZ:=$folder.file($build.settings.buildName+".4DZ")
-
-ASSERT($4DZ.exists; "(Current project) Compiled project 4DZ file should exist: "+$4DZ.platformPath+$link)
+If ($success)
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
+	Else 
+		// to validate on windows
+		$folder:=$build.settings.destinationFolder.folder("Server Database/")
+	End if 
+	
+	$4DZ:=$folder.file($build.settings.buildName+".4DZ")
+	ASSERT($4DZ.exists; "(Current project) Compiled project 4DZ file should not exist: "+$4DZ.platformPath+$link)
+	
+End if 
 
 // Cleanup build folder
 Folder("/PACKAGE/Test").delete(fk recursive)
@@ -47,11 +55,18 @@ $success:=$build.build()
 
 ASSERT($success; "(External project) Server build should success"+$link)
 
-$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
-
-$4DZ:=$folder.file($build.settings.buildName+".4DZ")
-
-ASSERT($4DZ.exists; "(External project) Compiled project 4DZ file should exist: "+$4DZ.platformPath+$link)
+If ($success)
+	If (Is macOS)
+		$folder:=$build.settings.destinationFolder.folder("Contents/Server Database/")
+	Else 
+		// to validate on windows
+		$folder:=$build.settings.destinationFolder.folder("Server Database/")
+	End if 
+	
+	$4DZ:=$folder.file($build.settings.buildName+".4DZ")
+	ASSERT($4DZ.exists; "(Current project) Compiled project 4DZ file should not exist: "+$4DZ.platformPath+$link)
+	
+End if 
 $zip:=Null
 
 // Cleanup build folder

@@ -35,20 +35,14 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(Current project) Server build should not success"+$link)
-
+If (Is macOS)
+	ASSERT($success=False; "(Current project) Server build should not success"+$link)
+Else 
+	ASSERT($success; "(Current project) Server build should success"+$link)
+End if 
 
 // Cleanup build folder
-
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 // MARK:- External project
@@ -60,16 +54,11 @@ $build:=cs.Build4D.Server.new($settings)
 
 $success:=$build.build()
 
-ASSERT($success=False; "(External project) Server build should not success "+$link)
-
+If (Is macOS)
+	ASSERT($success=False; "(External project) Server build should not success"+$link)
+Else 
+	ASSERT($success; "(External project) Server build should success"+$link)
+End if 
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)

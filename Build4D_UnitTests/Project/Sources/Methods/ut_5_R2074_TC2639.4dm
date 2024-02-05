@@ -36,13 +36,10 @@ Else
 	$file:=$build.settings.destinationFolder.file("Resources/smart constants.xml")
 End if 
 
-ASSERT($file.exists; "(Current project) /Resources/smart constants.xml file should'nt exist: "+$file.platformPath+$link)
-
-
+ASSERT($file.exists=False; "(Current project) /Resources/smart constants.xml file should'nt exist: "+$file.platformPath+$link)
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
-
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
@@ -63,7 +60,7 @@ Else
 End if 
 
 
-ASSERT($file.exists; "(External project) /Resources/smart constants.xml file should'nt exist: "+$file.platformPath+$link)
+ASSERT($file.exists=False; "(External project) /Resources/smart constants.xml file should'nt exist: "+$file.platformPath+$link)
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)

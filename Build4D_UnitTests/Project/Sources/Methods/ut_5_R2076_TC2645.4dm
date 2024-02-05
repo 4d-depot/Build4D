@@ -34,10 +34,8 @@ If (Is Windows)
 	
 	ASSERT($manifestFile.exists; "(Current project) manifest file should exist: "+$manifestFile.platformPath+$link)
 	
-	
-	
 	// Cleanup build folder
-	$build.settings.destinationFolder.parent.delete(fk recursive)
+	Folder("/PACKAGE/Test").delete(fk recursive)
 	
 	
 	// MARK:- External project
@@ -58,10 +56,8 @@ If (Is Windows)
 	
 	ASSERT($manifestFile.exists; "(External project) manifest file should exist: "+$manifestFile.platformPath+$link)
 	
-	
-	
-	
 	// Cleanup build folder
-	$build.settings.destinationFolder.parent.delete(fk recursive)
+	Folder("/PACKAGE/Test").delete(fk recursive)
+	
 End if 
 

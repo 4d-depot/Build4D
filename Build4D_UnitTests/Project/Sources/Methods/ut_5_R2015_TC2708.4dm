@@ -20,9 +20,6 @@ $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macVolumeDesktop
 
 $build:=cs.Build4D.Client.new($settings)
 
-$destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(Current project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+$link)
-
 $success:=$build.build()
 
 ASSERT($success; "(Current project) Client build should success"+$link)
@@ -31,29 +28,18 @@ If (Is macOS)
 	$buildClient:=$build.settings.destinationFolder.file("Contents/Database/EnginedServer.4Dlink")
 Else 
 	// to validate on windows
-	$buildClient:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
+	$buildClient:=$build.settings.destinationFolder.folder("Server Database/").file($build.settings.buildName+".4DZ")
 End if 
 ASSERT($buildClient.exists; "(Current project) Compiled project should exist: "+$buildClient.platformPath+$link)
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 // MARK:- External project
 
 $settings.projectFile:=Storage.settings.externalProjectFile
 
 $build:=cs.Build4D.Client.new($settings)
-
-$destinationFolder:=$build._projectPackage.parent.folder($build._projectFile.name+"_Build/CompiledProject/"+$build.settings.buildName)
-ASSERT($build.settings.destinationFolder.platformPath=$destinationFolder.platformPath; "(External project) Wrong default destination folder: "+$build.settings.destinationFolder.platformPath+$link)
 
 $success:=$build.build()
 
@@ -62,17 +48,9 @@ ASSERT($success; "(External project) Compiled project build should success"+$lin
 If (Is macOS)
 	$buildClient:=$build.settings.destinationFolder.file("Contents/Database/EnginedServer.4Dlink")
 Else 
-	$buildClient:=$build.settings.destinationFolder.file($build.settings.buildName+".4DZ")
+	$buildClient:=$build.settings.destinationFolder.folder("Server Database/").file($build.settings.buildName+".4DZ")
 End if 
 ASSERT($buildClient.exists; "(External project) Client should exist: "+$buildClient.platformPath+$link)
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)

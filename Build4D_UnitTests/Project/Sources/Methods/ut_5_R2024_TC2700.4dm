@@ -59,16 +59,8 @@ If ($siliconCodeFile.exists)
 End if 
 
 // Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)
 
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
 
 
 // MARK:- External project
@@ -103,12 +95,5 @@ If ($siliconCodeFile.exists)
 End if 
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
+

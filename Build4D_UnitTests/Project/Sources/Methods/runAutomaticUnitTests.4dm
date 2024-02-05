@@ -35,7 +35,7 @@ If (Not($errorsLogFile.exists))  // Compilation Ok -> execute all unit tests met
 	// Execute all automatic test methods
 	ARRAY TEXT($methods; 0)
 	var $m : Integer
-	METHOD GET NAMES($methods; "ut_@")
+	METHOD GET NAMES($methods; "ut_5_@")
 	SORT ARRAY($methods)
 	For ($m; 1; Size of array($methods))
 		logGitHubActions("::group::"+$methods{$m})

@@ -63,7 +63,7 @@ ASSERT($clientArchive.exists; "(Current project) "+$clientArchive.fullName+" fil
 // il faut checker aussi le contenu du fichier json
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 // MARK:- External project
@@ -93,6 +93,6 @@ ASSERT($clientArchive.exists; "(External project) "+$clientArchive.fullName+" fi
 
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 

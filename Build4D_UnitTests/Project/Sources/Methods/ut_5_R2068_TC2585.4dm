@@ -37,7 +37,7 @@ ASSERT($archive.archive.exists; "(Current project) "+$archive.archive.fullName+"
 
 
 // Cleanup build folder
-$client.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 // MARK:- External project
@@ -54,11 +54,9 @@ ASSERT($success; "(External project) Server build should success"+$link)
 $archive:=$client.buildArchive()
 
 
-ASSERT($archive.achive.exists; "(External project) "+$archive.archive.fullName+" file should exist: "+$archive.archive.platformPath+$link)
-
-
+ASSERT($archive.archive.exists; "(External project) "+$archive.archive.fullName+" file should exist: "+$archive.archive.platformPath+$link)
 
 // Cleanup build folder
-$build.settings.destinationFolder.parent.delete(fk recursive)
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 

@@ -46,27 +46,18 @@ ASSERT($success; "(Current project) Server build should success"+$link)
 
 If ($success)
 	
-	$file:=$build.settings.destinationFolder.file("Contents/README.md")
+	If (Is macOS)
+		$file:=$build.settings.destinationFolder.file("Contents/Server Database/README.md")
+	Else 
+		$file:=$build.settings.destinationFolder.file("Server Database/README.md")
+	End if 
 	
 	ASSERT($file.exists; "(Current project) file added not found "+$source.path+" "+$link)
 	
-	
-	
-	// Cleanup build folder
-	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		//$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	End if 
-	
-	
 End if 
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)
 
 
 // MARK:- External project
@@ -74,7 +65,6 @@ End if
 $settings.projectFile:=Storage.settings.externalProjectFile
 
 
-//$path.destination:="/Ressources"
 $build:=cs.Build4D.Server.new($settings)
 
 
@@ -84,24 +74,15 @@ ASSERT($success; "(External project) Server build should success"+$link)
 
 If ($success)
 	
-	$file:=$build.settings.destinationFolder.file("Contents/README.md")
+	If (Is macOS)
+		$file:=$build.settings.destinationFolder.file("Contents/Server Database/README.md")
+	Else 
+		$file:=$build.settings.destinationFolder.file("Server Database/README.md")
+	End if 
 	
 	ASSERT($file.exists; "(External project) file added not found "+$source.path+" "+$link)
 	
-	
-	
-	// Cleanup build folder
-	
-	If (Is macOS)
-		
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-	Else 
-		// to validate on windows
-		//$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-		$build.settings.destinationFolder.parent.delete(fk recursive)
-		
-		
-	End if 
-	
 End if 
+
+// Cleanup build folder
+Folder("/PACKAGE/Test").delete(fk recursive)

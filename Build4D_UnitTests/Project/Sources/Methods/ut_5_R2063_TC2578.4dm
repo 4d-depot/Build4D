@@ -41,7 +41,7 @@ $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Fol
 
 $archive:=$client.buildArchive()
 
-$settings.winClientArchive:=$archive.archive
+$settings.windowsClientArchive:=$archive.archive
 
 $build:=cs.Build4D.Server.new($settings)
 
@@ -51,7 +51,7 @@ $success:=$build.build()
 ASSERT($success; "(Current project) Server build should success"+$link)
 
 If (Is macOS)
-	$clientArchive:=$build.settings.destinationFolder.file("Contents/Upgrade4DClient/update.win.4darchive")
+	$clientArchive:=$build.settings.destinationFolder.file("Contents/Upgrade4DClient/update.mac.4darchive")  // it's a mac archive 
 Else 
 	// to validate on windows
 	$clientArchive:=$build.settings.destinationFolder.file("Upgrade4DClient/update.win.4darchive")
@@ -63,15 +63,8 @@ ASSERT($clientArchive.exists; "(Current project) "+$clientArchive.fullName+" fil
 // il faut checker aussi le contenu du fichier json
 
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
+
 
 // MARK:- External project
 
@@ -79,7 +72,7 @@ $settings.projectFile:=Storage.settings.externalProjectFile
 
 $archive:=$client.buildArchive()
 
-$settings.winClientArchive:=$archive.archive
+$settings.windowsClientArchive:=$archive.archive
 
 $build:=cs.Build4D.Server.new($settings)
 
@@ -89,7 +82,7 @@ ASSERT($success; "(External project) Server build should success"+$link)
 
 
 If (Is macOS)
-	$clientArchive:=$build.settings.destinationFolder.file("Contents/Upgrade4DClient/update.win.4darchive")
+	$clientArchive:=$build.settings.destinationFolder.file("Contents/Upgrade4DClient/update.mac.4darchive")
 Else 
 	// to validate on windows
 	$clientArchive:=$build.settings.destinationFolder.file("Upgrade4DClient/update.win.4darchive")
@@ -97,22 +90,7 @@ End if
 
 ASSERT($clientArchive.exists; "(External project) "+$clientArchive.fullName+" file should exist: "+$buildServer.platformPath+$link)
 
-
-
 // Cleanup build folder
-If (Is macOS)
-	
-	$build.settings.destinationFolder.parent.delete(fk recursive)
-	
-Else 
-	// to validate on windows
-	$build._projectPackage.parent.folder($build._projectFile.name+"_Build").delete(fk recursive)
-	
-End if 
+Folder("/PACKAGE/Test").delete(fk recursive)
 
-
-//cleanup client folder
-
-
-$client.settings.destinationFolder.parent.delete(fk recursive)
 
