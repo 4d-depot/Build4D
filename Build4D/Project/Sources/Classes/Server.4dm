@@ -264,6 +264,9 @@ $status        Boolean       out          True if the information has been corre
 	
 */
 	
+	
+	
+	
 Function _setAppOptions() : Boolean
 	
 	var $infoFile : 4D.File

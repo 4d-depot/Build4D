@@ -236,16 +236,6 @@ Function _renameExecutable() : Boolean
 	return True
 	
 	
-	//MARK:-
-	
-/*
-Function _show() : cs.Client
-	
-SHOW ON DISK(This.settings.destinationFolder.platformPath)
-	
-return This
-*/
-	
 	//MARK:- Sets the information to the client application.
 	
 /*

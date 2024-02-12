@@ -1,5 +1,5 @@
 {
-	". . public classes": {
+	". .  classes": {
 		"classes": [
 			"_core",
 			"Client",
@@ -9,6 +9,15 @@
 			"Standalone"
 		]
 	},
+	". .  methods": {
+		"groups": [
+			"coop -> preempt"
+		],
+		"methods": [
+			"onError",
+			"onStartup"
+		]
+	},
 	"...  compiler": {
 		"methods": [
 			"Compiler_Methods"
@@ -16,18 +25,12 @@
 	},
 	"(____ franck)": {},
 	"(____ test methods)": {},
-	"(. . settings private classes)": {
-		"classes": [
-			"_clientApplication",
-			"_compilerOptions",
-			"_settings",
-			"_signApplication",
-			"_versioning"
-		]
-	},
-	"(. . test class)": {
-		"classes": [
-			"CS"
+	"(. . settings private classes)": {},
+	"(. . test class)": {},
+	"coop -> preempt": {
+		"methods": [
+			"quit4D_coop",
+			"showOnDisk_coop"
 		]
 	},
 	"trash": {
