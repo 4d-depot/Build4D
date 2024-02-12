@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"preemptive":"incapable"}
 #DECLARE($launch : Boolean)
 
 If (Count parameters=0)  // Execute code in a new worker
@@ -10,7 +10,7 @@ Else
 	
 /*
 	
-a faire évoluer
+à faire évoluer
 	
 */
 	
@@ -29,7 +29,9 @@ a faire évoluer
 		End case 
 		
 		If ($quit4D)
+			
 			QUIT 4D
+			
 		End if 
 	End if 
 	

@@ -1,5 +1,6 @@
 Class extends _core
 
+property _target : Text
 
 
 //MARK:-
@@ -8,11 +9,9 @@ Class constructor($customSettings : Object)
 	var $currentAppInfo; $sourceAppInfo : Object
 	var $fileCheck : Boolean
 	
-	
-	
 	Super("Client"; $customSettings)  //#2067
 	
-	This._target:=""  // 
+	This._target:=""
 	
 	If (This._validInstance)
 		
@@ -105,14 +104,14 @@ Function get publishName : Text
 	End if 
 	
 	
-	//MARK:-
+	//MARK:- identify if we build a mac or win client
 	
 Function is_mac_target : Boolean
 	
 	return Bool(This._target="mac")
 	
 	
-	//MARK:-
+	//MARK:- identify if we build a mac or win client
 	
 Function is_win_target : Boolean
 	
@@ -122,14 +121,24 @@ Function is_win_target : Boolean
 	
 	
 	
-	//MARK:-
+	//MARK:- Generates the "4Dlink" file
 	
+	
+/*
+	
+Function _make4dLink() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the "4Dlink" file has been correctly created.
+....................................................................................
+	
+*/
 	
 Function _make4dLink() : Boolean
 	
 	var $xml; $text; $server_path : Text
 	var $4DLink : 4D.File
-	
 	
 	If (This._structureFolder.exists)
 		
@@ -139,9 +148,7 @@ Function _make4dLink() : Boolean
 	
 	$xml:=DOM Create XML Ref("database_shortcut")
 	
-	
 	$server_path:=((This.settings.IPAddress#Null) ? This.settings.IPAddress : "")+(":"+String(This.settings.portNumber))
-	
 	
 	DOM SET XML ATTRIBUTE($xml; \
 		"is_remote"; "true"; \
@@ -168,7 +175,6 @@ Function _make4dLink() : Boolean
 		: (This.settings.clientServerSystemFolderName=Null)
 		: (Value type(This.settings.clientServerSystemFolderName)#Is text)
 		: (Bool(This.settings.clientServerSystemFolderName=""))
-			
 			
 		Else 
 			
@@ -199,7 +205,18 @@ Function _make4dLink() : Boolean
 	return $4DLink.exists
 	
 	
-	//MARK:-
+	//MARK:- Renames the executable.
+	
+/*
+	
+Function _renameExecutable() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the executable has been correctly renamed.
+....................................................................................
+	
+*/
 	
 Function _renameExecutable() : Boolean
 	var $renamedExecutable : 4D.File
@@ -219,21 +236,37 @@ Function _renameExecutable() : Boolean
 	return True
 	
 	
-	//Function _hasEmbedded : Boolean
-	
-	
 	//MARK:-
+	
+/*
 Function _show() : cs.Client
 	
-	SHOW ON DISK(This.settings.destinationFolder.platformPath)
+SHOW ON DISK(This.settings.destinationFolder.platformPath)
 	
-	return This
+return This
+*/
 	
-	//MARK:-
+	//MARK:- Sets the information to the client application.
+	
+/*
+	
+Function _setAppOptions() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the information has been correctly added.
+....................................................................................
+	
+*/
+	
 Function _setAppOptions() : Boolean
 	var $appInfo; $exeInfo : Object
 	var $infoFile; $exeFile; $manifestFile : 4D.File
 	var $identifier : Text
+	var $subFolder : 4D.Folder
+	var $infoPlistFile : 4D.File
+	var $resourcesSubFolders : Collection
+	var $fileContent : Text
 	
 	This._noError:=True
 	
@@ -244,8 +277,6 @@ Function _setAppOptions() : Boolean
 		$appInfo:=New object(\
 			"com.4D.BuildApp.ReadOnlyApp"; "true")
 		
-		
-		
 		$appInfo.BuildName:=This.settings.buildName
 		$appInfo.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
 		
@@ -254,11 +285,6 @@ Function _setAppOptions() : Boolean
 		$appInfo.BuildHardLink:=Value type(This.settings.hardLink)=Is text ? This.settings.hardLink : ""
 		
 		$appInfo["4D_SingleInstance"]:=Value type(This.settings.singleInstance)=Is boolean ? (This.settings.singleInstance ? "1" : "0") : "1"
-		
-		
-		//only on json file et 4D.link
-		//$appInfo.BuildIPAddress:=Value type(This.settings.IPAddress)=Is text ? This.settings.IPAddress : ""
-		//$appInfo.BuildIPPort:=Value type(This.settings.portNumber)=Is real ? String(This.settings.portNumber) : "19813"
 		
 		$appInfo.BuildRangeVersMin:=Value type(This.settings.rangeVersMin)=Is real ? String(This.settings.rangeVersMin) : "1"
 		$appInfo.BuildRangeVersMax:=Value type(This.settings.rangeVersMax)=Is real ? String(This.settings.rangeVersMax) : "1"
@@ -308,7 +334,6 @@ Function _setAppOptions() : Boolean
 				
 			End if 
 			
-			
 			$exeInfo:=New object("ProductName"; This.settings.buildName)
 			
 		End if 
@@ -339,10 +364,7 @@ Function _setAppOptions() : Boolean
 				If (This.settings.versioning.copyright#Null)
 					$appInfo.NSHumanReadableCopyright:=This.settings.versioning.copyright
 					// Force macOS to get copyright from info.plist file instead of localized strings file
-					var $subFolder : 4D.Folder
-					var $infoPlistFile : 4D.File
-					var $resourcesSubFolders : Collection
-					var $fileContent : Text
+					
 					$resourcesSubFolders:=This.settings.destinationFolder.folder("Contents/Resources/").folders()
 					For each ($subFolder; $resourcesSubFolders)
 						If ($subFolder.extension=".lproj")
@@ -414,7 +436,18 @@ Function _setAppOptions() : Boolean
 	
 	
 	
-	//MARK:-
+	//MARK:- Add embedded database in client app
+	
+/*
+	
+Function _hasEmbeddedClient() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the embedded database has been correctly added.
+....................................................................................
+	
+*/
 	
 Function _hasEmbeddedClient : Boolean  //#3917
 	
@@ -468,7 +501,18 @@ Function _hasEmbeddedClient : Boolean  //#3917
 	
 	
 	
-	//MARK:-
+	//MARK:- Build the client application.
+	
+/*
+	
+Function Build() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the standalone has been correctly executed.
+....................................................................................
+	
+*/
 	
 Function build() : Boolean
 	
@@ -510,7 +554,24 @@ Function build() : Boolean
 	
 	return $success
 	
-Function _buildZip()->$result : Object
+	//mark:- (utility) Zip the client application
+	
+/*
+	
+Function buildZip() -> $result : Object
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$result        object       out          $result.success: True if the zip has been correctly build.
+                                         $result.status: status code from Zip create archive result.
+                                         $result.statusText: status text from Zip create archive result.
+                                         $result.archive: 4D.File instance to the zip archive.
+                                         $result.application: 4D.File instance to the application to zip.
+....................................................................................
+	
+*/
+	
+Function buildZip()->$result : Object
 	
 	var $app_folder : 4D.Folder
 	var $zip_archive : 4D.File
@@ -538,6 +599,24 @@ Function _buildZip()->$result : Object
 		$result:={success: False; statusText: "folder doesn't exist: "+$app_folder.path}
 	End if 
 	
+	
+	//mark:- Builds the client application archive.
+	
+	
+/*
+	
+Function buildArchive() -> $result : Object
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$result        object       out          $result.success: True if the archive has been correctly build.
+                                         $result.status: status code from Zip create archive result.
+                                         $result.statusText: status text from Zip create archive result.
+                                         $result.archive: 4D.File instance to the archive file.
+                                         $result.application: 4D.File instance to the application to zip.
+....................................................................................
+	
+*/
 	
 Function buildArchive()->$result : Object
 	

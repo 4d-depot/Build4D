@@ -16,38 +16,7 @@ _isDefaultDestinationFolder   |   Boolean        |      True if the destination 
 _structureFolder              |   Folder         |      Folder of the destination structure.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
 */
-
-//mark:- DOCUMENTATION PRIVATE FUNCTIONS
-
-/*
-
-PRIVATE FUNCTIONS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
 
 
 property _validInstance : Boolean

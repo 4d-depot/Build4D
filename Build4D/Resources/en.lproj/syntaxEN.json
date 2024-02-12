@@ -177,6 +177,17 @@
 			],
 			"Summary": ""
 		},
+		"buildZip()": {
+			"Syntax": "**.buildZip**()->result : Object",
+			"Params": [
+				[
+					"result",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"build()": {
 			"Syntax": "**.build**() : Boolean",
 			"Params": [
