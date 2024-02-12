@@ -4,9 +4,6 @@
 This class allows you to create a client application. It is composed of the following:
 
 * a [Class constructor](#class-constructor)
-* a [\_make4dLink](#make4dLink) function
-* a [\_renameExecutable](#renameExecutable) function
-* a [\_setAppOptions()](#setAppOptions) function
 * a [build()](#build) function
 * a [buildArchive()](#buildArchive) function
 
@@ -62,38 +59,7 @@ $customSettings is an object that contains the following parameters:
 |signApplication.adHocSignature | Boolean | Signs the built applications with AdHoc signature if macSignature not performed.|
 |logger | Formula | Formula called when a log is written.|
 
-<h3 id="make4dLink">_make4dLink</h3>
 
-```4D
-Function _make4dLink() -> $status : Boolean
-```
-| Parameter | Type | in/out | Description |
-|---|---|---|---|
-| $status | Boolean | out | True if the "4Dlink" file has been correctly created. |
-
-Generates the "4Dlink" file.
-
-<h3 id="renameExecutable">_renameExecutable</h3>
-
-```4D
-Function _renameExecutable() -> $status : Boolean
-```
-| Parameter | Type | in/out | Description |
-|---|---|---|---|
-| $status | Boolean | out | True if the executable has been correctly renamed.|
-
-Renames the executable.
-
-<h3 id="setAppOptions">_setAppOptions</h3>
-
-```4D
-Function _setAppOptions()-> $status : Boolean
-```
-| Parameter | Type | in/out | Description |
-|---|---|---|---|
-| $status | Boolean | out | True if the information has been correctly added. |
-
-Sets the information to the client application.
 
 ### build()
 
@@ -109,12 +75,12 @@ Builds the client application.
 ### buildArchive()
 
 ```4D
-Function build() -> $result : Boolean
+Function buildArchive() -> $result : Boolean
 ```
 | Parameter | Type | in/out | Description |
 |---|---|---|---|
-| $result | Object | out | $result.status: True if the standalone has been correctly executed.
-$result.archive: Path of the generated client archive application.|
+| $result | Object | out | $result.success: True if the standalone has been correctly executed.
+| | | |$result.archive: 4D.File of the generated client archive application.|
 
 Builds the client application archive.
 

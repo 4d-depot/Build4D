@@ -618,6 +618,7 @@ $result        object       out          $result.success: True if the archive ha
 	
 */
 	
+	
 Function buildArchive()->$result : Object
 	
 	var $app_folder : 4D.Folder
