@@ -90,7 +90,19 @@ Class constructor($customSettings : Object)
 			"severity"; Error message))
 	End if 
 	
-	//MARK:-
+	//MARK:- Renames the executable.
+	
+/*
+	
+Function _renameExecutable() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the executable has been correctly renamed.
+....................................................................................
+	
+*/
+	
 Function _renameExecutable() : Boolean
 	var $renamedExecutable : 4D.File
 	If (Is macOS)
@@ -108,7 +120,9 @@ Function _renameExecutable() : Boolean
 	End if 
 	return True
 	
-	//MARK:-
+	
+	//MARK:- Build the server application.
+	
 Function build()->$success : Boolean
 	$success:=This._validInstance
 	$success:=($success) ? This._checkDestinationFolder() : False

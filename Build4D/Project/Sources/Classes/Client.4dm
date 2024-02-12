@@ -629,9 +629,7 @@ Function buildArchive()->$result : Object
 	
 	$app_folder:=This.settings.destinationFolder
 	
-	
 	If ($app_folder.exists)
-		
 		
 		$zip_archive:=$app_folder.parent.file($filename)
 		

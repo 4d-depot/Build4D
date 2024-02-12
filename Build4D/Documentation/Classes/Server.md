@@ -4,7 +4,6 @@
 This class allows you to create a server application. It is composed of the following:
 
 * a [Class constructor](#class-constructor)
-* a [\_renameExecutable](#renameExecutable) function
 * a [build()](#build) function
 
 ### Class constructor
@@ -64,16 +63,6 @@ $customSettings is an object that contains the following parameters:
 |signApplication.adHocSignature | Boolean | Signs the built applications with AdHoc signature if macSignature not performed.|
 |logger | Formula | Formula called when a log is written.|
  
-<h3 id="renameExecutable">_renameExecutable</h3>
-
-```4D
-Function _renameExecutable() -> $status : Boolean
-```
-| Parameter | Type | in/out | Description |
-|---|---|---|---|
-| $status | Boolean | out | True if the executable has been correctly renamed. |
-
-Renames the executable.
 
 ### build()
 

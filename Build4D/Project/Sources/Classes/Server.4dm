@@ -1,5 +1,7 @@
 Class extends _core
 
+property _target : Text
+
 
 //MARK:-
 Class constructor($customSettings : Object)
@@ -32,17 +34,17 @@ Class constructor($customSettings : Object)
 		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+Choose(Is macOS; ".app"; "")+"/")
 		This._structureFolder:=This.settings.destinationFolder.folder(Choose(Is macOS; "Contents/"; "")+"Server Database/")
 		
-		//mark:#2028
+		//:#2028
 		If (This.settings.startElevated=Null)
 			This.settings.startElevated:=False
 		End if 
 		
-		//mark:#2031
+		//:#2031
 		If (This.settings.obfuscated=Null)
 			This.settings.obfuscated:=False
 		End if 
 		
-		//mark:#2033
+		//:#2033
 		If (This.settings.packedProject=Null)
 			This.settings.packedProject:=True
 		End if 
@@ -105,7 +107,7 @@ Class constructor($customSettings : Object)
 		End if 
 		
 		
-		//mark:- requirement #2061
+		//:- requirement #2061
 		If (This._validInstance)
 			
 			If (This.is_win_target())
@@ -189,19 +191,33 @@ Function get publishName : Text
 	End if 
 	
 	
-	//MARK:-
+	//MARK:- identify if we build a mac or win client
+	
 Function is_mac_target : Boolean
 	
 	return (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists))
 	
 	
-	//MARK:-
+	//MARK:- identify if we build a mac or win client
+	
 Function is_win_target : Boolean
 	
 	return (This.settings.sourceAppFolder.file("4D Server.exe").exists)
 	
 	
-	//MARK:-
+	//MARK:- Renames the executable.
+	
+/*
+	
+Function _renameExecutable() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the executable has been correctly renamed.
+....................................................................................
+	
+*/
+	
 Function _renameExecutable() : Boolean
 	var \
 		$renamedExecutable; \
@@ -234,6 +250,19 @@ Function _renameExecutable() : Boolean
 	return True
 	
 	
+	
+	//MARK:- Sets the information to the client application.
+	
+/*
+	
+Function _setAppOptions() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the information has been correctly added.
+....................................................................................
+	
+*/
 	
 Function _setAppOptions() : Boolean
 	
@@ -300,6 +329,19 @@ Function _setAppOptions() : Boolean
 	
 	
 	
+	//MARK:- Add embedded database in client app
+	
+/*
+	
+Function _hasLicenses() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if licenses are associated in the settings.
+....................................................................................
+	
+*/
+	
 Function _hasLicenses : Boolean
 	
 	If (OB Instance of(This.settings.license; 4D.File) && OB Instance of(This.settings.xmlKeyLicense; 4D.File))
@@ -310,10 +352,25 @@ Function _hasLicenses : Boolean
 	
 	return False
 	
-	//MARK:-
 	
+	//mark:- (utility) Zip the client server
 	
-Function _buildZip()->$result : Object
+/*
+	
+Function buildZip() -> $result : Object
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$result        object       out          $result.success: True if the zip has been correctly build.
+                                         $result.status: status code from Zip create archive result.
+                                         $result.statusText: status text from Zip create archive result.
+                                         $result.archive: 4D.File instance to the zip archive.
+                                         $result.application: 4D.File instance to the application to zip.
+....................................................................................
+	
+*/
+	
+Function buildZip()->$result : Object
 	
 	var $app_folder : 4D.Folder
 	var $zip_archive : 4D.File
@@ -343,7 +400,19 @@ Function _buildZip()->$result : Object
 	
 	
 	
-	//MARK:-
+	//MARK:- Build the server application.
+	
+/*
+	
+Function Build() -> $status : Boolean
+....................................................................................
+Parameter      Type         in/out        Description
+....................................................................................
+$status        Boolean       out          True if the standalone has been correctly executed.
+....................................................................................
+	
+*/
+	
 Function build() : Boolean
 	
 	var $success : Boolean
