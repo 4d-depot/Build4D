@@ -381,12 +381,20 @@ Function _compileProject() : Boolean
 	
 	If (This._validInstance)
 		var $compilation : Object
+		var $flag : Text
+		
+		$flag:="$compile_project"
+		While (Semaphore($flag; 5))
+			IDLE
+			DELAY PROCESS(Current process; 5)
+		End while 
 		
 		If (Undefined(This.settings.compilerOptions))
 			$compilation:=(This._isCurrentProject) ? Compile project : Compile project(This._projectFile)
 		Else 
 			$compilation:=(This._isCurrentProject) ? Compile project(This.settings.compilerOptions) : Compile project(This._projectFile; This.settings.compilerOptions)
 		End if 
+		CLEAR SEMAPHORE($flag)
 		
 		If ($compilation.success)
 			This._log(New object(\
