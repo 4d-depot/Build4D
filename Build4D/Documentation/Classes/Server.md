@@ -55,7 +55,7 @@ $customSettings is an object that contains the following parameters:
 |macCompiledProject| Folder or String | Specifies the path to the folder containing the structure compiled on macOS for silicon and Intel.|
 |macOSClientArchive| Folder or String | Specifies the path of the .4darchive macOS file to be integrated into the built server application.|
 |windowsClientArchive| Folder or String | Specifies the path of the .4darchive Windows file to be integrated into the built server application.|
-|license| File or String | Server license file (relative to the built project/absolute/filesystem).|
+|license| File or String | 4D OEM Server license file (relative to the built project/absolute/filesystem).|
 |xmlKeyLicense| File or String | 4D OEM XML Keys license file (relative to the built project/absolute/filesystem).|
 |signApplication| Object | Object containing the contents of the application signing.|
 |signApplication.macSignature | Boolean | Signs the built applications.|
@@ -71,13 +71,13 @@ Function build() -> $status : Boolean
 ```
 | Parameter | Type | in/out | Description |
 |---|---|---|---|
-| $status | Boolean | out | True if the standalone has been correctly executed.|
+| $status | Boolean | out | True if the server has been correctly executed.|
 
-Builds the standalone application.
+Builds the server application.
 
 ## Example
 
-This code is an example to generate a standalone application from an external project.
+This code is an example to generate a server application from an external project.
 
 ```4D
 var $build : cs.Build4D.Server
