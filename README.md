@@ -4,8 +4,8 @@ Welcome to Build4D! This 4D project allows you to compile, build and sign:
 * compiled projects
 * components
 * standalone applications
-* server applications (planned)
-* client applications (planned)
+* server applications
+* client applications
 
 
 ## Description
@@ -14,11 +14,13 @@ Several classes are available. For more details, please refer to the class docum
 * [CompiledProject](./Build4D/Documentation/Classes/CompiledProject.md)
 * [Component](./Build4D/Documentation/Classes/Component.md)
 * [Standalone](./Build4D/Documentation/Classes/Standalone.md)
-* [_core](./Build4D/Documentation/Classes/_core.md)
+* [Server](./Build4D/Documentation/Classes/Server.md)
+* [Client](./Build4D/Documentation/Classes/Client.md)
+
 
 ## Installation
 
-* Create a “Components” folder in your projet.
+* Create a “Components” folder in your project.
 
 * If you want to use an interpreted component: 
   * copy the “Build4D” folder in the “Components” folder of your project, 
