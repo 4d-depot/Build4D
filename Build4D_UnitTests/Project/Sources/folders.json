@@ -1,8 +1,4 @@
 {
-	"(#R2025)": {},
-	"(#todo)": {},
-	"(Dossier_1)": {},
-	"(Dossier)": {},
 	"#win validate": {
 		"groups": [
 			"R2015",
@@ -317,7 +313,6 @@
 	},
 	"R2024": {
 		"methods": [
-			"_notes_R2024",
 			"ut_5_R2024_TC2695",
 			"ut_5_R2024_TC2696",
 			"ut_5_R2024_TC2697",
@@ -713,12 +708,5 @@
 			"runUnitTests3"
 		]
 	},
-	"trash": {
-		"groups": [
-			"(#R2025)",
-			"(#todo)",
-			"(Dossier_1)",
-			"(Dossier)"
-		]
-	}
+	"trash": {}
 }

@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// integrate an application icon to the built server application
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

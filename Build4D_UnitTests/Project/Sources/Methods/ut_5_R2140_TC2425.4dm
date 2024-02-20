@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// Don't define the data linking mode (the default value must be "ByAppName")
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

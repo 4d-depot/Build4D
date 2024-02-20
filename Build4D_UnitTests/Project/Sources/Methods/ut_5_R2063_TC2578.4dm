@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build the server application choosing to integrate the client Windows archive using the "windowsClientArchive" key
 var $build : cs.Build4D.Server
 var $settings; $infos; $archive : Object
 var $success : Boolean

@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Build a client application, and check the "EndginedServer.4Dlink" file is created in the Database folder with the Ip, Port and publish name if exist
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

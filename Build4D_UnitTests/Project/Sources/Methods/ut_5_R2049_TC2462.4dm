@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Hide the Administration Window item menu using the hideAdministrationWindowMenuItem = true
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

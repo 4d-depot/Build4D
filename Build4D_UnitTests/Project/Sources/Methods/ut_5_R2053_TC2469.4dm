@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// allow muliple instances of the client application using singleInstance=false
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

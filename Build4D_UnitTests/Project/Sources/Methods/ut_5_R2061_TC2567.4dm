@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// build the Windows server application choosing to integrae the compiled code for macOS silicon clients using the "macCompiledProject" key
 
 If (Is Windows)  // windows only
 	

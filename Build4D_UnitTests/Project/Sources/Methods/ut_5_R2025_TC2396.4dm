@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// Build a server application and add a file located at a relative path to a destination located at an absolute path
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

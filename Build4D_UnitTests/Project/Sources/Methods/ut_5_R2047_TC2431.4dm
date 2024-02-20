@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+//Not set the hideRuntimeExplorerMenuItem key to check the default value
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

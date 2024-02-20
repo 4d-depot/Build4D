@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Not Hide tthe data explorer item menu using the hideDataExplorerMenuItem = false
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

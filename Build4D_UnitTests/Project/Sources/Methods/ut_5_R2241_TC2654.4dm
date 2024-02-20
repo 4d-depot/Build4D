@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// for client application , not set the key 4D_SingleInstance , to check the default value
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

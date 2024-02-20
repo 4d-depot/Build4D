@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build a client application , setting the ClientuserPreferencesFolderByPath (4D_MultipleClient key)
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

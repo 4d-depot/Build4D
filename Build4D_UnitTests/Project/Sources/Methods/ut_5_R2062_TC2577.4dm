@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build the server application without integrate the client macOS archive
 var $build : cs.Build4D.Server
 var $settings; $infos; $archive : Object
 var $success : Boolean

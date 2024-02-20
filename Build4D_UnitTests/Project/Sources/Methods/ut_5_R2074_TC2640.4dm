@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Build a client application and remove a relative folder path
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

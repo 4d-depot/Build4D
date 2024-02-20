@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build a client application and check that the clientServerSystemFolderName key is added in the "cache_folder_name" key in the 4Dlink file
 var $build : cs.Build4D.Client
 var $settings : Object
 var $success : Boolean

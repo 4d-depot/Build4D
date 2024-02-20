@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Not Set the "com.4d.xxx.ServerSelectionAllowed" key to check the default value
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

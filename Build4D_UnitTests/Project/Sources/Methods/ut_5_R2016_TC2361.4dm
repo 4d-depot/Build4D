@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Build server application with good $settings.compilerOptions
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

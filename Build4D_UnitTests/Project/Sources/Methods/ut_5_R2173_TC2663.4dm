@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Build the client application without setting the "RangeVersMax"
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

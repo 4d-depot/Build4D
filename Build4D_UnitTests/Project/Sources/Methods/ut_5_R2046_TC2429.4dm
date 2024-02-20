@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Hide the Runtime Explore item menu using the hideRuntimeExplorerMenuItem = true
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

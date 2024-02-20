@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// build the client application specifying the application internalName
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

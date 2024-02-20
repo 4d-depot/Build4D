@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// integrate an invalid license into the build server application
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

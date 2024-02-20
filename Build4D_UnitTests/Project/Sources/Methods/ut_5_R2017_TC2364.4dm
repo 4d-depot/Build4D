@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// define a correct path of the 4D server application
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

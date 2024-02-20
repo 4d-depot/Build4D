@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build a Client application setting the in the "databaseToEmbedInClient" key
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// Test the Client application
 var $build : cs.Build4D.CompiledProject
 var $settings : Object
 var $success : Boolean

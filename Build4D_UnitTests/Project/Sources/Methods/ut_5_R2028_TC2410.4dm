@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+//check tha update of the Windows server application with the default value of startElevated
 If (Is Windows)  // Only on Windows
 	
 	var $build : cs.Build4D.Server

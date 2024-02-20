@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// integrate the archive client into the server, then check that the info.Json file is created in the Uprade4DClient
 var $build : cs.Build4D.Server
 var $settings; $infos; $archive : Object
 var $success : Boolean

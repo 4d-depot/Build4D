@@ -1,5 +1,5 @@
 //%attributes = {}
-// Build a compiled project and archive it in an unzippable zip file
+// Build a compiled project and archive it in an zip file
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

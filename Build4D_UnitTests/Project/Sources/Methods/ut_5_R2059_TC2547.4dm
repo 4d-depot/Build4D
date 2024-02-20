@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build a server application adding the BuildhardLink key
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build a client application without defining the path of the Volume desktop
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

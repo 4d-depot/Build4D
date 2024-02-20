@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+//build a server application and check that the ServerStructureFolderName key is added in the "com.4d.ServerCacheFolderName" key in the info.plist
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

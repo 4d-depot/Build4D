@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// define the destination foler where folder is an object NOT type of 4D.folder
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

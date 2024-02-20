@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// Build the server Application
 var $build : cs.Build4D.Server
 var $settings : Object
 var $success : Boolean

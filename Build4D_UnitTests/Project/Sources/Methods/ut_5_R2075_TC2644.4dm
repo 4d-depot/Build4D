@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// check the update of the Windows client application with startElevated=true
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

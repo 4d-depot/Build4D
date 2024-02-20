@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// build the client application with the "Use SDI in interface" settings set to false
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

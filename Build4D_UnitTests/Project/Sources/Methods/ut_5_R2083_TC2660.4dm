@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// build a client application , setting the "RangeVersMin"
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean

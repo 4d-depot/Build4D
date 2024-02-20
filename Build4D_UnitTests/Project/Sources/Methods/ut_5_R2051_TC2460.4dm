@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+//Enable the automatic data collection using the serverDataCollection = false
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

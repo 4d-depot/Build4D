@@ -1,5 +1,5 @@
 //%attributes = {}
-// Test _build() function in the default folder
+// Build a server application and remove a relative folder path
 var $build : cs.Build4D.Server
 var $settings; $infos : Object
 var $success : Boolean

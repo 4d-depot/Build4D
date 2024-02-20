@@ -1,5 +1,5 @@
 //%attributes = {"invisible":true}
-// Test _build() function in the default folder
+// ask to enable the server selection window using the "com.4d.BuildApp.ServerSelectionAllowed" key = "true"
 var $build : cs.Build4D.Client
 var $settings; $infos : Object
 var $success : Boolean
