@@ -1,12 +1,16 @@
 # Build4D
 
-Welcome to Build4D! This 4D project allows you to compile, build and sign:
+Welcome to Build4D! This 4D project allows you to compile, build, and sign:
 * compiled projects
 * components
 * standalone applications
 * server applications
 * client applications
 
+For more details, read this series of blog posts:
+* https://blog.4d.com/build-your-compiled-structure-or-component-with-build4d/
+* https://blog.4d.com/create-a-standalone-application-with-the-build4d-component/
+* https://blog.4d.com/create-a-client-server-application-with-build4d-tool/
 
 ## Description
 
