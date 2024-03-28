@@ -50,7 +50,7 @@ Function _checkDestinationFolder() -> $status : Boolean
 |---|---|---|---|
 | $status | Boolean | out | True if the destination folder exists. |
 
-Checks the destination folder.
+Checks the destination folder. Its contents are deleted before each build.
 
 <h3 id="function-compileProject">Function _compileProject</h3>
 
