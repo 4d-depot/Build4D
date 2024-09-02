@@ -97,17 +97,6 @@
 			],
 			"Summary": ""
 		},
-		"buildZip()": {
-			"Syntax": "**.buildZip**()->result : Object",
-			"Params": [
-				[
-					"result",
-					"Object",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
 		"get publishName()": {
 			"Syntax": "**.get publishName**() : Text",
 			"Params": [
@@ -119,23 +108,12 @@
 			],
 			"Summary": ""
 		},
-		"is_mac_target()": {
-			"Syntax": "**.is_mac_target**() : Boolean",
+		"buildZip()": {
+			"Syntax": "**.buildZip**()->result : Object",
 			"Params": [
 				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"is_win_target()": {
-			"Syntax": "**.is_win_target**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
+					"result",
+					"Object",
 					"<-"
 				]
 			],
@@ -158,12 +136,67 @@
 		"_inheritedFrom_": "_core"
 	},
 	"_core": {
+		"get is_win_target()": {
+			"Syntax": "**.get is_win_target**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get is_mac_target()": {
+			"Syntax": "**.get is_mac_target**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get is_client()": {
+			"Syntax": "**.get is_client**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get is_server()": {
+			"Syntax": "**.get is_server**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"get buildName()": {
 			"Syntax": "**.get buildName**() : Text",
 			"Params": [
 				[
 					"",
 					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get is_standalone()": {
+			"Syntax": "**.get is_standalone**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
 					"<-"
 				]
 			],
@@ -201,28 +234,6 @@
 		},
 		"build()": {
 			"Syntax": "**.build**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"is_mac_target()": {
-			"Syntax": "**.is_mac_target**() : Boolean",
-			"Params": [
-				[
-					"",
-					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"is_win_target()": {
-			"Syntax": "**.is_win_target**() : Boolean",
 			"Params": [
 				[
 					"",

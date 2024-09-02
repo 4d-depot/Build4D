@@ -110,7 +110,7 @@ Class constructor($customSettings : Object)
 		//:- requirement #2061
 		If (This._validInstance)
 			
-			If (This.is_win_target())
+			If (This.is_win_target)
 				
 				If (OB Instance of(This.settings.macCompiledProject; 4D.Folder))
 					
@@ -191,18 +191,18 @@ Function get publishName : Text
 	End if 
 	
 	
-	//MARK:- identify if we build a mac or win client
+	////MARK:- identify if we build a mac or win client
 	
-Function is_mac_target : Boolean
+	//Function is_mac_target : Boolean
 	
-	return (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists))
+	//return (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists))
 	
 	
-	//MARK:- identify if we build a mac or win client
+	////MARK:- identify if we build a mac or win client
 	
-Function is_win_target : Boolean
+	//Function is_win_target : Boolean
 	
-	return (This.settings.sourceAppFolder.file("4D Server.exe").exists)
+	//return (This.settings.sourceAppFolder.file("4D Server.exe").exists)
 	
 	
 	//MARK:- Renames the executable.
@@ -223,7 +223,7 @@ Function _renameExecutable() : Boolean
 		$renamedExecutable; \
 		$renamedResources : 4D.File
 	
-	If (This.is_mac_target())
+	If (This.is_mac_target)
 		$renamedExecutable:=This.settings.destinationFolder.file("Contents/MacOS/4D Server").rename(This.settings.buildName)
 		$renamedResources:=This.settings.destinationFolder.file("Contents/Resources/4D Server.rsrc").rename(This.settings.buildName+".rsrc")
 	Else 
@@ -274,7 +274,7 @@ Function _setAppOptions() : Boolean
 	
 	If (Super._setAppOptions())  //#2034 #2140
 		
-		$infoFile:=(This.is_mac_target()) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
+		$infoFile:=(This.is_mac_target) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
 		
 		If ($infoFile.exists)
 			
@@ -379,7 +379,7 @@ Function buildZip()->$result : Object
 	var $zip_archive : 4D.File
 	var $filename : Text
 	
-	$filename:=This.settings.buildName+(This.is_mac_target() ? "-server-mac.zip" : "-server-win.zip")
+	$filename:=This.settings.buildName+(This.is_mac_target ? "-server-mac.zip" : "-server-win.zip")
 	$app_folder:=This.settings.destinationFolder
 	
 	If ($app_folder.exists)
@@ -485,7 +485,7 @@ Function build() : Boolean
 			$infos.BuildCurrentVers:=Value type(This.settings.currentVers)=Is real ? String(This.settings.currentVers) : "1"
 			$infos.PublishName:=Value type(This.settings.publishName)=Is text ? This.settings.publishName : This.settings.buildName
 			
-			If (This.is_mac_target())
+			If (This.is_mac_target)
 				$infos.ServerPlatform:="mac"
 			Else 
 				$infos.ServerPlatform:="win"

@@ -1,6 +1,5 @@
 Class extends _core
 
-property _target : Text
 
 
 //MARK:-
@@ -11,28 +10,18 @@ Class constructor($customSettings : Object)
 	
 	Super("Client"; $customSettings)  //#2067
 	
-	This._target:=""
 	
 	If (This._validInstance)
 		
-		//#2068
-		Case of 
-				
-			: (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists))
-				This._target:="mac"
-				
-			: (This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists)
-				This._target:="win"
-				
-			Else 
-				This._validInstance:=False
-		End case 
+		
+		This._validInstance:=This._target#""
+		
 		
 		If (This._isDefaultDestinationFolder)
 			This.settings.destinationFolder:=This.settings.destinationFolder.folder("ClientApp/")
 		End if 
-		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+Choose(This.is_mac_target(); ".app"; "")+"/")
-		This._structureFolder:=This.settings.destinationFolder.folder(Choose(This.is_mac_target(); "Contents/"; "")+"Database/")
+		This.settings.destinationFolder:=This.settings.destinationFolder.folder(This.settings.buildName+Choose(This.is_mac_target; ".app"; "")+"/")
+		This._structureFolder:=This.settings.destinationFolder.folder(Choose(This.is_mac_target; "Contents/"; "")+"Database/")
 		
 		//Checking source app
 		If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder))))
@@ -59,7 +48,7 @@ Class constructor($customSettings : Object)
 						"severity"; Error message; \
 						"sourceAppFolder"; This.settings.sourceAppFolder.path))
 				Else   // Versions checking
-					$sourceAppInfo:=(This.is_mac_target()) ? This.settings.sourceAppFolder.file("Contents/Info.plist").getAppInfo() : This.settings.sourceAppFolder.file("Resources/Info.plist").getAppInfo()
+					$sourceAppInfo:=(This.is_mac_target) ? This.settings.sourceAppFolder.file("Contents/Info.plist").getAppInfo() : This.settings.sourceAppFolder.file("Resources/Info.plist").getAppInfo()
 					$currentAppInfo:=(Is macOS) ? Folder(Application file; fk platform path).file("Contents/Info.plist").getAppInfo() : File(Application file; fk platform path).parent.file("Resources/Info.plist").getAppInfo()
 					If (($sourceAppInfo.CFBundleVersion=Null) || ($currentAppInfo.CFBundleVersion=Null) || ($sourceAppInfo.CFBundleVersion#$currentAppInfo.CFBundleVersion))
 						This._validInstance:=False
@@ -104,18 +93,7 @@ Function get publishName : Text
 	End if 
 	
 	
-	//MARK:- identify if we build a mac or win client
 	
-Function is_mac_target : Boolean
-	
-	return Bool(This._target="mac")
-	
-	
-	//MARK:- identify if we build a mac or win client
-	
-Function is_win_target : Boolean
-	
-	return Bool(This._target="win")
 	
 	
 	
@@ -158,7 +136,7 @@ Function _make4dLink() : Boolean
 	//#3829
 	Case of 
 			
-		: (This.is_mac_target())  //#3940
+		: (This.is_mac_target)  //#3940
 			
 		: (This.settings.shareLocalResourcesOnWindowsClient=Null)
 			
@@ -220,7 +198,7 @@ $status        Boolean       out          True if the executable has been correc
 	
 Function _renameExecutable() : Boolean
 	var $renamedExecutable : 4D.File
-	If (This.is_mac_target())
+	If (This.is_mac_target)
 		$renamedExecutable:=This.settings.destinationFolder.file("Contents/MacOS/4D Volume Desktop").rename(This.settings.buildName)
 	Else 
 		$renamedExecutable:=This.settings.destinationFolder.file("4D Volume Desktop.4DE").rename(This.settings.buildName+".exe")
@@ -260,7 +238,7 @@ Function _setAppOptions() : Boolean
 	
 	This._noError:=True
 	
-	$infoFile:=(This.is_mac_target()) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
+	$infoFile:=(This.is_mac_target) ? This.settings.destinationFolder.file("Contents/Info.plist") : This.settings.destinationFolder.file("Resources/Info.plist")
 	
 	If ($infoFile.exists)
 		
@@ -301,7 +279,7 @@ Function _setAppOptions() : Boolean
 			$appInfo.BuildCacheFolderNameClient:=""
 		End if 
 		
-		If (This.is_mac_target())
+		If (This.is_mac_target)
 			
 			$appInfo.RemoteSharedResources:="false"  //#3829 #3940
 			
@@ -330,7 +308,7 @@ Function _setAppOptions() : Boolean
 		
 		If (This.settings.iconPath#Null)  // Set icon
 			If (This.settings.iconPath.exists)
-				If (This.is_mac_target())
+				If (This.is_mac_target)
 					$appInfo.CFBundleIconFile:=This.settings.iconPath.fullName
 					This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/"))
 					This.settings.iconPath.copyTo(This.settings.destinationFolder.folder("Contents/Resources/Images/WindowIcons/"); "windowIcon_205.icns"; fk overwrite)
@@ -346,7 +324,7 @@ Function _setAppOptions() : Boolean
 		End if 
 		
 		If (This.settings.versioning#Null)  // Set version info
-			If (This.is_mac_target())
+			If (This.is_mac_target)
 				If (This.settings.versioning.version#Null)
 					$appInfo.CFBundleVersion:=This.settings.versioning.version
 					$appInfo.CFBundleShortVersionString:=This.settings.versioning.version
@@ -413,7 +391,7 @@ Function _setAppOptions() : Boolean
 		return False
 	End if 
 	
-	If (This.is_win_target())  // Updater elevation rights
+	If (This.is_win_target)  // Updater elevation rights
 		$manifestFile:=((This.settings.startElevated#Null) && (This.settings.startElevated))\
 			 ? This.settings.destinationFolder.file("Resources/Updater/elevated.manifest")\
 			 : This.settings.destinationFolder.file("Resources/Updater/normal.manifest")
@@ -529,7 +507,7 @@ Function build() : Boolean
 	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
 	
 	
-	If (Is macOS & This.is_mac_target())
+	If (Is macOS & This.is_mac_target)
 		$success:=($success) ? This._sign() : False
 	End if 
 	
@@ -567,7 +545,7 @@ Function buildZip()->$result : Object
 	var $zip_archive : 4D.File
 	var $filename : Text
 	
-	$filename:=This.settings.buildName+(This.is_mac_target() ? "-client-mac.zip" : "-client-win.zip")
+	$filename:=This.settings.buildName+(This.is_mac_target ? "-client-mac.zip" : "-client-win.zip")
 	$app_folder:=This.settings.destinationFolder
 	
 	If ($app_folder.exists)
@@ -615,7 +593,7 @@ Function buildArchive()->$result : Object
 	var $zip_archive : 4D.File
 	var $filename : Text
 	
-	$filename:=This.is_mac_target() ? "update.mac.4darchive" : "update.win.4darchive"
+	$filename:=This.is_mac_target ? "update.mac.4darchive" : "update.win.4darchive"
 	
 	$app_folder:=This.settings.destinationFolder
 	

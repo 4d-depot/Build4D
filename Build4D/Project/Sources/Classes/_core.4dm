@@ -29,6 +29,7 @@ property _projectFile : 4D.File
 property _currentProjectPackage : 4D.Folder
 property _projectPackage : 4D.Folder
 property _structureFolder : 4D.Folder
+property _target : Text
 
 property logs : Collection
 
@@ -101,6 +102,32 @@ Class constructor($target : Text; $customSettings : Object)
 				"severity"; Information message))
 		End if 
 		
+		//#2068
+		
+		Case of 
+				
+			: (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists))
+				This._target:="mac"
+				
+			: (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists))
+				This._target:="mac"
+				
+				
+				
+			: (Is Windows & (This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists))
+				This._target:="win"
+				
+			: (Is Windows & (This.settings.sourceAppFolder.file("4D Server.exe").exists))
+				This._target:="win"
+				
+			Else 
+				
+				
+				This._target:=""
+				
+		End case 
+		
+		
 		
 	End if 
 	
@@ -110,6 +137,42 @@ Function get buildName : Text
 	Else 
 		return This._projectFile.name
 	End if 
+	
+	
+Function get is_standalone : Boolean
+	
+	return OB Class(This).name=cs.Standalone.name
+	
+	
+Function get is_server : Boolean
+	
+	return OB Class(This).name=cs.Server.name
+	
+	
+	
+Function get is_client : Boolean
+	
+	return OB Class(This).name=cs.Client.name
+	
+	
+	
+	
+	
+	//MARK:- identify if we build a mac or win client
+	
+Function get is_mac_target : Boolean
+	
+	return Bool(This._target="mac")
+	
+	
+	//MARK:- identify if we build a mac or win client
+	
+Function get is_win_target : Boolean
+	
+	return Bool(This._target="win")
+	
+	
+	
 	
 	//MARK:- Overrides the default target settings with the $settings parameter.
 	
@@ -173,6 +236,8 @@ Function _overrideSettings($settings : Object)
 		
 	End for each 
 	
+	
+	
 	//MARK:-Calls the settings.formulaForLogs formula with the $log object parameter.
 	
 /*
@@ -192,6 +257,8 @@ Function _log($log : Object)
 	If (This.settings.logger#Null)
 		This.settings.logger($log)
 	End if 
+	
+	
 	
 	//MARK:- Resolves a relative/absolute/filesystem string path to a Folder/File object.
 	
@@ -305,6 +372,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			//return ($absolutePath="@/") ? Folder(Folder($absolutePath; *).platformPath; fk platform path) : File(File($absolutePath; *).platformPath; fk platform path)
 			
 			$folder:=Folder($absolutePath; *)
+			
 			If ($absolutePath="@/")
 				
 			Else 
@@ -332,6 +400,8 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 			
 	End case 
 	
+	
+	
 	//MARK:- Checks the destination folder.
 	
 /*
@@ -357,12 +427,15 @@ Function _checkDestinationFolder() : Boolean
 		This._log(New object(\
 			"function"; "Destination folder checking"; \
 			"message"; "Destination folder doesn't exist and can't be created"; \
-			"severity"; Error message); \
-			"destinationFolder"; This.settings.destinationFolder.path)
+			"severity"; Error message; \
+			"destinationFolder"; This.settings.destinationFolder.path))
+		
 		return False
 	End if 
 	
 	return This._noError
+	
+	
 	
 	//MARK:- Compiles the project with the settings.compilerOptions (if it exists).
 	
@@ -411,6 +484,8 @@ Function _compileProject() : Boolean
 				"result"; $compilation))
 		End if 
 	End if 
+	
+	
 	
 	//MARK:- Creates the destination structure folders and files.
 	
@@ -462,6 +537,8 @@ Function _createStructure() : Boolean
 			End if 
 		End if 
 	End if 
+	
+	
 	
 	//MARK:- Includes folders and files into the destination structure.
 	
@@ -575,6 +652,8 @@ Function _includePaths($pathsObj : Collection) : Boolean
 	
 	return True
 	
+	
+	
 	//MARK:- Deletes folders and files from the destination structure.
 	
 /*
@@ -637,6 +716,8 @@ Function _deletePaths($paths : Collection) : Boolean
 	
 	return True
 	
+	
+	
 	//MARK:- Creates the 4DZ file of the project, and deletes the Project folder if successful.
 	
 /*
@@ -679,6 +760,8 @@ Function _create4DZ() : Boolean
 	
 	return True
 	
+	
+	
 	//MARK:- Copies the source application (4D Volume Desktop or 4D Server) in the destination folder.
 	
 /*
@@ -696,6 +779,8 @@ Function _copySourceApp() : Boolean
 	This._noError:=True
 	This.settings.sourceAppFolder.copyTo(This.settings.destinationFolder.parent; This.settings.destinationFolder.fullName)
 	return This._noError
+	
+	
 	
 	//MARK:- Deletes the folders and files composing the module to be removed according to the information in the "/RESOURCES/BuildappOptionalModules.json" file.
 	
@@ -753,6 +838,8 @@ Function _excludeModules() : Boolean
 	
 	return This._noError
 	
+	
+	
 	//MARK:- Sets the information to the application.
 	
 /*
@@ -770,6 +857,7 @@ Function _setAppOptions() : Boolean
 	var $appInfo; $exeInfo : Object
 	var $infoFile; $exeFile; $manifestFile : 4D.File
 	var $identifier : Text
+	var $type : Integer
 	
 	This._noError:=True
 	
@@ -858,6 +946,60 @@ Function _setAppOptions() : Boolean
 			End if 
 		End if 
 		
+		
+		//ACI0105060
+		If (This.is_standalone || This.is_server)
+			
+			$type:=Value type(This.settings.dataFilePath)
+			
+			Case of 
+					
+				: ($type=Is null)
+					
+				: ($type=Is text)
+					
+					If (Position(Folder separator; This.settings.dataFilePath; *)>0)
+						$appInfo.BuildDataPath:=This.settings.dataFilePath
+					Else 
+						
+						If (Is macOS)
+							This.settings.dataFilePath:=Replace string(This.settings.dataFilePath; "/"; ":")
+							
+							If (Position(":"; This.settings.dataFilePath)#1)
+								This.settings.dataFilePath:=":"+This.settings.dataFilePath
+							End if 
+							
+						Else 
+							
+							This.settings.dataFilePath:=Replace string(This.settings.dataFilePath; "/"; "\\")
+							
+							
+							If (Position("\\"; This.settings.dataFilePath)#1)
+								This.settings.dataFilePath:="\\"+This.settings.dataFilePath
+							End if 
+						End if 
+						
+						$appInfo.BuildDataPath:=This.settings.dataFilePath
+						
+					End if 
+					
+				: ($type=Is object) && OB Instance of(This.settings.dataFilePath; 4D.File)
+					
+					$appInfo.BuildDataPath:=This.settings.dataFilePath.platformPath
+					
+				Else 
+					
+					This._log(New object(\
+						"function"; "Setting app options"; \
+						"message"; "dataFilePath property accept only text or 4D.File values"; \
+						"severity"; Error message))
+					
+			End case 
+			
+			
+		End if 
+		
+		
 		$infoFile.setAppInfo($appInfo)
 		
 		If ($exeInfo#Null)
@@ -894,6 +1036,8 @@ Function _setAppOptions() : Boolean
 	End if 
 	
 	return This._noError
+	
+	
 	
 	//MARK:- Creates the deployment license file in the license folder of the generated application.
 	
@@ -932,6 +1076,8 @@ Function _generateLicense() : Boolean
 			"message"; "License file doesn't exist: "+Choose(This.settings.license#Null; This.settings.license.path; "Undefined"); \
 			"severity"; Error message))
 	End if 
+	
+	
 	
 	//MARK:- Signs the project
 	
