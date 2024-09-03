@@ -962,7 +962,8 @@ Function _setAppOptions() : Boolean
 						$appInfo.BuildDataPath:=This.settings.dataFilePath
 					Else 
 						
-						If (Is macOS)
+						If (This.is_mac_target)
+							
 							This.settings.dataFilePath:=Replace string(This.settings.dataFilePath; "/"; ":")
 							
 							If (Position(":"; This.settings.dataFilePath)#1)
@@ -973,10 +974,10 @@ Function _setAppOptions() : Boolean
 							
 							This.settings.dataFilePath:=Replace string(This.settings.dataFilePath; "/"; "\\")
 							
-							
 							If (Position("\\"; This.settings.dataFilePath)#1)
 								This.settings.dataFilePath:="\\"+This.settings.dataFilePath
 							End if 
+							
 						End if 
 						
 						$appInfo.BuildDataPath:=This.settings.dataFilePath
