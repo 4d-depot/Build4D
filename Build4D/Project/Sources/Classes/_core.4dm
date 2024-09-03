@@ -106,18 +106,18 @@ Class constructor($target : Text; $customSettings : Object)
 		
 		Case of 
 				
-			: (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists))
+			: (This.settings.sourceAppFolder.file("Contents/MacOS/4D Volume Desktop").exists)
 				This._target:="mac"
 				
-			: (Is macOS & (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists))
+			: (This.settings.sourceAppFolder.file("Contents/MacOS/4D Server").exists)
 				This._target:="mac"
 				
 				
 				
-			: (Is Windows & (This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists))
+			: (This.settings.sourceAppFolder.file("4D Volume Desktop.4DE").exists)
 				This._target:="win"
 				
-			: (Is Windows & (This.settings.sourceAppFolder.file("4D Server.exe").exists))
+			: (This.settings.sourceAppFolder.file("4D Server.exe").exists)
 				This._target:="win"
 				
 			Else 
