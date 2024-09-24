@@ -23,6 +23,10 @@ $customSettings is an object that contains the following parameters:
 |projectFile | File or String | Project file (relative to the open project/absolute/filesystem). Pass the project file path if you want to build an external project (not necessary if building the current project=.|
 |destinationFolder | Folder or String | Folder where the build will be generated (relative to the open project/absolute/filesystem), defined by the component if missing in the custom settings. Its contents are deleted before each build.|
 |compilerOptions | Object | Compile options. The object is passed as parameter to the "Compile project" command if it is not null. For more details about the object format, read the documentation of the Compile project command.|
+|versioning| Object | Object containing the contents of the application information.|
+|versioning.version| String | Version number. |
+|versioning.copyright| String | Copyright text. |
+|versioning.companyName| String | Company name. |
 |packedProject | Boolean | True if the project is compressed into a 4DZ file.|
 |obfuscated | Boolean | True if the 4DZ is to not be dezippable.|
 |includePaths[] | Collection of Objects | Collection of folders and files to include.|
