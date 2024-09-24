@@ -19,6 +19,12 @@ destinationFolder: "../Build4D_UnitTests/Components/"; \
 includePaths: [{source: "Documentation/"}]\
 }
 
+
+$settings.versioning:={}
+$settings.versioning.version:="20.7.0"
+$settings.versioning.copyright:="4D SA"
+$settings.versioning.companyName:="4D SA"
+
 $build:=cs.Component.new($settings)
 
 $success:=$build.build()
@@ -28,7 +34,9 @@ If (Not($success))  // Write logs if failed
 	File("/PACKAGE/Build_failed.log").setText(JSON Stringify($build.logs; *))
 End if 
 
-If (Not(Get application info.headless))
+If (Application info.headless)
+	
+Else 
 	If ($success)
 		ALERT("Build OK")
 	Else 

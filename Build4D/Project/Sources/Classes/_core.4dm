@@ -349,7 +349,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 										
 										// a path on different volume ?
 										
-										$_volume:=Get system info.volumes.query(" name = :1 "; $path_root)
+										$_volume:=System info.volumes.query(" name = :1 "; $path_root)
 										If ($_volume.length>0)
 											$absolutePath:=$path
 										Else 
