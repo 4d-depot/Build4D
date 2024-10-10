@@ -530,7 +530,7 @@ Function _createStructure() : Boolean
 			If (($deletePaths.length>0) || (This._deletePaths($deletePaths)))
 				// Copy Libraries folder
 				$librariesFolder:=This._projectPackage.folder("Libraries")
-				If (($librariesFolder.exists) && ($librariesFolder.files.length>0))
+				If (($librariesFolder.exists) && ($librariesFolder.files().length>0))
 					$librariesFolder.copyTo($structureFolder; fk overwrite)
 				End if 
 				return True
