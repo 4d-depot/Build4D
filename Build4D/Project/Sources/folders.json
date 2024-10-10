@@ -18,27 +18,11 @@
 			"onStartup"
 		]
 	},
-	"...  compiler": {
-		"methods": [
-			"Compiler_Methods"
-		]
-	},
-	"(____ franck)": {},
-	"(____ test methods)": {},
-	"(. . settings private classes)": {},
-	"(. . test class)": {},
 	"coop -> preempt": {
 		"methods": [
 			"quit4D_coop",
 			"showOnDisk_coop"
 		]
 	},
-	"trash": {
-		"groups": [
-			"(____ franck)",
-			"(____ test methods)",
-			"(. . settings private classes)",
-			"(. . test class)"
-		]
-	}
+	"trash": {}
 }
