@@ -349,7 +349,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 										
 										// a path on different volume ?
 										
-										$_volume:=System info.volumes.query(" name = :1 "; $path_root)
+										$_volume:=Get system info.volumes.query(" name = :1 "; $path_root)
 										If ($_volume.length>0)
 											$absolutePath:=$path
 										Else 
@@ -530,7 +530,7 @@ Function _createStructure() : Boolean
 			If (($deletePaths.length>0) || (This._deletePaths($deletePaths)))
 				// Copy Libraries folder
 				$librariesFolder:=This._projectPackage.folder("Libraries")
-				If (($librariesFolder.exists) && ($librariesFolder.files.length>0))
+				If (($librariesFolder.exists) && ($librariesFolder.files().length>0))
 					$librariesFolder.copyTo($structureFolder; fk overwrite)
 				End if 
 				return True

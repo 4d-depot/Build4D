@@ -34,7 +34,7 @@ If (Not($success))  // Write logs if failed
 	File("/PACKAGE/Build_failed.log").setText(JSON Stringify($build.logs; *))
 End if 
 
-If (Application info.headless)
+If (Get application info.headless)
 	
 Else 
 	If ($success)
