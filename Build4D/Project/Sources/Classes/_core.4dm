@@ -525,6 +525,10 @@ Function _createStructure() : Boolean
 		$deletePaths.push($structureFolder.folder("Project/Sources/Triggers/"))
 		$deletePaths.push($structureFolder.folder("Project/Trash/"))
 		
+		If (This.is_standalone || This.is_server)
+			$deletePaths.push($structureFolder.file("Project/Sources/dependencies.json"))
+		End if 
+		
 		If (This._deletePaths($deletePaths))
 			$deletePaths:=$structureFolder.files(fk recursive).query("extension =:1"; ".4DM")  // Table Form, Form and Form object methods
 			If (($deletePaths.length=0) || (This._deletePaths($deletePaths)))
@@ -688,8 +692,13 @@ Function _deletePaths($paths : Collection) : Boolean
 			End if 
 			
 			//If ($deletePath.exists)//https://github.com/4d/4d/issues/2139
-			If (Test path name($deletePath.platformPath)>=0)
-				$deletePath.delete(fk recursive)
+			If (Test path name(String($deletePath.platformPath))>=0)
+				Case of 
+					: (OB Instance of($path; 4D.File))
+						$deletePath.delete()
+					Else   // : (OB Instance of($path; 4D.Folder)) // if not 4D folder?
+						$deletePath.delete(fk recursive)
+				End case 
 				This._log(New object(\
 					"function"; "Paths delete"; \
 					"message"; "Path deleted"; \
