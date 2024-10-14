@@ -132,8 +132,7 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False
 	$success:=($success) ? This._excludeModules() : False
-	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
-	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
+	$success:=($success) ? This._manageSettingsPaths() : False
 	$success:=($success) ? This._create4DZ() : False
 	$success:=($success) ? This._generateLicense() : False
 	If (Is macOS)

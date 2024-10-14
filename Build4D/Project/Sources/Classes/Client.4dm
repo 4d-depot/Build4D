@@ -503,8 +503,7 @@ Function build() : Boolean
 		
 	End if 
 	
-	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
-	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
+	$success:=($success) ? This._manageSettingsPaths() : False
 	
 	
 	If (Is macOS & This.is_mac_target)

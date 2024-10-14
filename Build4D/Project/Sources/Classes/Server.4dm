@@ -428,8 +428,7 @@ Function build() : Boolean
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False
 	$success:=($success) ? This._excludeModules() : False  //#2029
-	$success:=($success) ? This._includePaths(This.settings.includePaths) : False  //#2025
-	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False  //#2026
+	$success:=($success) ? This._manageSettingsPaths() : False
 	$success:=($success) ? This._create4DZ() : False  //#2030 #2032
 	
 	

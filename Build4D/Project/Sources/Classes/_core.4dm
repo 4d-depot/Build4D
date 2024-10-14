@@ -717,6 +717,14 @@ Function _deletePaths($paths : Collection) : Boolean
 	return True
 	
 	
+	// MARK:- Manage paths from settings
+	
+Function _manageSettingsPaths() : Boolean
+	var $success : Boolean
+	$success:=True
+	$success:=($success) ? This._includePaths(This.settings.includePaths) : False  //#2025
+	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False  //#2026
+	return $success
 	
 	//MARK:- Creates the 4DZ file of the project, and deletes the Project folder if successful.
 	
