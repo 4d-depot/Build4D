@@ -38,8 +38,6 @@ property settings : Object
 
 Class constructor($target : Text; $customSettings : Object)
 	
-	var $settings : Object
-	
 	ON ERR CALL("onError"; ek global)
 	
 	This.logs:=New collection
@@ -53,6 +51,7 @@ Class constructor($target : Text; $customSettings : Object)
 	
 	This._isDefaultDestinationFolder:=False
 	
+	var $settings : Object
 	$settings:=($customSettings#Null) ? $customSettings : {}
 	
 	//NOTE : if you want to create a container for the target ...
@@ -205,9 +204,9 @@ Function _overrideSettings($settings : Object)
 					This._validInstance:=This._checkDestinationFolder()
 				End if 
 				
-			: ($entry.key="includePaths")
-				This.settings.includePaths:=This.settings.includePaths.concat($settings.includePaths)
-				
+			: (($entry.key="includePaths") || ($entry.key="deletePaths"))
+				This.settings[$entry.key]:=This.settings[$entry.key].concat($settings[$entry.key])
+
 			: ($entry.key="iconPath")
 				This.settings.iconPath:=This._resolvePath($settings.iconPath; This._currentProjectPackage)
 				
