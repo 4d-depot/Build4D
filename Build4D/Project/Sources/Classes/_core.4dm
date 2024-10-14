@@ -527,7 +527,7 @@ Function _createStructure() : Boolean
 		
 		If (This._deletePaths($deletePaths))
 			$deletePaths:=$structureFolder.files(fk recursive).query("extension =:1"; ".4DM")  // Table Form, Form and Form object methods
-			If (($deletePaths.length>0) || (This._deletePaths($deletePaths)))
+			If (($deletePaths.length=0) || (This._deletePaths($deletePaths)))
 				// Copy Libraries folder
 				$librariesFolder:=This._projectPackage.folder("Libraries")
 				If (($librariesFolder.exists) && ($librariesFolder.files().length>0))
