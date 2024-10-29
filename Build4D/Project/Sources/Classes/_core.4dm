@@ -341,7 +341,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 										
 										If ($_base[0]=$_path[0])  // are we on the same root
 											$absolutePath:=$path
-										Else   // thi is an absolute path
+										Else   // this is an absolute path
 											$absolutePath:=$absoluteFolder.path+$path
 										End if 
 										
@@ -359,8 +359,6 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 									End if 
 									
 									$absolutePath:=Replace string($absolutePath; "//"; "/")
-									
-									
 									
 							End case 
 							
