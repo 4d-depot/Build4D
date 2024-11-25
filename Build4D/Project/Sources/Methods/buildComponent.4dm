@@ -25,6 +25,13 @@ $settings.versioning.version:="20.7.0"
 $settings.versioning.copyright:="4D SA"
 $settings.versioning.companyName:="4D SA"
 
+
+
+$settings.signApplication:={}
+$settings.signApplication.macSignature:=True
+$settings.signApplication.macCertificate:="Developer ID Application: CEDRIC GAREAU (BXSE3R8CQZT)"
+//$settings.signApplication.adHocSignature:=True
+
 $build:=cs.Component.new($settings)
 
 $success:=$build.build()
@@ -34,7 +41,7 @@ If (Not($success))  // Write logs if failed
 	File("/PACKAGE/Build_failed.log").setText(JSON Stringify($build.logs; *))
 End if 
 
-If (Get application info.headless)
+If (Application info.headless)
 	
 Else 
 	If ($success)

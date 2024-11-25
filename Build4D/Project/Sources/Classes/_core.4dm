@@ -349,7 +349,7 @@ Function _resolvePath($path : Variant; $baseFolder : 4D.Folder) : Object
 										
 										// a path on different volume ?
 										
-										$_volume:=Get system info.volumes.query(" name = :1 "; $path_root)
+										$_volume:=System info.volumes.query(" name = :1 "; $path_root)
 										If ($_volume.length>0)
 											$absolutePath:=$path
 										Else 
@@ -1116,28 +1116,30 @@ Function _sign() : Boolean
 		
 		If (This.settings.signApplication.macSignature || This.settings.signApplication.adHocSignature)
 			
+			var $commandLine; $certificateName : Text
+			var $signatureWorker : 4D.SystemWorker
 			var $script; $entitlements : 4D.File
 			
-			$script:=Folder(Application file; fk platform path).file("Contents/Resources/SignApp.sh")
 			$entitlements:=Folder(Application file; fk platform path).file("Contents/Resources/4D.entitlements")
+			
+			$script:=Folder(Application file; fk platform path).file("Contents/Resources/app_sign_pack_notarize.sh")
 			
 			If ($script.exists && $entitlements.exists)
 				
-				var $commandLine; $certificateName : Text
-				var $signatureWorker : 4D.SystemWorker
 				
 				$certificateName:=(Not(This.settings.signApplication.macSignature) && This.settings.signApplication.adHocSignature) ? "-" : This.settings.signApplication.macCertificate  // If AdHocSignature, the certificate name shall be '-'
 				
 				If ($certificateName#"")
 					
 					$commandLine:="'"
-					$commandLine+=$script.path+"' '"
-					$commandLine+=$certificateName+"' '"
+					$commandLine+=$script.path+"' sign '"
 					$commandLine+=This.settings.destinationFolder.path+"' '"
-					$commandLine+=$entitlements.path+"'"
+					$commandLine+=$entitlements.path+"' '"
+					$commandLine+=$certificateName+"'"
 					
 					$signatureWorker:=4D.SystemWorker.new($commandLine)
 					$signatureWorker.wait(120)
+					
 					
 /*
 #DD
@@ -1178,14 +1180,19 @@ check your network configuration proxy .....
 				End if 
 				
 			Else 
+				
 				This._log(New object(\
 					"function"; "Signature"; \
 					"message"; "Signature files are missing."; \
 					"severity"; Error message; \
 					"script"; $script.path; \
 					"entitlements"; $entitlements.path))
-				return False
+				
 			End if 
+			
+		Else 
+			
+			
 		End if 
 	End if 
 	
