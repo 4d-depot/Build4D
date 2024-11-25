@@ -1102,6 +1102,7 @@ Function _sign() : Boolean
 		If (This.settings.signApplication.macSignature || This.settings.signApplication.adHocSignature)
 			
 			var $script; $entitlements : 4D.File
+			var $path : Text
 			
 			$script:=Folder(Application file; fk platform path).file("Contents/Resources/SignApp.sh")
 			$entitlements:=Folder(Application file; fk platform path).file("Contents/Resources/4D.entitlements")
@@ -1115,10 +1116,14 @@ Function _sign() : Boolean
 				
 				If ($certificateName#"")
 					
+					
+					$path:=Substring(This.settings.destinationFolder.path; 1; Length(This.settings.destinationFolder.path)-1)
+					
+					
 					$commandLine:="'"
 					$commandLine+=$script.path+"' '"
 					$commandLine+=$certificateName+"' '"
-					$commandLine+=This.settings.destinationFolder.path+"' '"
+					$commandLine+=$path+"' '"
 					$commandLine+=$entitlements.path+"'"
 					
 					$signatureWorker:=4D.SystemWorker.new($commandLine)
