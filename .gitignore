@@ -1,39 +1,95 @@
-# Data folder
+# Ignore invisible files/folders except .gitignore
+.*
+!.gitignore
+!.gitattributes
+!.github
+
+#--------------------------------
+# Don't ignore .github workflow
+#--------------------------------
+
+!.github/
+!.github/**/.*
+.github/.DS_Store
+
+#--------------------------------
+# Ignore data file
+#--------------------------------
 [dD][aA][tT][aA]/
+*.4DD
+*.4DIndx
+*.4DIndy
+*.Match
+*.journal
 
-# Derived data
-DerivedData/
+#--------------------------------
+# Ignore derived data
+#--------------------------------
+Project/DerivedData/
 
-# Libraries
-Libraries/
+#--------------------------------
+# Ignore settings & preferences
+#--------------------------------
+Preferences/
+!4DPop AppMaker.*
 
-# User preferences
+Settings/
+!buildApp.4DSettings
+
 userPreferences.*/
 
-# Other
-Project/Trash
+#--------------------------------
+# Ignore Trash
+#--------------------------------
+Project/Trash/
 
-# System files
-.DS_Store
+#--------------------------------
+# Ignore backup
+#--------------------------------
+*.4BK
+backupHistory.json
+
+#--------------------------------
+# Miscellaneous
+#--------------------------------
+*__Orphan__*
+*symbols.txt
 ehthumbs.db
+.DS_Store
 Thumbs.db
 
-# Working files and folders
-*.4dbase/
-UT_*.log
-Build_*.log
-*.license4D
-Artifacts/
-zzz*.4dm
+Resources/php.ini
+
+Components/
+!Build/Components
+
+Project/Sources/Methods/Method*.4dm
+Project/Sources/Methods/00_*.4dm
+
+Libraries/lib4d-arm64.dylib
+
+DEV/
+
+#--------------------------------
+# [!] Never omit forms
+#--------------------------------
+!**/Forms/*/
+
+#--------------------------------
+# Added by user
+#--------------------------------
 
 # Build
-*Test/
-*Build/
-*buildApp.4DSettings
-Test-x
-____test_hfs.4dm
-ut_5_R_TC.4dm
-(ut_5_R2074_TC2641).4dm
-not exposed
-README.txt
-Method7.4dm
+# *Test/
+# *Build/
+# *buildApp.4DSettings
+# Test-x
+# ____test_hfs.4dm
+# ut_5_R_TC.4dm
+# (ut_5_R2074_TC2641).4dm
+# not exposed
+# README.txt
+# Method7.4dm
+BUILD/.DS_Store
+Build4D/Libraries/lib4d-arm64.dylib
+Build4D/Project/Sources/dependencies.json

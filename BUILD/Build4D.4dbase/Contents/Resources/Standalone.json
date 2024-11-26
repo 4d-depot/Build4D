@@ -1,0 +1,24 @@
+{
+    "//target":"Standalone",
+    "packedProject":true,
+    "obfuscated":false,
+    "lastDataPathLookup":"ByAppName",
+    "excludeModule":[],
+    "includePaths":
+    [
+        {
+            "source":"./Libraries/",
+            "destination":"./"
+        },
+        {
+            "source":"./Resources/",
+            "destination":"./"
+        }
+    ],
+    "deletePaths":[],
+    "signApplication":{
+        "macSignature":false,
+        "macCertificate":"",
+        "adHocSignature":true
+    }
+}

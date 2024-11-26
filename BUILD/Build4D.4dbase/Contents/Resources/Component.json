@@ -1,0 +1,23 @@
+{
+    "//target":"Component",
+    "packedProject":true,
+    "obfuscated":false,
+    "includePaths":
+    [
+        {
+            "source":"./Libraries/",
+            "destination":"./"
+        },
+        {
+            "source":"./Resources/",
+            "destination":"./"
+        }
+    ],
+    "deletePaths":[],
+    "signApplication":{
+        "macSignature":false,
+        "macCertificate":"",
+        "adHocSignature":true
+    },
+    "notarize":false
+}
