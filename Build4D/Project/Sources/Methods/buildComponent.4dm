@@ -22,14 +22,14 @@ includePaths: [{source: "Documentation/"}]\
 
 $settings.versioning:={}
 $settings.versioning.version:="20.7.0"
-$settings.versioning.copyright:="4D SA"
+$settings.versioning.copyright:="©4D SAS 2022-2025"
 $settings.versioning.companyName:="4D SA"
 
 
 
 $settings.signApplication:={}
 $settings.signApplication.macSignature:=True
-$settings.signApplication.macCertificate:="Developer ID Application: CEDRIC GAREAU (BXSE3R8CQZT)"
+$settings.signApplication.macCertificate:=""
 //$settings.signApplication.adHocSignature:=True
 
 $build:=cs.Component.new($settings)
