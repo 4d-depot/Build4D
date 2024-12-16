@@ -42,7 +42,7 @@ $customSettings is an object that contains the following parameters:
 |clientServerSystemFolderName| String | Custom name of the local client cache folder. More details in this blog: https://blog.4d.com/multiple-servers-one-shared-local-resources/|
 |clientUserPreferencesFolderByPath| boolean | True, if each merged client application has its own folder in the user preferences folder and connects to the right server. More details in this blog: https://blog.4d.com/use-duplicated-merged-client-applications/|
 |shareLocalResourcesOnWindowsClient| | True if the local resources of the application must be downloaded from 4D Server to a shared folder on Windows merged clients. More details in this blog: https://blog.4d.com/share-local-resources-between-users-with-windows-remote-desktop-services/ |
-|databaseToEmbedInClient| File or String | Path of the folder containing the compiled structure file to embed.|
+|databaseToEmbedInClient| File or String | Path of the folder containing the compiled structure file to embed. More details in this blog: https://blog.4d.com/build-a-custom-remote-connection-dialog/|
 |versioning| Object | Object containing the contents of the application informations.|
 |versioning.version| String | Version number. |
 |versioning.copyright| String | Copyright text. |
