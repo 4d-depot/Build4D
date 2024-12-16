@@ -15,22 +15,46 @@ Class constructor($customSettings : Object)
 		This._structureFolder:=This.settings.destinationFolder.folder(Choose(Is macOS; "Contents/"; "")+"Database/")
 		
 		//Checking license
-		If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
-			This._validInstance:=False
-			This._log(New object(\
-				"function"; "License file checking"; \
-				"message"; "License file is not defined"; \
-				"severity"; Error message))
-		Else 
-			If (Not(This.settings.license.exists))
+		
+		//#issue 12064
+		Case of 
+				
+			: (This.settings.license=Null)
+				
+			: ((OB Instance of(This.settings.license; 4D.File)) && (This.settings.license.exists))
+				
+				
+			Else 
 				This._validInstance:=False
 				This._log(New object(\
 					"function"; "License file checking"; \
-					"message"; "License file doesn't exist"; \
-					"severity"; Error message; \
-					"path"; This.settings.license.path))
-			End if 
-		End if 
+					"message"; "License file must be a 4D File instance"; \
+					"severity"; Error message))
+				
+		End case 
+		
+		//If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
+		//This._validInstance:=False
+		//This._log(New object(\
+			"function"; "License file checking"; \
+			"message"; "License file is not defined"; \
+			"severity"; Error message))
+		
+		//This._log(New object(\
+			"function"; "License file checking"; \
+			"message"; "License file is not defined"; \
+			"severity"; Warning message))
+		//Else 
+		//If (Not(This.settings.license.exists))
+		////This._validInstance:=False
+		//Else 
+		//This._log(New object(\
+			"function"; "License file checking"; \
+			"message"; "License file exist"; \
+			"severity"; Information message; \
+			"path"; This.settings.license.path))
+		//End if 
+		//End if 
 		
 		//Checking source app
 		If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder))))
@@ -121,6 +145,7 @@ Function _renameExecutable() : Boolean
 	return True
 	
 	
+	
 	//MARK:- Build the server application.
 	
 Function build()->$success : Boolean
@@ -134,7 +159,10 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._excludeModules() : False
 	$success:=($success) ? This._manageSettingsPaths() : False
 	$success:=($success) ? This._create4DZ() : False
-	$success:=($success) ? This._generateLicense() : False
+	If (This.settings.license=Null)  //#issue 12064
+	Else 
+		$success:=($success) ? This._generateLicense() : False
+	End if 
 	If (Is macOS)
 		$success:=($success) ? This._sign() : False
 	End if 

@@ -1087,6 +1087,8 @@ Function _generateLicense() : Boolean
 				"result"; $status))
 		End if 
 	Else 
+		
+		//#issue 12064
 		This._log(New object(\
 			"function"; "Deployment license creation"; \
 			"message"; "License file doesn't exist: "+Choose(This.settings.license#Null; This.settings.license.path; "Undefined"); \
