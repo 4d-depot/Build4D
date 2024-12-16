@@ -10,7 +10,7 @@ If (Count parameters=0)  // Execute code in a new worker
 	Use (Storage.settings)
 		Storage.settings.rootFolder:=Folder(Folder(fk database folder; *).platformPath; fk platform path)
 		Storage.settings.projectName:=File(Structure file(*); fk platform path).name
-		Storage.settings.userInterface:=Not(Get application info.headless)
+		Storage.settings.userInterface:=Not(Application info.headless)
 		Storage.settings.externalProjectRootFolder:=Storage.settings.rootFolder.folder("Build4D_External")
 		Storage.settings.externalProjectName:="Build4D_External"
 		Storage.settings.externalProjectFile:=Storage.settings.externalProjectRootFolder.file("Project/Build4D_External.4DProject")
