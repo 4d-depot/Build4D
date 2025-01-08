@@ -1108,7 +1108,7 @@ $status        Boolean        out           True if the signature is successful.
 ....................................................................................
 */
 	
-Function _sign() : Boolean
+Function _sign($script : 4D.File) : Boolean
 	
 	If (Is macOS && (This.settings.signApplication#Null))
 		//Default values initialization
@@ -1120,11 +1120,16 @@ Function _sign() : Boolean
 			
 			var $commandLine; $certificateName : Text
 			var $signatureWorker : 4D.SystemWorker
-			var $script; $entitlements : 4D.File
+			var $entitlements : 4D.File
 			
 			$entitlements:=Folder(Application file; fk platform path).file("Contents/Resources/4D.entitlements")
 			
-			$script:=Folder(Application file; fk platform path).file("Contents/Resources/app_sign_pack_notarize.sh")
+			If (OB Instance of($script; 4D.File) && $script.exists)
+				// use a custom sign script
+			Else 
+				//default sign script
+				$script:=Folder(Application file; fk platform path).file("Contents/Resources/SignApp.sh")  //app_sign_pack_notarize.sh")
+			End if 
 			
 			If ($script.exists && $entitlements.exists)
 				

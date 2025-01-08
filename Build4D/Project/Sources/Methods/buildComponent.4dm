@@ -30,7 +30,6 @@ $settings.versioning.companyName:="4D SA"
 $settings.signApplication:={}
 $settings.signApplication.macSignature:=True
 $settings.signApplication.macCertificate:=""
-//$settings.signApplication.adHocSignature:=True
 
 $build:=cs.Component.new($settings)
 
