@@ -1015,7 +1015,7 @@ Function _setAppOptions() : Boolean
 			//mark:- [4d/4d] Intégrer le mode evaluation dans le composant Build (Issue #13272)
 			
 			
-			If (Value type(This.settings.evaluationMode)=Is boolean) && (This.settings.evaluationMode)
+			If (This._is_evaluationMode())
 				
 				$appInfo["com.4D.BuildApp.EvaluationKey"]:=License info.licenseNumber
 				
@@ -1073,6 +1073,11 @@ Function _setAppOptions() : Boolean
 	
 	
 	//MARK:- Creates the deployment license file in the license folder of the generated application.
+	
+	
+	
+Function _is_evaluationMode : Boolean
+	return (Value type(This.settings.evaluationMode)=Is boolean) && (This.settings.evaluationMode)
 	
 /*
 	
