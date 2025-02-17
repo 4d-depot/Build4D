@@ -1015,8 +1015,10 @@ Function _setAppOptions() : Boolean
 			//mark:- [4d/4d] Intégrer le mode evaluation dans le composant Build (Issue #13272)
 			
 			
-			If (Value type(This.settings.evaluationMode)=Is boolean)
-				$appInfo["com.4D.BuildApp.EvaluationMode"]:=This.settings.evaluationMode
+			If (Value type(This.settings.evaluationMode)=Is boolean) && (This.settings.evaluationMode)
+				
+				$appInfo["com.4D.BuildApp.EvaluationKey"]:=License info.licenseNumber
+				
 			End if 
 			
 			If (Value type(This.settings.evaluationName)=Is text)
