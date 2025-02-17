@@ -46,7 +46,8 @@ $customSettings is an object that contains the following parameters:
 |signApplication.macCertificate | String | Certificate name used for signature.|
 |signApplication.adHocSignature | Boolean | Signs the built applications with AdHoc signature if macSignature not performed.|
 |logger | Formula | Formula called when a log is written.|
- 
+|evaluationMode | Boolean | true for evaluation applications.|
+|evaluationName | Text | Name that will be sent to Motor when requesting the licence.|
 
 ### build()
 
