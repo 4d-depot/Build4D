@@ -1008,7 +1008,7 @@ Function _setAppOptions() : Boolean
 					This._log(New object(\
 						"function"; "Setting app options"; \
 						"message"; "dataFilePath property accept only text or 4D.File values"; \
-						"severity"; Error message))
+						"severity"; Information message))
 					
 			End case 
 			
@@ -1072,12 +1072,27 @@ Function _setAppOptions() : Boolean
 	
 	
 	
-	//MARK:- Creates the deployment license file in the license folder of the generated application.
+	//mark:- test if the build is in evaluation mode.
 	
+/*
 	
+Function _is_evaluationMode()-> $status : Boolean
+....................................................................................
+Parameter      Type.         in/out.        Description
+....................................................................................
+$status        Boolean        out           True if the build is in evaluation mode.
+....................................................................................
+	
+*/
 	
 Function _is_evaluationMode : Boolean
 	return (Value type(This.settings.evaluationMode)=Is boolean) && (This.settings.evaluationMode)
+	
+	
+	
+	
+	
+	//MARK:- Creates the deployment license file in the license folder of the generated application.
 	
 /*
 	
@@ -1167,7 +1182,7 @@ Function _sign($script : 4D.File) : Boolean
 					$commandLine+=$certificateName+"'"
 					
 					$signatureWorker:=4D.SystemWorker.new($commandLine)
-					$signatureWorker.wait(120)
+					$signatureWorker.wait()
 					
 					
 /*
