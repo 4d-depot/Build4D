@@ -1012,6 +1012,18 @@ Function _setAppOptions() : Boolean
 					
 			End case 
 			
+			//mark:- [4d/4d] Intégrer le mode evaluation dans le composant Build (Issue #13272)
+			
+			
+			If (Value type(This.settings.evaluationMode)=Is boolean)
+				$appInfo["com.4D.BuildApp.EvaluationMode"]:=This.settings.evaluationMode
+			End if 
+			
+			If (Value type(This.settings.evaluationName)=Is text)
+				$appInfo["com.4D.BuildApp.EvaluationName"]:=This.settings.evaluationName
+			End if 
+			
+			//mark:-
 			
 		End if 
 		
@@ -1022,6 +1034,9 @@ Function _setAppOptions() : Boolean
 			$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
 			If ($exeFile.exists)
 				$exeInfo.OriginalFilename:=$exeFile.fullName
+				
+				
+				
 				$exeFile.setAppInfo($exeInfo)
 			Else 
 				This._log(New object(\
