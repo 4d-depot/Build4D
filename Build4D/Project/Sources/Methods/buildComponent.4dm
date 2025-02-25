@@ -21,7 +21,7 @@ includePaths: [{source: "Documentation/"}]\
 
 
 $settings.versioning:={}
-$settings.versioning.version:="20.7.0"
+$settings.versioning.version:="20.8.0"
 $settings.versioning.copyright:="©4D SAS 2022-"+String(Year of(Current date))
 $settings.versioning.companyName:="4D SA"
 

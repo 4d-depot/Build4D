@@ -136,6 +136,17 @@
 		"_inheritedFrom_": "_core"
 	},
 	"_core": {
+		"get is_client()": {
+			"Syntax": "**.get is_client**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"get is_win_target()": {
 			"Syntax": "**.get is_win_target**() : Boolean",
 			"Params": [
@@ -158,8 +169,19 @@
 			],
 			"Summary": ""
 		},
-		"get is_client()": {
-			"Syntax": "**.get is_client**() : Boolean",
+		"get buildName()": {
+			"Syntax": "**.get buildName**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get is_component()": {
+			"Syntax": "**.get is_component**() : Boolean",
 			"Params": [
 				[
 					"",
@@ -175,17 +197,6 @@
 				[
 					"",
 					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"get buildName()": {
-			"Syntax": "**.get buildName**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
 					"<-"
 				]
 			],

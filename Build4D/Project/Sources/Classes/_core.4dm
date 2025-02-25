@@ -1188,6 +1188,8 @@ Function _sign() : Boolean
 					
 					If (This.is_component)
 						
+						$commandLine+=" sign "
+						
 						$commandLine+=" '"+This.settings.destinationFolder.path+"'"
 						$commandLine+=" '"+$entitlements.path+"'"
 						$commandLine+=" '"+$certificateName+"'"
