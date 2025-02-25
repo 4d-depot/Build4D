@@ -29,7 +29,7 @@ $settings.versioning.companyName:="4D SA"
 
 $settings.signApplication:={}
 $settings.signApplication.macSignature:=True
-$settings.signApplication.macCertificate:=""
+$settings.signApplication.macCertificate:="Developer ID Application: CEDRIC GAREAU (BSE3R8CQZT)"
 
 $build:=cs.Component.new($settings)
 

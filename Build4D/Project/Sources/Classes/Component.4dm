@@ -71,9 +71,7 @@ Function build()->$success : Boolean
 	
 	If (Is macOS)
 		
-		$script:=Folder(Application file; fk platform path).file("Contents/Resources/app_sign_pack_notarize.sh")
-		
-		$success:=($success) ? This._sign($script) : False  // use a specific script file
+		$success:=($success) ? This._sign() : False
 		
 	End if 
 	

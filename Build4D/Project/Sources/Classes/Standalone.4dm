@@ -159,6 +159,7 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._excludeModules() : False
 	$success:=($success) ? This._manageSettingsPaths() : False
 	$success:=($success) ? This._create4DZ() : False
+	
 	If (This.settings.license=Null)  //#issue 12064
 	Else 
 		$success:=($success) ? This._generateLicense() : False

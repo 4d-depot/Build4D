@@ -139,6 +139,10 @@ Function get buildName : Text
 	End if 
 	
 	
+Function get is_component : Boolean
+	
+	return OB Class(This).name=cs.Component.name
+	
 Function get is_standalone : Boolean
 	
 	return OB Class(This).name=cs.Standalone.name
@@ -1033,6 +1037,7 @@ Function _setAppOptions() : Boolean
 		$infoFile.setAppInfo($appInfo)
 		
 		If ($exeInfo#Null)
+			
 			$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
 			If ($exeFile.exists)
 				$exeInfo.OriginalFilename:=$exeFile.fullName
@@ -1145,7 +1150,7 @@ $status        Boolean        out           True if the signature is successful.
 ....................................................................................
 */
 	
-Function _sign($script : 4D.File) : Boolean
+Function _sign() : Boolean
 	
 	If (Is macOS && (This.settings.signApplication#Null))
 		//Default values initialization
@@ -1158,28 +1163,44 @@ Function _sign($script : 4D.File) : Boolean
 			var $commandLine; $certificateName : Text
 			var $signatureWorker : 4D.SystemWorker
 			var $entitlements : 4D.File
+			var $script : 4D.File
 			
 			$entitlements:=Folder(Application file; fk platform path).file("Contents/Resources/4D.entitlements")
 			
-			If (OB Instance of($script; 4D.File) && $script.exists)
-				// use a custom sign script
+			
+			If (This.is_component)
+				
+				$script:=Folder(Application file; fk platform path).file("Contents/Resources/app_sign_pack_notarize.sh")
+				
 			Else 
-				//default sign script
-				$script:=Folder(Application file; fk platform path).file("Contents/Resources/SignApp.sh")  //app_sign_pack_notarize.sh")
+				
+				$script:=Folder(Application file; fk platform path).file("Contents/Resources/SignApp.sh")
+				
 			End if 
 			
 			If ($script.exists && $entitlements.exists)
-				
 				
 				$certificateName:=(Not(This.settings.signApplication.macSignature) && This.settings.signApplication.adHocSignature) ? "-" : This.settings.signApplication.macCertificate  // If AdHocSignature, the certificate name shall be '-'
 				
 				If ($certificateName#"")
 					
-					$commandLine:="'"
-					$commandLine+=$script.path+"' sign '"
-					$commandLine+=This.settings.destinationFolder.path+"' '"
-					$commandLine+=$entitlements.path+"' '"
-					$commandLine+=$certificateName+"'"
+					$commandLine:="'"+$script.path+"'"
+					
+					If (This.is_component)
+						
+						$commandLine+=" '"+This.settings.destinationFolder.path+"'"
+						$commandLine+=" '"+$entitlements.path+"'"
+						$commandLine+=" '"+$certificateName+"'"
+						
+					Else 
+						
+						$commandLine+=" '"+$certificateName+"'"
+						$commandLine+=" '"+This.settings.destinationFolder.path+"'"
+						$commandLine+=" '"+$entitlements.path+"'"
+						
+					End if 
+					
+					//SET TEXT TO PASTEBOARD($commandLine)
 					
 					$signatureWorker:=4D.SystemWorker.new($commandLine)
 					$signatureWorker.wait()
