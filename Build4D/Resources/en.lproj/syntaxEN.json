@@ -136,12 +136,17 @@
 		"_inheritedFrom_": "_core"
 	},
 	"_core": {
-		"get is_client()": {
-			"Syntax": "**.get is_client**() : Boolean",
+		"toPosix()": {
+			"Syntax": "**.toPosix**( *o* : Object ) : Object",
 			"Params": [
 				[
+					"o",
+					"Object",
+					"->"
+				],
+				[
 					"",
-					"Boolean",
+					"Object",
 					"<-"
 				]
 			],
@@ -182,6 +187,17 @@
 		},
 		"get is_component()": {
 			"Syntax": "**.get is_component**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get is_client()": {
+			"Syntax": "**.get is_client**() : Boolean",
 			"Params": [
 				[
 					"",

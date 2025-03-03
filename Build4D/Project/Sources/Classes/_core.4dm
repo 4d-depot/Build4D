@@ -1137,7 +1137,22 @@ Function _generateLicense() : Boolean
 			"severity"; Error message))
 	End if 
 	
+	//MARK:- Posix
 	
+	
+Function toPosix($o : Object) : Object
+	
+	Case of 
+			
+		: (OB Instance of($o; 4D.File))
+			
+			return File($o.platformPath; fk platform path)
+			
+		: (OB Instance of($o; 4D.Folder))
+			
+			return Folder($o.platformPath; fk platform path)
+			
+	End case 
 	
 	//MARK:- Signs the project
 	
@@ -1190,15 +1205,15 @@ Function _sign() : Boolean
 						
 						$commandLine+=" sign "
 						
-						$commandLine+=" '"+This.settings.destinationFolder.path+"'"
-						$commandLine+=" '"+$entitlements.path+"'"
+						$commandLine+=" '"+This.toPosix(This.settings.destinationFolder).path+"'"
+						$commandLine+=" '"+This.toPosix($entitlements).path+"'"
 						$commandLine+=" '"+$certificateName+"'"
 						
 					Else 
 						
 						$commandLine+=" '"+$certificateName+"'"
-						$commandLine+=" '"+This.settings.destinationFolder.path+"'"
-						$commandLine+=" '"+$entitlements.path+"'"
+						$commandLine+=" '"+This.toPosix(This.settings.destinationFolder).path+"'"
+						$commandLine+=" '"+This.toPosix($entitlements).path+"'"
 						
 					End if 
 					
