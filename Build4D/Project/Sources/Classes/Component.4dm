@@ -59,6 +59,8 @@ Function _setAppOptions() : Boolean
 	//MARK:-
 Function build()->$success : Boolean
 	
+	var $script : 4D.File
+	
 	$success:=This._validInstance
 	$success:=($success) ? This._checkDestinationFolder() : False
 	$success:=($success) ? This._compileProject() : False
@@ -68,7 +70,9 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._create4DZ() : False
 	
 	If (Is macOS)
+		
 		$success:=($success) ? This._sign() : False
+		
 	End if 
 	
 	If ($success)

@@ -136,6 +136,22 @@
 		"_inheritedFrom_": "_core"
 	},
 	"_core": {
+		"toPosix()": {
+			"Syntax": "**.toPosix**( *o* : Object ) : Object",
+			"Params": [
+				[
+					"o",
+					"Object",
+					"->"
+				],
+				[
+					"",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"get is_win_target()": {
 			"Syntax": "**.get is_win_target**() : Boolean",
 			"Params": [
@@ -149,6 +165,28 @@
 		},
 		"get is_mac_target()": {
 			"Syntax": "**.get is_mac_target**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get buildName()": {
+			"Syntax": "**.get buildName**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get is_component()": {
+			"Syntax": "**.get is_component**() : Boolean",
 			"Params": [
 				[
 					"",
@@ -175,17 +213,6 @@
 				[
 					"",
 					"Boolean",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
-		"get buildName()": {
-			"Syntax": "**.get buildName**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
 					"<-"
 				]
 			],

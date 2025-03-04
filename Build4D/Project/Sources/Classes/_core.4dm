@@ -139,6 +139,10 @@ Function get buildName : Text
 	End if 
 	
 	
+Function get is_component : Boolean
+	
+	return OB Class(This).name=cs.Component.name
+	
 Function get is_standalone : Boolean
 	
 	return OB Class(This).name=cs.Standalone.name
@@ -1008,10 +1012,24 @@ Function _setAppOptions() : Boolean
 					This._log(New object(\
 						"function"; "Setting app options"; \
 						"message"; "dataFilePath property accept only text or 4D.File values"; \
-						"severity"; Error message))
+						"severity"; Information message))
 					
 			End case 
 			
+			//mark:- [4d/4d] Intégrer le mode evaluation dans le composant Build (Issue #13272)
+			
+			
+			If (This._is_evaluationMode())
+				
+				$appInfo["com.4D.BuildApp.EvaluationKey"]:=License info.licenseNumber
+				
+			End if 
+			
+			If (Value type(This.settings.evaluationName)=Is text)
+				$appInfo["com.4D.BuildApp.EvaluationName"]:=This.settings.evaluationName
+			End if 
+			
+			//mark:-
 			
 		End if 
 		
@@ -1019,9 +1037,13 @@ Function _setAppOptions() : Boolean
 		$infoFile.setAppInfo($appInfo)
 		
 		If ($exeInfo#Null)
+			
 			$exeFile:=This.settings.destinationFolder.file(This.settings.buildName+".exe")
 			If ($exeFile.exists)
 				$exeInfo.OriginalFilename:=$exeFile.fullName
+				
+				
+				
 				$exeFile.setAppInfo($exeInfo)
 			Else 
 				This._log(New object(\
@@ -1052,6 +1074,26 @@ Function _setAppOptions() : Boolean
 	End if 
 	
 	return This._noError
+	
+	
+	
+	//mark:- test if the build is in evaluation mode.
+	
+/*
+	
+Function _is_evaluationMode()-> $status : Boolean
+....................................................................................
+Parameter      Type.         in/out.        Description
+....................................................................................
+$status        Boolean        out           True if the build is in evaluation mode.
+....................................................................................
+	
+*/
+	
+Function _is_evaluationMode : Boolean
+	return (Value type(This.settings.evaluationMode)=Is boolean) && (This.settings.evaluationMode)
+	
+	
 	
 	
 	
@@ -1087,12 +1129,30 @@ Function _generateLicense() : Boolean
 				"result"; $status))
 		End if 
 	Else 
+		
+		//#issue 12064
 		This._log(New object(\
 			"function"; "Deployment license creation"; \
 			"message"; "License file doesn't exist: "+Choose(This.settings.license#Null; This.settings.license.path; "Undefined"); \
 			"severity"; Error message))
 	End if 
 	
+	//MARK:- Posix
+	
+	
+Function toPosix($o : Object) : Object
+	
+	Case of 
+			
+		: (OB Instance of($o; 4D.File))
+			
+			return File($o.platformPath; fk platform path)
+			
+		: (OB Instance of($o; 4D.Folder))
+			
+			return Folder($o.platformPath; fk platform path)
+			
+	End case 
 	
 	
 	//MARK:- Signs the project
@@ -1118,27 +1178,50 @@ Function _sign() : Boolean
 			
 			var $commandLine; $certificateName : Text
 			var $signatureWorker : 4D.SystemWorker
-			var $script; $entitlements : 4D.File
+			var $entitlements : 4D.File
+			var $script : 4D.File
 			
 			$entitlements:=Folder(Application file; fk platform path).file("Contents/Resources/4D.entitlements")
 			
-			$script:=Folder(Application file; fk platform path).file("Contents/Resources/app_sign_pack_notarize.sh")
+			
+			If (This.is_component)
+				
+				$script:=Folder(Application file; fk platform path).file("Contents/Resources/app_sign_pack_notarize.sh")
+				
+			Else 
+				
+				$script:=Folder(Application file; fk platform path).file("Contents/Resources/SignApp.sh")
+				
+			End if 
 			
 			If ($script.exists && $entitlements.exists)
-				
 				
 				$certificateName:=(Not(This.settings.signApplication.macSignature) && This.settings.signApplication.adHocSignature) ? "-" : This.settings.signApplication.macCertificate  // If AdHocSignature, the certificate name shall be '-'
 				
 				If ($certificateName#"")
 					
-					$commandLine:="'"
-					$commandLine+=$script.path+"' sign '"
-					$commandLine+=This.settings.destinationFolder.path+"' '"
-					$commandLine+=$entitlements.path+"' '"
-					$commandLine+=$certificateName+"'"
+					$commandLine:="'"+$script.path+"'"
+					
+					If (This.is_component)
+						
+						$commandLine+=" sign "
+						
+						$commandLine+=" '"+This.toPosix(This.settings.destinationFolder).path+"'"
+						$commandLine+=" '"+This.toPosix($entitlements).path+"'"
+						$commandLine+=" '"+$certificateName+"'"
+						
+					Else 
+						
+						$commandLine+=" '"+$certificateName+"'"
+						$commandLine+=" '"+This.toPosix(This.settings.destinationFolder).path+"'"
+						$commandLine+=" '"+This.toPosix($entitlements).path+"'"
+						
+					End if 
+					
+					//SET TEXT TO PASTEBOARD($commandLine)
 					
 					$signatureWorker:=4D.SystemWorker.new($commandLine)
-					$signatureWorker.wait(120)
+					$signatureWorker.wait()
 					
 					
 /*

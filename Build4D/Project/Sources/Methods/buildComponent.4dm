@@ -21,16 +21,15 @@ includePaths: [{source: "Documentation/"}]\
 
 
 $settings.versioning:={}
-$settings.versioning.version:="20.7.0"
-$settings.versioning.copyright:="©4D SAS 2022-2025"
+$settings.versioning.version:="20.8.0"
+$settings.versioning.copyright:="©4D SAS 2022-"+String(Year of(Current date))
 $settings.versioning.companyName:="4D SA"
 
 
 
 $settings.signApplication:={}
 $settings.signApplication.macSignature:=True
-$settings.signApplication.macCertificate:=""
-//$settings.signApplication.adHocSignature:=True
+$settings.signApplication.macCertificate:="Developer ID Application: CEDRIC GAREAU (BSE3R8CQZT)"
 
 $build:=cs.Component.new($settings)
 
@@ -46,6 +45,8 @@ If (Application info.headless)
 Else 
 	If ($success)
 		ALERT("Build OK")
+		SHOW ON DISK(File("/PACKAGE/Build_end.log").platformPath)
+		SHOW ON DISK($build.settings.destinationFolder.platformPath)
 	Else 
 		ALERT("Build failed")
 		SHOW ON DISK(File("/PACKAGE/Build_failed.log").platformPath)
