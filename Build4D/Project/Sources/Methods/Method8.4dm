@@ -21,8 +21,8 @@ $settings.obfuscated:=True
 $settings.lastDataPathLookup:="ByAppPath"
 
 // à partir de la main only
-$settings.evaluationMode:=True
-$settings.evaluationName:="Ma démo de la mort qui tue"
+//$settings.evaluationMode:=False
+//$settings.evaluationName:="Ma démo de la mort qui tue"
 
 $settings.signApplication:={}
 //$settings.signApplication.adHocSignature:=True

@@ -505,6 +505,7 @@ Function build() : Boolean
 	
 	$success:=($success) ? This._manageSettingsPaths() : False
 	
+	$success:=($success) ? This._change_uuid() : False
 	
 	If (Is macOS & This.is_mac_target)
 		$success:=($success) ? This._sign() : False

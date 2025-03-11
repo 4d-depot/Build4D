@@ -431,6 +431,7 @@ Function build() : Boolean
 	$success:=($success) ? This._manageSettingsPaths() : False
 	$success:=($success) ? This._create4DZ() : False  //#2030 #2032
 	
+	$success:=($success) ? This._change_uuid() : False
 	
 	If ($success)
 		

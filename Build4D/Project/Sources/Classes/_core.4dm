@@ -1155,6 +1155,66 @@ Function toPosix($o : Object) : Object
 	End case 
 	
 	
+	//MARK:- Change default uuid from app
+	
+	//feature #13565 when the build4d component is used to build a macos application then its uuids shall be made unique
+	
+Function _change_uuid() : Boolean
+	
+	var $app : 4D.Folder
+	var $executable; $info_plist : 4D.File
+	var $bundleID : Text
+	var $arch; $info : Object
+	
+	
+	$app:=This._structureFolder.parent.parent
+	
+	If ($app.exists)
+		// read the bundle id in the info.plist
+		$info_plist:=$app.file("Contents/Info.plist").getAppInfo()
+		
+		If ($info_plist#Null)
+			// read the bundle id in the info.plist
+			$bundleID:=$info_plist.CFBundleIdentifier
+			
+			// reading uuids
+			$executable:=$app.folder("Contents/MacOS/").file(This.buildName)
+			
+			If ($executable.exists)
+				$info:=$executable.getAppInfo()
+				
+				// update uuids by combining them with the id bundle
+				For each ($arch; $info.archs)
+					$arch.uuid:=Uppercase(Substring(Generate digest($arch.uuid+$bundleID; SHA256 digest); 1; 32))
+				End for each 
+				
+				// write new uuids
+				$executable.setAppInfo($info)
+				
+				return True
+				
+			Else 
+				
+				This._log(New object(\
+					"function"; "Change application uuid"; \
+					"message"; "Application binary not found."; \
+					"severity"; Error message))
+				
+			End if 
+			
+		Else 
+			This._log(New object(\
+				"function"; "Change application uuid"; \
+				"message"; "Can't retrieve Info.plist inforation."; \
+				"severity"; Error message))
+		End if 
+	Else 
+		This._log(New object(\
+			"function"; "Change application uuid"; \
+			"message"; "Builded application not found."; \
+			"severity"; Error message))
+	End if 
+	
 	//MARK:- Signs the project
 	
 /*
