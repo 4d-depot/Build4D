@@ -1342,11 +1342,11 @@ check your network configuration proxy .....
 	return True
 	
 	
+	//MARK:- Utilities
+	
 Function _show() : Object
 	
 	
-	//SHOW ON DISK(This.settings.destinationFolder.platformPath) // not preemptive
-	
-	CALL WORKER("cooperative bridge"; "showOnDisk_coop"; This.settings.destinationFolder.platformPath)
+	SHOW ON DISK(This.settings.destinationFolder.platformPath)
 	
 	return This
