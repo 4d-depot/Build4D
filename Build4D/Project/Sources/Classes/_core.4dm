@@ -1167,52 +1167,59 @@ Function _change_uuid() : Boolean
 	var $arch; $info : Object
 	
 	
-	$app:=This._structureFolder.parent.parent
-	
-	If ($app.exists)
-		// read the bundle id in the info.plist
-		$info_plist:=$app.file("Contents/Info.plist").getAppInfo()
+	If (This.is_mac_target && Is macOS)
 		
-		If ($info_plist#Null)
+		$app:=This._structureFolder.parent.parent
+		
+		If ($app.exists)
 			// read the bundle id in the info.plist
-			$bundleID:=$info_plist.CFBundleIdentifier
+			$info_plist:=$app.file("Contents/Info.plist").getAppInfo()
 			
-			// reading uuids
-			$executable:=$app.folder("Contents/MacOS/").file(This.buildName)
-			
-			If ($executable.exists)
-				$info:=$executable.getAppInfo()
+			If ($info_plist#Null)
+				// read the bundle id in the info.plist
+				$bundleID:=$info_plist.CFBundleIdentifier
 				
-				// update uuids by combining them with the id bundle
-				For each ($arch; $info.archs)
-					$arch.uuid:=Uppercase(Substring(Generate digest($arch.uuid+$bundleID; SHA256 digest); 1; 32))
-				End for each 
+				// reading uuids
+				$executable:=$app.folder("Contents/MacOS/").file(This.buildName)
 				
-				// write new uuids
-				$executable.setAppInfo($info)
-				
-				return True
+				If ($executable.exists)
+					$info:=$executable.getAppInfo()
+					
+					// update uuids by combining them with the id bundle
+					For each ($arch; $info.archs)
+						$arch.uuid:=Uppercase(Substring(Generate digest($arch.uuid+$bundleID; SHA256 digest); 1; 32))
+					End for each 
+					
+					// write new uuids
+					$executable.setAppInfo($info)
+					
+					return True
+					
+				Else 
+					
+					This._log(New object(\
+						"function"; "Change application uuid"; \
+						"message"; "Application binary not found."; \
+						"severity"; Error message))
+					
+				End if 
 				
 			Else 
-				
 				This._log(New object(\
 					"function"; "Change application uuid"; \
-					"message"; "Application binary not found."; \
+					"message"; "Can't retrieve Info.plist inforation."; \
 					"severity"; Error message))
-				
 			End if 
-			
 		Else 
+			
 			This._log(New object(\
 				"function"; "Change application uuid"; \
-				"message"; "Can't retrieve Info.plist inforation."; \
+				"message"; "Builded application not found."; \
 				"severity"; Error message))
 		End if 
+		
 	Else 
-		This._log(New object(\
-			"function"; "Change application uuid"; \
-			"message"; "Builded application not found."; \
-			"severity"; Error message))
+		return True
 	End if 
 	
 	//MARK:- Signs the project
