@@ -1187,7 +1187,7 @@ Function _change_uuid() : Boolean
 					
 					// update uuids by combining them with the id bundle
 					For each ($arch; $info.archs)
-						$arch.uuid:=Uppercase(Substring(Generate digest($arch.uuid+$bundleID; SHA256 digest); 1; 32))
+						$arch.uuid:=Uppercase(Substring(Generate digest($bundleID+$arch.uuid; SHA256 digest); 1; 32))
 					End for each 
 					
 					// write new uuids
