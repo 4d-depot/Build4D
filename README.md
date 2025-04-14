@@ -1,4 +1,3 @@
-Important -> Stable version select 4D 20.x branch
 
 
 # Build4D
