@@ -386,32 +386,60 @@ Function _fix_publishName : Boolean
 			: (Error#0)
 				
 			Else 
+				
+				XML SET OPTIONS($xml; XML indentation; XML with indentation)
 				ARRAY TEXT($_node; 0)
+				
+				
 				
 				$options:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
 				
 				If (Size of array($_node)>0)
-					DOM GET XML ATTRIBUTE BY NAME($options; "publication_name"; $value)
-					
-					$value:=This.publishName
 					
 					DOM SET XML ATTRIBUTE($options; "publication_name"; This.publishName)
 					
-					XML SET OPTIONS($xml; XML indentation; XML with indentation)
+					
+					
 					DOM EXPORT TO VAR($xml; $buffer)
-					
-					DOM CLOSE XML($xml)
-					
 					$settings_file.setText($buffer)
 					
 					$result:=True  //#DD deferred because we have to restore ok and error values
+					
+				Else 
+					//#DD may be create the path
 				End if 
+				
+				DOM CLOSE XML($xml)
+				
+				
+				
+				
 		End case 
 		
 		OK:=$save_ok
 		Error:=$save_error
 		
+		
+		If ($result)
+			
+		Else 
+			This._log(New object(\
+				"function"; "fix_publishName"; \
+				"message"; "Unable to fix the publication_name options"; \
+				"severity"; Error message))
+		End if 
+		
+		
+		
 		return $result
+		
+	Else 
+		
+		This._log(New object(\
+			"function"; "fix_publishName"; \
+			"message"; "Unable to reach the \"settings.4DSettings\" file"; \
+			"severity"; Information message))
+		
 	End if 
 	
 	return True
