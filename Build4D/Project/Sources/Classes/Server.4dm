@@ -356,6 +356,69 @@ Function _hasLicenses : Boolean
 	return False
 	
 	
+	//MARK:- fix from bugbase
+	
+Function _fix_publishName : Boolean
+	
+	//fix ACI0105597
+	
+	var $sources_folder : 4D.Folder
+	var $settings_file : 4D.File
+	
+	var $xml; $buffer; $options; $value : Text
+	var $result : Boolean
+	var $save_error; $save_ok : Integer
+	
+	$sources_folder:=This._structureFolder.folder("Project/Sources")
+	$settings_file:=$sources_folder.file("settings.4DSettings")
+	If ($settings_file.exists)
+		
+		$buffer:=$settings_file.getText()
+		
+		$save_ok:=OK
+		$save_error:=Error
+		OK:=1
+		Error:=0
+		$xml:=DOM Parse XML variable($buffer)
+		
+		Case of 
+			: (OK=0)
+			: (Error#0)
+				
+			Else 
+				ARRAY TEXT($_node; 0)
+				
+				$options:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
+				
+				If (Size of array($_node)>0)
+					DOM GET XML ATTRIBUTE BY NAME($options; "publication_name"; $value)
+					
+					$value:=This.publishName
+					
+					DOM SET XML ATTRIBUTE($options; "publication_name"; This.publishName)
+					
+					XML SET OPTIONS($xml; XML indentation; XML with indentation)
+					DOM EXPORT TO VAR($xml; $buffer)
+					
+					DOM CLOSE XML($xml)
+					
+					$settings_file.setText($buffer)
+					
+					$result:=True  //#DD deferred because we have to restore ok and error values
+				End if 
+		End case 
+		
+		OK:=$save_ok
+		Error:=$save_error
+		
+		return $result
+	End if 
+	
+	return True
+	
+	
+	
+	
 	//mark:- (utility) Zip the client server
 	
 /*
@@ -424,6 +487,7 @@ Function build() : Boolean
 	$success:=($success) ? This._checkDestinationFolder() : False
 	$success:=($success) ? This._compileProject() : False
 	$success:=($success) ? This._createStructure() : False
+	$success:=($success) ? This._fix_publishName() : False
 	$success:=($success) ? This._copySourceApp() : False
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False

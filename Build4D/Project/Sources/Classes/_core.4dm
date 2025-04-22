@@ -1,5 +1,5 @@
 
-//mark:- DOCUMENTAION PRIVATE PROPERTIES
+//mark:- DOCUMENTATION PRIVATE PROPERTIES
 
 /*
 
@@ -1185,13 +1185,17 @@ Function _change_uuid() : Boolean
 				If ($executable.exists)
 					$info:=$executable.getAppInfo()
 					
-					// update uuids by combining them with the id bundle
-					For each ($arch; $info.archs)
-						$arch.uuid:=Uppercase(Substring(Generate digest($bundleID+$arch.uuid; SHA256 digest); 1; 32))
-					End for each 
-					
-					// write new uuids
-					$executable.setAppInfo($info)
+					Case of 
+							
+						: (Value type($info.archs)=Is collection) && ($info.archs.length>0)
+							// update uuids by combining them with the id bundle
+							For each ($arch; $info.archs)
+								$arch.uuid:=Uppercase(Substring(Generate digest($bundleID+$arch.uuid; SHA256 digest); 1; 32))
+							End for each 
+							
+							// write new uuids
+							$executable.setAppInfo($info)
+					End case 
 					
 					return True
 					
