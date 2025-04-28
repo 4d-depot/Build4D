@@ -97,23 +97,23 @@
 			],
 			"Summary": ""
 		},
-		"get publishName()": {
-			"Syntax": "**.get publishName**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
 		"buildZip()": {
 			"Syntax": "**.buildZip**()->result : Object",
 			"Params": [
 				[
 					"result",
 					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get publishName()": {
+			"Syntax": "**.get publishName**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
 					"<-"
 				]
 			],
