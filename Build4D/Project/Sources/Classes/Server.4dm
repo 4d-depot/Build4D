@@ -392,26 +392,30 @@ Function _fix_publishName : Boolean
 				
 				
 				
-				$options:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
+				//$options:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
 				
-				If (Size of array($_node)>0)
-					
-					DOM SET XML ATTRIBUTE($options; "publication_name"; This.publishName)
-					
-					
-					
-					DOM EXPORT TO VAR($xml; $buffer)
-					$settings_file.setText($buffer)
-					
-					$result:=True  //#DD deferred because we have to restore ok and error values
-					
-				Else 
-					//#DD may be create the path
-				End if 
+				$options:=DOM Create XML element($xml; "com.4d/server/network/options")
+				
+				//If (Size of array($_node)>0)
+				
+				DOM SET XML ATTRIBUTE($options; "publication_name"; This.publishName)
+				
+				
+				DOM EXPORT TO VAR($xml; $buffer)
+				$settings_file.setText($buffer)
+				
+				//#DD deferred because we have to restore ok and error values
+				
+				//Else 
+				////#DD may be create the path
+				
+				
+				
+				//End if 
 				
 				DOM CLOSE XML($xml)
 				
-				
+				$result:=True
 				
 				
 		End case 
