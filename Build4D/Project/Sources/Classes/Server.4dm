@@ -356,6 +356,89 @@ Function _hasLicenses : Boolean
 	return False
 	
 	
+/*
+	
+Function _fix_publishName() -> $status : Boolean
+........................................................................................
+Parameter      Type         in/out        Description
+........................................................................................
+$status        Boolean       out          True if publication name is correctly defined.
+........................................................................................
+	
+*/
+	
+Function _fix_publishName : Boolean  //mark: fix ACI0105597
+	
+	var $sources_folder : 4D.Folder
+	var $settings_file : 4D.File
+	
+	var $xml; $buffer; $options; $value : Text
+	var $result : Boolean
+	var $save_error; $save_ok : Integer
+	
+	$sources_folder:=This._structureFolder.folder("Project/Sources")
+	$settings_file:=$sources_folder.file("settings.4DSettings")
+	If ($settings_file.exists)
+		
+		$buffer:=$settings_file.getText()
+		
+		$save_ok:=OK
+		$save_error:=Error
+		OK:=1
+		Error:=0
+		$xml:=DOM Parse XML variable($buffer)
+		
+		Case of 
+			: (OK=0)
+			: (Error#0)
+				
+			Else 
+				
+				XML SET OPTIONS($xml; XML indentation; XML with indentation)
+				
+				$options:=DOM Create XML element($xml; "com.4d/server/network/options")
+				
+				DOM SET XML ATTRIBUTE($options; "publication_name"; This.publishName)
+				
+				
+				DOM EXPORT TO VAR($xml; $buffer)
+				$settings_file.setText($buffer)
+				
+				DOM CLOSE XML($xml)
+				
+				$result:=True
+				
+				
+		End case 
+		
+		OK:=$save_ok
+		Error:=$save_error
+		
+		
+		If ($result)
+			
+		Else 
+			This._log(New object(\
+				"function"; "fix_publishName"; \
+				"message"; "Unable to fix the publication_name options"; \
+				"severity"; Error message))
+		End if 
+		
+		return $result
+		
+	Else 
+		
+		This._log(New object(\
+			"function"; "fix_publishName"; \
+			"message"; "Unable to reach the \"settings.4DSettings\" file"; \
+			"severity"; Information message))
+		
+	End if 
+	
+	return True
+	
+	
+	
 	//mark:- (utility) Zip the client server
 	
 /*
@@ -424,6 +507,7 @@ Function build() : Boolean
 	$success:=($success) ? This._checkDestinationFolder() : False
 	$success:=($success) ? This._compileProject() : False
 	$success:=($success) ? This._createStructure() : False
+	$success:=($success) ? This._fix_publishName() : False
 	$success:=($success) ? This._copySourceApp() : False
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False

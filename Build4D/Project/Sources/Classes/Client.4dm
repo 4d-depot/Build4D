@@ -128,9 +128,11 @@ Function _make4dLink() : Boolean
 	
 	$server_path:=((This.settings.IPAddress#Null) ? This.settings.IPAddress : "")+(":"+String(This.settings.portNumber))
 	
+	//mark: ACI0105597 : replace This.settings.buildName by This.settings.publishName
+	
 	DOM SET XML ATTRIBUTE($xml; \
 		"is_remote"; "true"; \
-		"server_database_name"; This.settings.buildName; \
+		"server_database_name"; This.settings.publishName; \
 		"server_path"; $server_path)
 	
 	//#3829
