@@ -10,10 +10,20 @@
 		]
 	},
 	". .  methods": {
+		"groups": [
+			"coop -> preempt"
+		],
 		"methods": [
 			"onError",
 			"onStartup"
 		]
 	},
-	"trash": {}
+	"trash": {
+		"groups": [
+			"(____ franck)",
+			"(____ test methods)",
+			"(. . settings private classes)",
+			"(. . test class)"
+		]
+	}
 }
