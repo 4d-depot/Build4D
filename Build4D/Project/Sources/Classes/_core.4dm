@@ -165,6 +165,26 @@ Function get is_mac_target : Boolean
 	return Bool(This._target="mac")
 	
 	
+	
+Function get has_silicon_target : Boolean
+	
+	Case of 
+		: (This.is_win_target)
+			
+		: (This.settings=Null)
+			
+		: (This.settings.compilerOptions=Null)
+			
+		: (Value type(This.settings.compilerOptions.targets)=Is collection)
+			
+			return (This.settings.compilerOptions.targets.indexOf("arm64_macOS_lib")>=0)
+			
+	End case 
+	
+	return False
+	
+	
+	
 	//MARK:- identify if we build a mac or win client
 	
 Function get is_win_target : Boolean
@@ -844,6 +864,54 @@ Function _excludeModules() : Boolean
 	
 /*
 	
+Function _setRosettaOption()-> $status : Boolean
+....................................................................................
+Parameter      Type.         in/out.        Description
+....................................................................................
+$status        Boolean        out           True if the rosetta has been correctly added.
+....................................................................................
+	
+*/
+	
+Function _setRosettaOption : Boolean
+	
+	var $infoFile : 4D.File
+	var $appInfo : Object
+	
+	If (This.has_silicon_target) && (Value type(This.settings.use_rosetta)#Is boolean)
+		
+		$infoFile:=This.settings.destinationFolder.file("Contents/Info.plist")
+		
+		If ($infoFile.exists)
+			$appInfo:=$infoFile.getAppInfo()
+			
+			If (This.settings.use_rosetta)
+				
+				$appInfo["LSArchitecturePriority"]:="x86_64"
+				
+			Else 
+				
+				OB REMOVE($appInfo; "LSArchitecturePriority")
+				
+			End if 
+			
+			$infoFile.setAppInfo($appInfo)
+			
+		Else 
+			
+			This._log(New object(\
+				"function"; "Set Rosetta running mode"; \
+				"message"; "Info.plist doesn't exist: "+$infoFile.path; \
+				"severity"; Error message))
+			
+			return False
+		End if 
+	End if 
+	
+	return True
+	
+/*
+	
 Function _setAppOptions()-> $status : Boolean
 ....................................................................................
 Parameter      Type.         in/out.        Description
@@ -1182,6 +1250,6 @@ Function _show() : Object
 	
 	//SHOW ON DISK(This.settings.destinationFolder.platformPath) // not preemptive
 	
-	CALL WORKER("cooperative bridge"; "showOnDisk_coop"; This.settings.destinationFolder.platformPath)
+	SHOW ON DISK(This.settings.destinationFolder.platformPath)
 	
 	return This

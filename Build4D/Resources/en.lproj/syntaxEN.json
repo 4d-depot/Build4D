@@ -158,6 +158,17 @@
 			],
 			"Summary": ""
 		},
+		"get has_silicon_target()": {
+			"Syntax": "**.get has_silicon_target**() : Boolean",
+			"Params": [
+				[
+					"",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"get is_client()": {
 			"Syntax": "**.get is_client**() : Boolean",
 			"Params": [
@@ -180,23 +191,23 @@
 			],
 			"Summary": ""
 		},
-		"get buildName()": {
-			"Syntax": "**.get buildName**() : Text",
-			"Params": [
-				[
-					"",
-					"Text",
-					"<-"
-				]
-			],
-			"Summary": ""
-		},
 		"get is_standalone()": {
 			"Syntax": "**.get is_standalone**() : Boolean",
 			"Params": [
 				[
 					"",
 					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get buildName()": {
+			"Syntax": "**.get buildName**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
 					"<-"
 				]
 			],

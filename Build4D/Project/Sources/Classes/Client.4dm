@@ -494,6 +494,7 @@ Function build() : Boolean
 	$success:=($success) ? This._copySourceApp() : False
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False
+	$success:=($success) ? This._setRosettaOption() : False
 	$success:=($success) ? This._excludeModules() : False
 	
 	If (This._hasEmbeddedClient())

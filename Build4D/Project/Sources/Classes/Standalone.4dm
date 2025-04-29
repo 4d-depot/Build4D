@@ -131,6 +131,7 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._copySourceApp() : False
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False
+	$success:=($success) ? This._setRosettaOption() : False
 	$success:=($success) ? This._excludeModules() : False
 	$success:=($success) ? This._includePaths(This.settings.includePaths) : False
 	$success:=($success) ? This._deletePaths(This.settings.deletePaths) : False
