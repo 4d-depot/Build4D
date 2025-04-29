@@ -878,7 +878,7 @@ Function _setRosettaOption : Boolean
 	var $infoFile : 4D.File
 	var $appInfo : Object
 	
-	If (This.has_silicon_target) && (Value type(This.settings.use_rosetta)#Is boolean)
+	If (This.has_silicon_target) && (Value type(This.settings.use_rosetta)=Is boolean)
 		
 		$infoFile:=This.settings.destinationFolder.file("Contents/Info.plist")
 		
