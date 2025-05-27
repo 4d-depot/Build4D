@@ -97,6 +97,8 @@ Case of
 		$settings.phpPort:=15001
 		$settings.webserver:=$webserver
 		
+		$settings.allowUserSettings:=True
+		
 		$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Server.app")
 		
 		// Launch the build

@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="51">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="52">
 	<com.4d>
-		<general component_classStore_name="Build4D"/>
+		<general allow_user_settings="true" component_classStore_name="Build4D"/>
 		<compiler>
 			<options compilation_path="3" syntax_file="true" target="all"/>
 		</compiler>

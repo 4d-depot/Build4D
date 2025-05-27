@@ -481,7 +481,6 @@ Function _fix_settings : Boolean
 				
 				If (["127.0.0.1"].indexOf(This.phpAddress)<0)
 					DOM SET XML ATTRIBUTE($element; "ip_address"; This.phpAddress)
-					
 				End if 
 				
 				
@@ -490,6 +489,28 @@ Function _fix_settings : Boolean
 					
 				End if 
 				
+				var $general : Text
+				
+				$general:=DOM Find XML element($xml; "com.4d/general")
+				
+				If (This._is_xml_reference($general))
+				Else 
+					$general:=DOM Create XML element($xml; "com.4d/general")
+					
+					
+				End if 
+				
+				If (Value type(This.settings.allowUserSettings)=Is boolean)
+					DOM SET XML ATTRIBUTE($general; "allow_user_settings"; This.settings.allowUserSettings)
+				End if 
+				
+				If (Value type(This.settings.executeHostDatabaseEvent)=Is boolean)
+					DOM SET XML ATTRIBUTE($general; "execute_host_database_event"; This.settings.executeHostDatabaseEvent)
+				End if 
+				
+				//If (Value type(This.settings.componentClassStoreName)=Is boolean)
+				//DOM SET XML ATTRIBUTE($general; "component_classStore_name"; This.settings.componentClassStoreName)
+				//End if 
 				
 				If (Value type(This.settings.webserver)=Is object)
 					
