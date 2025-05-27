@@ -97,12 +97,56 @@
 			],
 			"Summary": ""
 		},
+		"get phpAddress()": {
+			"Syntax": "**.get phpAddress**() : Text",
+			"Params": [
+				[
+					"",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get publishPort()": {
+			"Syntax": "**.get publishPort**() : Integer",
+			"Params": [
+				[
+					"",
+					"Integer",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
 		"buildZip()": {
 			"Syntax": "**.buildZip**()->result : Object",
 			"Params": [
 				[
 					"result",
 					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get phpPort()": {
+			"Syntax": "**.get phpPort**() : Integer",
+			"Params": [
+				[
+					"",
+					"Integer",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get sqlServerPort()": {
+			"Syntax": "**.get sqlServerPort**() : Integer",
+			"Params": [
+				[
+					"",
+					"Integer",
 					"<-"
 				]
 			],

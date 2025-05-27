@@ -55,12 +55,47 @@ Case of
 		
 	: (True)
 		
+		var $webserver : Object
 		
+		$webserver:={}
+		$webserver.configuration:={\
+			http_port_number: 80; \
+			https_port_number: 443; \
+			allow_http: False; \
+			allow_http_local: False; \
+			allow_ssl: True; \
+			automatic_session_management: True; \
+			certificate_folder: ""; \
+			listening_address: "0.0.0.0"; \
+			publish_at_startup: True; \
+			retry_with_next_ports: False; \
+			reuse_context: True; \
+			session_mode: 1; \
+			html_root: "./WebFolder"; \
+			home_page: "index.html"\
+			}
+		
+		
+		$webserver.options:={\
+			cache_max_size: 524288; \
+			cached_object_max_size: 512; \
+			use_4d_web_cache: True; \
+			web_processes: {max_concurrent: 100; timeout_for_inactives: 480; preemptive: False}; \
+			web_passwords: {generic_web_user: 1; with_4d_passwords: False}; \
+			text_conversion: {send_extended: False; standard_set: "UTF-8"}; \
+			keep_alive: {requests_number: 100; timeout: 15; with_keep_alive: True}; \
+			filters: {allow_4dsync_urls: False}; \
+			cors: {enabled: True}\
+			}
+		
+		
+		$webserver.rest:={launch_at_startup: True}
+		$webserver.soap:={name: ""; name_space: ""; enabled: False}
 		
 		$settings.sqlServerPort:=30000
 		$settings.phpAddress:="10.16.17.18"
 		$settings.phpPort:=15001
-		
+		$settings.webserver:=$webserver
 		
 		$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Server.app")
 		

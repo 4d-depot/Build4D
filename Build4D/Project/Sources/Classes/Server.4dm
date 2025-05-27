@@ -230,8 +230,10 @@ Function get phpPort : Integer
 	If (Value type(This.settings.phpPort)=Is real)
 		return This.settings.phpPort
 	Else 
-		return 9002
+		return 8002
 	End if 
+	
+	
 	
 	
 	////MARK:- identify if we build a mac or win client
@@ -418,9 +420,11 @@ Function _fix_settings : Boolean
 	var $sources_folder : 4D.Folder
 	var $settings_file : 4D.File
 	
-	var $xml; $buffer; $options; $value : Text
+	var $xml; $buffer; $element; $value : Text
 	var $result : Boolean
 	var $save_error; $save_ok : Integer
+	
+	ARRAY TEXT($_node; 0)
 	
 	$sources_folder:=This._structureFolder.folder("Project/Sources")
 	$settings_file:=$sources_folder.file("settings.4DSettings")
@@ -441,66 +445,327 @@ Function _fix_settings : Boolean
 			Else 
 				
 				XML SET OPTIONS($xml; XML indentation; XML with indentation)
-				ARRAY TEXT($_node; 0)
 				
 				
 				
-				$options:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
-				If (This._is_xml_reference($options))
+				$element:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
+				If (This._is_xml_reference($element))
 				Else 
-					$options:=DOM Create XML element($xml; "com.4d/server/network/options")
+					$element:=DOM Create XML element($xml; "com.4d/server/network/options")
 				End if 
 				//If (Size of array($_node)>0)
 				
-				DOM SET XML ATTRIBUTE($options; "publication_name"; This.publishName)
+				DOM SET XML ATTRIBUTE($element; "publication_name"; This.publishName)
 				
 				
 				If ([0; 19813].indexOf(This.publishPort)<0)
-					DOM SET XML ATTRIBUTE($options; "publication_port"; This.publishPort)
+					DOM SET XML ATTRIBUTE($element; "publication_port"; This.publishPort)
 				End if 
 				
 				
-				$options:=DOM Find XML element($xml; "com.4d/sql/publication"; $_node)
-				If (This._is_xml_reference($options))
+				$element:=DOM Find XML element($xml; "com.4d/sql/publication"; $_node)
+				If (This._is_xml_reference($element))
 				Else 
-					$options:=DOM Create XML element($xml; "com.4d/sql/publication")
+					$element:=DOM Create XML element($xml; "com.4d/sql/publication")
 				End if 
 				
 				If ([0; 19812].indexOf(This.sqlServerPort)<0)
-					
-					DOM SET XML ATTRIBUTE($options; "port_number"; This.sqlServerPort)
-					
-					
+					DOM SET XML ATTRIBUTE($element; "port_number"; This.sqlServerPort)
 				End if 
 				
-				$options:=DOM Find XML element($xml; "com.4d/php"; $_node)
-				If (This._is_xml_reference($options))
+				$element:=DOM Find XML element($xml; "com.4d/php"; $_node)
+				If (This._is_xml_reference($element))
 				Else 
-					$options:=DOM Create XML element($xml; "com.4d/php")
+					$element:=DOM Create XML element($xml; "com.4d/php")
 				End if 
 				
 				If (["127.0.0.1"].indexOf(This.phpAddress)<0)
-					DOM SET XML ATTRIBUTE($options; "ip_address"; This.phpAddress)
+					DOM SET XML ATTRIBUTE($element; "ip_address"; This.phpAddress)
 					
 				End if 
 				
 				
 				If ([8002].indexOf(This.phpPort)<0)
-					DOM SET XML ATTRIBUTE($options; "port_number"; This.phpPort)
+					DOM SET XML ATTRIBUTE($element; "port_number"; This.phpPort)
 					
 				End if 
 				
+				
+				If (Value type(This.settings.webserver)=Is object)
+					
+					var $web; $configuration; $options; $rest; $soap : Text
+					var $cache; $web_processes; $web_passwords; $text_conversion : Text
+					var $keep_alive; $filters; $cors : Text
+					
+					$web:=DOM Find XML element($xml; "com.4d/web")
+					
+					If (This._is_xml_reference($web))
+					Else 
+						$web:=DOM Create XML element($xml; "com.4d/web")
+					End if 
+					
+					//mark:- configuration
+					If (Value type(This.settings.webserver.configuration)=Is object)
+						
+						$configuration:=DOM Find XML element($xml; "com.4d/web/standalone_server/configuration")
+						
+						If (This._is_xml_reference($configuration))
+						Else 
+							$configuration:=DOM Create XML element($xml; "com.4d/web/standalone_server/configuration")
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.http_port_number)=Is real)
+							DOM SET XML ATTRIBUTE($configuration; "port_number"; This.settings.webserver.configuration.http_port_number)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.https_port_number)=Is real)
+							DOM SET XML ATTRIBUTE($configuration; "https_port_number"; This.settings.webserver.configuration.https_port_number)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.allow_http)=Is boolean)
+							DOM SET XML ATTRIBUTE($configuration; "allowHttp"; This.settings.webserver.configuration.allow_http)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.allow_http_local)=Is boolean)
+							DOM SET XML ATTRIBUTE($configuration; "allow_http_on_local"; This.settings.webserver.configuration.allow_http_local)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.allow_ssl)=Is boolean)
+							DOM SET XML ATTRIBUTE($configuration; "allow_ssl"; This.settings.webserver.configuration.allow_ssl)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.automatic_session_management)=Is boolean)
+							DOM SET XML ATTRIBUTE($configuration; "automatic_session_management"; This.settings.webserver.configuration.automatic_session_management)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.publish_at_startup)=Is boolean)
+							DOM SET XML ATTRIBUTE($configuration; "publish_at_startup"; This.settings.webserver.configuration.publish_at_startup)
+						End if 
+						
+						
+						If (Value type(This.settings.webserver.configuration.retry_with_next_ports)=Is boolean)
+							DOM SET XML ATTRIBUTE($configuration; "retry_with_next_ports"; This.settings.webserver.configuration.retry_with_next_ports)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.reuse_context)=Is boolean)
+							DOM SET XML ATTRIBUTE($configuration; "reuse_context"; This.settings.webserver.configuration.reuse_context)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.certificate_folder)=Is text)
+							DOM SET XML ATTRIBUTE($configuration; "certificate_folder"; This.settings.webserver.configuration.certificate_folder)
+						End if 
+						
+						
+						If (Value type(This.settings.webserver.configuration.listening_address)=Is text)
+							DOM SET XML ATTRIBUTE($configuration; "listening_address"; This.settings.webserver.configuration.listening_address)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.html_root)=Is text)
+							DOM SET XML ATTRIBUTE($configuration; "html_root"; This.settings.webserver.configuration.html_root)
+						End if 
+						
+						If (Value type(This.settings.webserver.configuration.home_page)=Is text)
+							DOM SET XML ATTRIBUTE($configuration; "home_page"; This.settings.webserver.configuration.home_page)
+						End if 
+						//session_mode : 1; 
+						
+						If (Value type(This.settings.webserver.configuration.session_mode)=Is real)
+							DOM SET XML ATTRIBUTE($configuration; "session_mode"; This.settings.webserver.configuration.session_mode)
+						End if 
+						
+					End if 
+					
+					
+					//mark:-options
+					If (Value type(This.settings.webserver.options)=Is object)
+						
+						$options:=DOM Find XML element($xml; "com.4d/web/standalone_server/options")
+						
+						If (This._is_xml_reference($options))
+						Else 
+							$options:=DOM Create XML element($xml; "com.4d/web/standalone_server/options")
+						End if 
+						
+						
+						
+						//mark:-cache
+						$cache:=DOM Find XML element($xml; "com.4d/web/standalone_server/options/cache")
+						
+						If (This._is_xml_reference($cache))
+						Else 
+							$cache:=DOM Create XML element($xml; "com.4d/web/standalone_server/options/cache")
+						End if 
+						
+						
+						If (Value type(This.settings.webserver.options.cache_max_size)=Is real)
+							DOM SET XML ATTRIBUTE($cache; "cache_max_size"; This.settings.webserver.options.cache_max_size)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.cached_object_max_size)=Is real)
+							DOM SET XML ATTRIBUTE($cache; "cached_object_max_size"; This.settings.webserver.options.cached_object_max_size)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.use_4d_web_cache)=Is boolean)
+							DOM SET XML ATTRIBUTE($cache; "use_4d_web_cache"; This.settings.webserver.options.use_4d_web_cache)
+						End if 
+						
+						
+						//mark:-web-process
+						$web_processes:=DOM Find XML element($xml; "com.4d/web/standalone_server/options/web_processes")
+						
+						If (This._is_xml_reference($web_processes))
+						Else 
+							$web_processes:=DOM Create XML element($xml; "com.4d/web/standalone_server/options/web_processes")
+						End if 
+						
+						If (Value type(This.settings.webserver.options.web_processes.max_concurrent)=Is real)
+							DOM SET XML ATTRIBUTE($web_processes; "max_concurrent"; This.settings.webserver.options.web_processes.max_concurrent)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.web_processes.timeout_for_inactives)=Is real)
+							DOM SET XML ATTRIBUTE($web_processes; "timeout_for_inactives"; This.settings.webserver.options.web_processes.timeout_for_inactives)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.web_processes.preemptive)=Is boolean)
+							DOM SET XML ATTRIBUTE($web_processes; "preemptive"; This.settings.webserver.options.web_processes.preemptive)
+						End if 
+						
+						//mark:-web-password
+						$web_passwords:=DOM Find XML element($xml; "com.4d/web/standalone_server/options/web_passwords")
+						
+						If (This._is_xml_reference($web_passwords))
+						Else 
+							$web_passwords:=DOM Create XML element($xml; "com.4d/web/standalone_server/options/web_passwords")
+						End if 
+						
+						If (Value type(This.settings.webserver.options.web_passwords.generic_web_user)=Is real)
+							DOM SET XML ATTRIBUTE($web_passwords; "generic_web_user"; This.settings.webserver.options.web_passwords.generic_web_user)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.web_passwords.with_4d_passwords)=Is boolean)
+							DOM SET XML ATTRIBUTE($web_passwords; "with_4d_passwords"; This.settings.webserver.options.web_passwords.with_4d_passwords)
+						End if 
+						
+						//mark:-text-conversion
+						$text_conversion:=DOM Find XML element($xml; "com.4d/web/standalone_server/options/text_conversion")
+						
+						If (This._is_xml_reference($text_conversion))
+						Else 
+							$text_conversion:=DOM Create XML element($xml; "com.4d/web/standalone_server/options/text_conversion")
+						End if 
+						
+						
+						If (Value type(This.settings.webserver.options.text_conversion.send_extended)=Is boolean)
+							DOM SET XML ATTRIBUTE($text_conversion; "requests_number"; This.settings.webserver.options.text_conversion.send_extended)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.text_conversion.standard_set)=Is text)
+							DOM SET XML ATTRIBUTE($text_conversion; "standard_set"; This.settings.webserver.options.text_conversion.standard_set)
+						End if 
+						
+						//mark:-keep-alive
+						$keep_alive:=DOM Find XML element($xml; "com.4d/web/standalone_server/options/keep_alive")
+						
+						If (This._is_xml_reference($keep_alive))
+						Else 
+							$keep_alive:=DOM Create XML element($xml; "com.4d/web/standalone_server/options/keep_alive")
+						End if 
+						
+						If (Value type(This.settings.webserver.options.keep_alive.requests_number)=Is real)
+							DOM SET XML ATTRIBUTE($keep_alive; "requests_number"; This.settings.webserver.options.keep_alive.requests_number)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.keep_alive.timeout)=Is real)
+							DOM SET XML ATTRIBUTE($keep_alive; "timeout"; This.settings.webserver.options.keep_alive.timeout)
+						End if 
+						
+						If (Value type(This.settings.webserver.options.keep_alive.with_keep_alive)=Is boolean)
+							DOM SET XML ATTRIBUTE($keep_alive; "with_keep_alive"; This.settings.webserver.options.keep_alive.with_keep_alive)
+						End if 
+						
+						
+						//mark:-filters
+						$filters:=DOM Find XML element($xml; "com.4d/web/standalone_server/options/filters")
+						
+						If (This._is_xml_reference($filters))
+						Else 
+							$filters:=DOM Create XML element($xml; "com.4d/web/standalone_server/options/filters")
+						End if 
+						
+						If (Value type(This.settings.webserver.options.filters.allow_4dsync_urls)=Is boolean)
+							DOM SET XML ATTRIBUTE($filters; "allow_4dsync_urls"; This.settings.webserver.options.filters.allow_4dsync_urls)
+						End if 
+						
+						
+						
+						//mark:-cors
+						$cors:=DOM Find XML element($xml; "com.4d/web/standalone_server/options/cors")
+						
+						If (This._is_xml_reference($cors))
+						Else 
+							$cors:=DOM Create XML element($xml; "com.4d/web/standalone_server/options/cors")
+						End if 
+						
+						If (Value type(This.settings.webserver.options.cors.enabled)=Is boolean)
+							DOM SET XML ATTRIBUTE($cors; "enabled"; This.settings.webserver.options.cors.enabled)
+						End if 
+						
+					End if 
+					
+					
+					
+					//mark:-rest
+					If (Value type(This.settings.webserver.rest)=Is object)
+						
+						$rest:=DOM Find XML element($xml; "com.4d/web/standalone_server/rest")
+						
+						If (This._is_xml_reference($rest))
+						Else 
+							$rest:=DOM Create XML element($xml; "com.4d/web/standalone_server/rest")
+						End if 
+						
+						
+						If (Value type(This.settings.webserver.rest.launch_at_startup)=Is boolean)
+							DOM SET XML ATTRIBUTE($rest; "launch_at_startup"; This.settings.webserver.rest.launch_at_startup)
+						End if 
+						
+						
+					End if 
+					
+					
+					
+					//mark:-webservices
+					If (Value type(This.settings.webserver.soap)=Is object)
+						
+						$soap:=DOM Find XML element($xml; "com.4d/web/standalone_server/webservices/server")
+						
+						If (This._is_xml_reference($soap))
+						Else 
+							$soap:=DOM Create XML element($xml; "com.4d/web/standalone_server/webservices/server")
+						End if 
+						
+						
+						If (Value type(This.settings.webserver.soap.name)=Is text)
+							DOM SET XML ATTRIBUTE($soap; "name"; This.settings.webserver.soap.name)
+						End if 
+						
+						If (Value type(This.settings.webserver.soap.name_space)=Is text)
+							DOM SET XML ATTRIBUTE($soap; "name_space"; This.settings.webserver.soap.name_space)
+						End if 
+						
+						If (Value type(This.settings.webserver.soap.enabled)=Is boolean)
+							DOM SET XML ATTRIBUTE($soap; "allow_requests"; This.settings.webserver.soap.enabled)
+						End if 
+						
+					End if 
+					
+				End if 
+				
+				///--------------------------------------------
 				DOM EXPORT TO VAR($xml; $buffer)
 				$settings_file.setText($buffer)
 				
-				//#DD deferred because we have to restore ok and error values
 				
-				//Else 
-				////#DD may be create the path
-				
-				
-				
-				//End if 
 				
 				DOM CLOSE XML($xml)
 				
