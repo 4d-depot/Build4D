@@ -15,14 +15,15 @@ $settings.projectFile:=Folder(fk desktop folder).file("/Users/4d/Desktop/Program
 
 // Configure the application
 $settings.buildName:="MyBestApp"
+$settings.publishName:="MyBestServer"
+$settings.publishPort:=29000
+
 $settings.destinationFolder:=Folder(fk desktop folder).folder("/Users/4d/Desktop/Program/build4D/not exposed/Test/MyApp/")
-$settings.obfuscated:=True
+//$settings.obfuscated:=False
 
 $settings.lastDataPathLookup:="ByAppPath"
 
 // à partir de la main only
-//$settings.evaluationMode:=False
-//$settings.evaluationName:="Ma démo de la mort qui tue"
 
 $settings.signApplication:={}
 //$settings.signApplication.adHocSignature:=True
@@ -30,18 +31,49 @@ $settings.signApplication.macSignature:=True
 $settings.signApplication.macCertificate:="Developer ID Application: CEDRIC GAREAU (BSE3R8CQZT)"
 
 
+//$settings.license:=License Evaluation mode
 
-// Define the embedded app path path
-$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Volume Desktop.app")
+$settings.license:=License Automatic mode
 
-// Launch the build
-$build:=cs.Standalone.new($settings)
-$success:=$build.build()
 
-If ($success)
-	
-	SHOW ON DISK($build.settings.destinationFolder.platformPath)
-	ALERT("OK")
-Else 
-	ALERT("KO")
-End if 
+Case of 
+	: (False)
+		// Define the embedded app path path
+		$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Volume Desktop.app")
+		
+		// Launch the build
+		$build:=cs.Standalone.new($settings)
+		$success:=$build.build()
+		
+		If ($success)
+			
+			SHOW ON DISK($build.settings.destinationFolder.platformPath)
+			ALERT("OK")
+		Else 
+			ALERT("KO")
+		End if 
+		
+	: (True)
+		
+		
+		
+		$settings.sqlServerPort:=30000
+		$settings.phpAddress:="10.16.17.18"
+		$settings.phpPort:=15001
+		
+		
+		$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Server.app")
+		
+		// Launch the build
+		$build:=cs.Server.new($settings)
+		$success:=$build.build()
+		
+		If ($success)
+			
+			SHOW ON DISK($build.settings.destinationFolder.platformPath)
+			ALERT("OK")
+		Else 
+			ALERT("KO")
+		End if 
+		
+End case 

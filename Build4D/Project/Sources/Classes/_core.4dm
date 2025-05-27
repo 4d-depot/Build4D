@@ -216,7 +216,11 @@ Function _overrideSettings($settings : Object)
 				This.settings.iconPath:=This._resolvePath($settings.iconPath; This._currentProjectPackage)
 				
 			: ($entry.key="license")
-				This.settings.license:=This._resolvePath($settings.license; Null)
+				If (Value type($settings.license)=Is text)  //#issue 13569
+					This.settings.license:=$settings.license
+				Else 
+					This.settings.license:=This._resolvePath($settings.license; Null)
+				End if 
 				
 			: ($entry.key="xmlKeyLicense")
 				This.settings.xmlKeyLicense:=This._resolvePath($settings.xmlKeyLicense; Null)
@@ -911,19 +915,24 @@ Function _setAppOptions() : Boolean
 					$exeInfo.WinIcon:=This.settings.iconPath
 				End if 
 			Else 
+				
 				This._log(New object(\
 					"function"; "Icon integration"; \
 					"message"; "Icon file doesn't exist: "+This.settings.iconPath.path; \
 					"severity"; Error message))
+				
 			End if 
 		End if 
 		
 		If (This.settings.versioning#Null)  // Set version info
+			
 			If (Is macOS)
+				
 				If (This.settings.versioning.version#Null)
 					$appInfo.CFBundleVersion:=This.settings.versioning.version
 					$appInfo.CFBundleShortVersionString:=This.settings.versioning.version
 				End if 
+				
 				If (This.settings.versioning.copyright#Null)
 					$appInfo.NSHumanReadableCopyright:=This.settings.versioning.copyright
 					// Force macOS to get copyright from info.plist file instead of localized strings file
@@ -1091,7 +1100,7 @@ $status        Boolean        out           True if the build is in evaluation m
 */
 	
 Function _is_evaluationMode : Boolean
-	return (Value type(This.settings.evaluationMode)=Is boolean) && (This.settings.evaluationMode)
+	return (Value type(This.settings.license)=Is text) && (This.settings.license=License Evaluation mode)
 	
 	
 	
@@ -1109,6 +1118,78 @@ $status.       Boolean        out          True if the deployment license have b
 ....................................................................................
 	
 */
+	
+Function _generateLicense_2($appType : Integer) : Boolean
+	var $status : Object
+	
+	Case of 
+			
+		: ((Value type(This.settings)=Is null) || (Value type(This.settings.license)=Is null))
+			
+		: ((Value type(This.settings.license)=Is text) && (This.settings.license=License Automatic mode))
+			
+			Case of 
+				: ($appType=4D Desktop)
+					$status:=Create deployment license(This.settings.destinationFolder)
+					
+				: ($appType=4D Server)
+					$status:=Create deployment license(This.settings.destinationFolder; *)
+					
+				Else 
+					
+					// error
+					
+					This._log(New object(\
+						"function"; "Deployment license creation"; \
+						"message"; "Internal component error : target application type undefined ("+Current method path+")"; \
+						"severity"; Error message))
+					
+					return False
+					
+			End case 
+			
+			If ($status.success)
+				
+			Else 
+				
+			End if 
+			
+			return $status.success
+			
+		: ((Value type(This.settings.license)=Is object) && OB Instance of(This.settings.license; 4D.File) && This.settings.license.exists)
+			
+			If ((Value type(This.settings.xmlKeyLicense)#Is null) && (OB Instance of(This.settings.xmlKeyLicense; 4D.File)))
+				$status:=Create deployment license(This.settings.destinationFolder; This.settings.license; This.settings.xmlKeyLicense)
+			Else 
+				$status:=Create deployment license(This.settings.destinationFolder; This.settings.license)
+			End if 
+			
+			
+			If ($status.success)
+				return True
+			Else 
+				
+				This._log(New object(\
+					"function"; "Deployment license creation"; \
+					"message"; "Deployment license creation failed"; \
+					"severity"; Error message; \
+					"result"; $status))
+				
+			End if 
+			
+		Else 
+			
+			//#issue 12064
+			This._log(New object(\
+				"function"; "Deployment license creation"; \
+				"message"; "License file doesn't exist: "+Choose(This.settings.license#Null; This.settings.license.path; "Undefined"); \
+				"severity"; Error message))
+			
+	End case 
+	
+	
+	
+	
 	
 Function _generateLicense() : Boolean
 	var $status : Object
@@ -1209,10 +1290,12 @@ Function _change_uuid() : Boolean
 				End if 
 				
 			Else 
+				
 				This._log(New object(\
 					"function"; "Change application uuid"; \
 					"message"; "Can't retrieve Info.plist inforation."; \
 					"severity"; Error message))
+				
 			End if 
 		Else 
 			
@@ -1220,6 +1303,7 @@ Function _change_uuid() : Boolean
 				"function"; "Change application uuid"; \
 				"message"; "Builded application not found."; \
 				"severity"; Error message))
+			
 		End if 
 		
 	Else 
@@ -1361,3 +1445,19 @@ Function _show() : Object
 	SHOW ON DISK(This.settings.destinationFolder.platformPath)
 	
 	return This
+	
+	
+Function _is_xml_reference($reference : Text) : Boolean
+	var $name : Text
+	
+	Try
+		
+		DOM GET XML ELEMENT NAME($reference; $name)
+		
+		return True
+		
+	Catch
+		
+		return False
+		
+	End try

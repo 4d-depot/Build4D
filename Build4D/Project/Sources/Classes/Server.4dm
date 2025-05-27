@@ -50,21 +50,34 @@ Class constructor($customSettings : Object)
 		End if 
 		
 		//Checking license
-		If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
+		
+		If (This._hasLicenses())
+			
+		Else 
 			This._log(New object(\
 				"function"; "License file checking"; \
-				"message"; "License file is not defined"; \
-				"severity"; Information message))
-		Else 
-			If (Not(This.settings.license.exists))
-				//This._validInstance:=False
-				This._log(New object(\
-					"function"; "License file checking"; \
-					"message"; "License file doesn't exist"; \
-					"severity"; Error message; \
-					"path"; This.settings.license.path))
-			End if 
+				"message"; "License file doesn't exist"; \
+				"severity"; Error message; \
+				"path"; This.settings.license.path))
+			
 		End if 
+		
+		
+		//If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
+		//This._log(New object(\
+			"function"; "License file checking"; \
+			"message"; "License file is not defined"; \
+			"severity"; Information message))
+		//Else 
+		//If (Not(This.settings.license.exists))
+		////This._validInstance:=False
+		//This._log(New object(\
+			"function"; "License file checking"; \
+			"message"; "License file doesn't exist"; \
+			"severity"; Error message; \
+			"path"; This.settings.license.path))
+		//End if 
+		//End if 
 		
 		
 		//Checking source app
@@ -188,6 +201,36 @@ Function get publishName : Text
 	Else 
 		
 		return This.buildName
+	End if 
+	
+Function get publishPort : Integer
+	If (Value type(This.settings.publishPort)=Is real)
+		return This.settings.publishPort
+	Else 
+		return 19813
+	End if 
+	
+	
+Function get sqlServerPort : Integer
+	If (Value type(This.settings.sqlServerPort)=Is real)
+		return This.settings.sqlServerPort
+	Else 
+		return 19812
+	End if 
+	
+	
+Function get phpAddress : Text
+	If (Value type(This.settings.phpAddress)=Is text)
+		return This.settings.phpAddress
+	Else 
+		return "127.0.0.1"
+	End if 
+	
+Function get phpPort : Integer
+	If (Value type(This.settings.phpPort)=Is real)
+		return This.settings.phpPort
+	Else 
+		return 9002
 	End if 
 	
 	
@@ -347,18 +390,28 @@ $status        Boolean       out          True if licenses are associated in the
 	
 Function _hasLicenses : Boolean
 	
-	If (OB Instance of(This.settings.license; 4D.File) && OB Instance of(This.settings.xmlKeyLicense; 4D.File))
-		
-		return This.settings.license.exists && This.settings.xmlKeyLicense.exists
-		
-	End if 
+	Case of 
+			
+		: ((Value type(This.settings.license)=Is text) && (This.settings.license=License Automatic mode))
+			return True
+			
+			
+		: (Value type(This.settings.license)=Is object) && (OB Instance of(This.settings.license; 4D.File) && OB Instance of(This.settings.xmlKeyLicense; 4D.File))
+			
+			return This.settings.license.exists && This.settings.xmlKeyLicense.exists
+			
+			
+		Else 
+			
+			return False
+			
+	End case 
 	
-	return False
 	
 	
 	//MARK:- fix from bugbase
 	
-Function _fix_publishName : Boolean
+Function _fix_settings : Boolean
 	
 	//fix ACI0105597
 	
@@ -392,14 +445,50 @@ Function _fix_publishName : Boolean
 				
 				
 				
-				//$options:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
-				
-				$options:=DOM Create XML element($xml; "com.4d/server/network/options")
-				
+				$options:=DOM Find XML element($xml; "com.4d/server/network/options"; $_node)
+				If (This._is_xml_reference($options))
+				Else 
+					$options:=DOM Create XML element($xml; "com.4d/server/network/options")
+				End if 
 				//If (Size of array($_node)>0)
 				
 				DOM SET XML ATTRIBUTE($options; "publication_name"; This.publishName)
 				
+				
+				If ([0; 19813].indexOf(This.publishPort)<0)
+					DOM SET XML ATTRIBUTE($options; "publication_port"; This.publishPort)
+				End if 
+				
+				
+				$options:=DOM Find XML element($xml; "com.4d/sql/publication"; $_node)
+				If (This._is_xml_reference($options))
+				Else 
+					$options:=DOM Create XML element($xml; "com.4d/sql/publication")
+				End if 
+				
+				If ([0; 19812].indexOf(This.sqlServerPort)<0)
+					
+					DOM SET XML ATTRIBUTE($options; "port_number"; This.sqlServerPort)
+					
+					
+				End if 
+				
+				$options:=DOM Find XML element($xml; "com.4d/php"; $_node)
+				If (This._is_xml_reference($options))
+				Else 
+					$options:=DOM Create XML element($xml; "com.4d/php")
+				End if 
+				
+				If (["127.0.0.1"].indexOf(This.phpAddress)<0)
+					DOM SET XML ATTRIBUTE($options; "ip_address"; This.phpAddress)
+					
+				End if 
+				
+				
+				If ([8002].indexOf(This.phpPort)<0)
+					DOM SET XML ATTRIBUTE($options; "port_number"; This.phpPort)
+					
+				End if 
 				
 				DOM EXPORT TO VAR($xml; $buffer)
 				$settings_file.setText($buffer)
@@ -519,7 +608,7 @@ Function build() : Boolean
 	$success:=($success) ? This._checkDestinationFolder() : False
 	$success:=($success) ? This._compileProject() : False
 	$success:=($success) ? This._createStructure() : False
-	$success:=($success) ? This._fix_publishName() : False
+	$success:=($success) ? This._fix_settings() : False
 	$success:=($success) ? This._copySourceApp() : False
 	$success:=($success) ? This._renameExecutable() : False
 	$success:=($success) ? This._setAppOptions() : False
@@ -670,7 +759,7 @@ $infos.OtherIconFolder": "DarkMode",
 		
 		If (This._hasLicenses())
 			
-			$success:=($success) ? This._generateLicense() : False
+			$success:=($success) ? This._generateLicense_2(4D Server) : False
 			
 		End if 
 		

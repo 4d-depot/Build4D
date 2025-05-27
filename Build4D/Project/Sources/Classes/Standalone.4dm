@@ -19,42 +19,29 @@ Class constructor($customSettings : Object)
 		//#issue 12064
 		Case of 
 				
-			: (This.settings.license=Null)
+			: (Value type(This.settings.license)=Is null)
 				
-			: ((OB Instance of(This.settings.license; 4D.File)) && (This.settings.license.exists))
+			: ((Value type(This.settings.license)=Is object) && (OB Instance of(This.settings.license; 4D.File)) && (This.settings.license.exists))
+				
+			: ((Value type(This.settings.license)=Is text) && (This.settings.license="auto"))  //#issues 13569
+				
+				This._log(New object(\
+					"function"; "License file checking"; \
+					"message"; "Automatic license integration activated"; \
+					"severity"; Warning message))
 				
 				
 			Else 
+				
 				This._validInstance:=False
 				This._log(New object(\
 					"function"; "License file checking"; \
-					"message"; "License file must be a 4D File instance"; \
+					"message"; "License file must be a 4D File instance or \"auto\" for automatic license integration."; \
 					"severity"; Error message))
 				
 		End case 
 		
-		//If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
-		//This._validInstance:=False
-		//This._log(New object(\
-			"function"; "License file checking"; \
-			"message"; "License file is not defined"; \
-			"severity"; Error message))
 		
-		//This._log(New object(\
-			"function"; "License file checking"; \
-			"message"; "License file is not defined"; \
-			"severity"; Warning message))
-		//Else 
-		//If (Not(This.settings.license.exists))
-		////This._validInstance:=False
-		//Else 
-		//This._log(New object(\
-			"function"; "License file checking"; \
-			"message"; "License file exist"; \
-			"severity"; Information message; \
-			"path"; This.settings.license.path))
-		//End if 
-		//End if 
 		
 		//Checking source app
 		If ((This.settings.sourceAppFolder=Null) || (Not(OB Instance of(This.settings.sourceAppFolder; 4D.Folder))))
@@ -161,10 +148,13 @@ Function build()->$success : Boolean
 	$success:=($success) ? This._create4DZ() : False
 	$success:=($success) ? This._change_uuid() : False
 	
-	If (This.settings.license=Null)  //#issue 12064
+	
+	
+	If (Value type(This.settings.license)=Is null)  //#issue 12064
 	Else 
-		$success:=($success) ? This._generateLicense() : False
+		$success:=($success) ? This._generateLicense_2(4D Desktop) : False
 	End if 
+	
 	If (Is macOS)
 		$success:=($success) ? This._sign() : False
 	End if 
