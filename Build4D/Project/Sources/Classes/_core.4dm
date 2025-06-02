@@ -581,7 +581,8 @@ Function _includePaths($pathsObj : Collection) : Boolean
 				return False
 			Else 
 				If ((Value type($pathObj.source)=Is text) || (OB Instance of($pathObj.source; 4D.Folder)) || (OB Instance of($pathObj.source; 4D.File)))
-					$sourcePath:=This._resolvePath($pathObj.source; This._currentProjectPackage)
+					//$sourcePath:=This._resolvePath($pathObj.source; This._currentProjectPackage)
+					$sourcePath:=This._resolvePath($pathObj.source; This._projectPackage)
 				Else 
 					This._log(New object(\
 						"function"; "Paths include"; \
@@ -1120,7 +1121,8 @@ $status.       Boolean        out          True if the deployment license have b
 */
 	
 Function _generateLicense_2($appType : Integer) : Boolean
-	var $status : Object
+	var $status; $error : Object
+	var $key : Text
 	
 	Case of 
 			
@@ -1150,7 +1152,52 @@ Function _generateLicense_2($appType : Integer) : Boolean
 			
 			If ($status.success)
 				
+				
+				For each ($key; OB Keys($status))
+					
+					Case of 
+						: ($key="errors")
+						: ($key="success")
+						: ($key="statusText")
+						: ($key="file")
+							
+						Else 
+							
+							
+							//timebomb
+							
+/*
+timebomb {
+day : 25
+month : 5
+year : 2025
+}
+*/
+							
+							
+							
+							
+							This._log(New object(\
+								"function"; "Deployment license : "+$status[$key].offerName; \
+								"message"; Uppercase($key)+" : "+$status[$key].productNumber; \
+								"severity"; Information message))
+							
+					End case 
+					
+				End for each 
+				
 			Else 
+				
+				For each ($error; $status.errors)
+					
+					
+					This._log(New object(\
+						"function"; "Deployment license "; \
+						"message"; $error.message+" ("+String($error.code)+")"; \
+						"severity"; Error message))
+					
+					
+				End for each 
 				
 			End if 
 			
