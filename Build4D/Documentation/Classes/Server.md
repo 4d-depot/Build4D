@@ -118,8 +118,6 @@ see : https://developer.4d.com/docs/settings/web
 |<i>keep_alive</i>.<b>requests_number</b> | Integer | .|
 |<i>keep_alive</i>.<b>timeout</b> | Integer | .|
 |<i>keep_alive</i>.<b>with_keep_alive</b> | Boolean | .|
-|<b><u>filters</u></b> | Object | .|
-|<i>filters</i>.<b>allow_4dsync_urls</b> | Boolean | .|
 |<b><u>cors</u></b> | Object | .|
 |<i>cors</i>.<b>enabled</b> | Boolean | .|
 
