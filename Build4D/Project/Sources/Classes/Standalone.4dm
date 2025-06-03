@@ -152,7 +152,7 @@ Function build()->$success : Boolean
 	
 	If (Value type(This.settings.license)=Is null)  //#issue 12064
 	Else 
-		$success:=($success) ? This._generateLicense_2(4D Desktop) : False
+		$success:=($success) ? This._generateLicense(4D Desktop) : False
 	End if 
 	
 	If (Is macOS)

@@ -1120,7 +1120,7 @@ $status.       Boolean        out          True if the deployment license have b
 	
 */
 	
-Function _generateLicense_2($appType : Integer) : Boolean
+Function _generateLicense($appType : Integer) : Boolean
 	var $status; $error : Object
 	var $key : Text
 	
@@ -1238,7 +1238,7 @@ year : 2025
 	
 	
 	
-Function _generateLicense() : Boolean
+Function _o_generateLicense() : Boolean
 	var $status : Object
 	
 	If ((This.settings.license#Null) && (This.settings.license.exists))

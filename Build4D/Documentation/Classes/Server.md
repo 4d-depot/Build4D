@@ -21,6 +21,7 @@ $customSettings is an object that contains the following parameters:
 |---|---|---|        
 |buildName | String | Name of the target build, defined by the component if missing in the custom settings.|
 |publishName | String | Name of the publication name. If undefined, the buildName is used.|
+|<b>publishPort<b> | Integer | Remote connection publication port. If undefined, the port defined in project is used.|
 |projectFile | File or String | Project file (relative to the open project/absolute/filesystem). Pass the project file path if you want to build an external project (not necessary if building the current project).|
 |destinationFolder | Folder or String | Folder where the build will be generated (relative to the open project/absolute/filesystem), defined by the component if missing in the custom settings. Its contents are deleted before each build.|
 |sourceAppFolder| Folder or String | Folder of the 4D Server (relative to the open project/absolute/filesystem).|
@@ -41,12 +42,12 @@ $customSettings is an object that contains the following parameters:
 |rangeVersMax| Number | Allows you to specify the maximum Client version (Default value 1).|
 |hardLink| Number | To create a hard link between client and serveer (Default value "").|
 |serverStructureFolderName| String | Allows to define a custom name for the cache folder of the built server application.|
-|versioning| Object | Object containing the contents of the application information.|
-|versioning.version| String | Version number. |
-|versioning.copyright| String | Copyright text. |
-|versioning.companyName| String | Company name. |
-|versioning.fileDescription| String | Description (Windows only).|
-|versioning.internalName| String | Internal name (Windows only).|
+|<b><u>versioning</u></b>| Object | Object containing the contents of the application information.|
+|<i>versioning</i>.<b>version</b>| String | Version number. |
+|<i>versioning</i>.<b>copyright</b>| String | Copyright text. |
+|<i>versioning</i>.<b>companyName</b>| String | Company name. |
+|<i>versioning</i>.<b>fileDescription</b>| String | Description (Windows only).|
+|<i>versioning</i>.<b>internalName</b>| String | Internal name (Windows only).|
 |includePaths[] | Collection of Objects | Collection of folders and files to include.|
 |includePaths[].source | Folder, File, or String | Source folder or file path (relative to the open project/absolute/filesystem).|
 |includePaths[].destination | Folder, File, or String | Destination folder path (relative to the built project/absolute/filesystem).|
@@ -55,14 +56,89 @@ $customSettings is an object that contains the following parameters:
 |macCompiledProject| Folder or String | Specifies the path to the folder containing the structure compiled on macOS for silicon and Intel.|
 |macOSClientArchive| Folder or String | Specifies the path of the .4darchive macOS file to be integrated into the built server application.|
 |windowsClientArchive| Folder or String | Specifies the path of the .4darchive Windows file to be integrated into the built server application.|
-|license| File or String | 4D OEM Server license file (relative to the built project/absolute/filesystem).|
+|<b>license</b>| File or String | 4D OEM Server license file (relative to the built project/absolute/filesystem) or following constant : <u>License Automatic mode</u>, <u>License Evaluation mode</u>.|
 |xmlKeyLicense| File or String | 4D OEM XML Keys license file (relative to the built project/absolute/filesystem).|
-|signApplication| Object | Object containing the contents of the application signing.|
-|signApplication.macSignature | Boolean | Signs the built applications.|
-|signApplication.macCertificate | String | Certificate name used for signature.|
-|signApplication.adHocSignature | Boolean | Signs the built applications with AdHoc signature if macSignature not performed.|
+|<b><u>signApplication</u></b>| Object | Object containing the contents of the application signing.|
+|<i>signApplication</i>.<b>macSignature</b> | Boolean | Signs the built applications.|
+|<i>signApplication</i>.<b>macCertificate</b> | String | Certificate name used for signature.|
+|<i>signApplication</i>.<b>adHocSignature</b> | Boolean | Signs the built applications with AdHoc signature if macSignature not performed.|
 |logger | Formula | Formula called when a log is written.|
+|<b>allowUserSettings</b> | Boolean | Allow user to define server settings https://developer.4d.com/docs/settings/overview.|
+|<b>sqlServerPort</b> | Integer |SQL Server publication port. If undefined, the port defined in project is used.|
+|<b>phpAddress</b> | String |PHP server address. If undefined, the address defined in project is used.|
+|<b>sqlServerPort</b> | Integer |PHP Server port. If undefined, the port defined in project is used.|
+|<b>listeners</b> | Object |Web, Rest, Web Services and options configuration show description below.|
  
+
+### <u>Listeners</u>
+| Attributes | Type | Description |
+|---|---|---|        
+|web | Object | Web Server configuration.|
+|options | Object | Web Server option.|
+|rest | Object | Rest Server configuration|
+|webService | Object | Web Service configuration|
+
+
+see : https://developer.4d.com/docs/settings/web
+
+### <u>Web Server configuration</u>
+| Attributes | Type | Description |
+|---|---|---| 
+|publish_at_startup | Boolean | Start web server on startup database.|
+|listening_address | String | Specific IP address web server.|
+|http_port_number | Integer | Http port listener number.|
+|https_port_number | Integer | Https port listener number.|
+|allow_http | Boolean | Accept incomming http query.|
+|allow_http_local | Boolean | Accept local incomming http query.|
+|allow_ssl | Boolean | Accept SSL for https query.|
+|automatic_session_management | Boolean | Enable automatic session maanagement.|
+|certificate_folder | String | Folder path where certificates are located.|
+|reuse_context | Boolean | Allow web server to reuse web context.|
+|html_root | String | Path of the web folder.|
+|home_page | String | Name of the root web page.|
+
+
+### <u>Web Server options</u>
+| Attributes | Type | Description |
+|---|---|---| 
+|cache_max_size | Integer | .|
+|cached_object_max_size | Integer | .|
+|use_4d_web_cache | Boolean | .|
+|<b><u>text_conversion</u></b> | Object | .|
+|<i>text_conversion</i>.<b>send_extended</b> | Boolean | .|
+|<i>text_conversion</i>.<b>standard_set</b> | String | .|
+|<b><u>web_processes</u></b> | Object | .|
+|<i>web_processes</i>.<b>max_concurrent</b> | Integer | .|
+|<i>web_processes</i>.<b>timeout_for_inactives</b> | Integer | .|
+|<i>web_processes</i>.<b>preemptive</b> | Boolean | .|
+|<b><u>web_passwords</u></b> | Object | .|
+|<i>web_passwords</i>.<b>generic_web_user</b> | Integer | .|
+|<i>web_passwords</i>.<b>with_4d_passwords</b> | Boolean | .|
+|<b><u>keep_alive</u></b> | Object | .|
+|<i>keep_alive</i>.<b>requests_number</b> | Integer | .|
+|<i>keep_alive</i>.<b>timeout</b> | Integer | .|
+|<i>keep_alive</i>.<b>with_keep_alive</b> | Boolean | .|
+|<b><u>filters</u></b> | Object | .|
+|<i>filters</i>.<b>allow_4dsync_urls</b> | Boolean | .|
+|<b><u>cors</u></b> | Object | .|
+|<i>cors</i>.<b>enabled</b> | Boolean | .|
+
+
+### <u>Rest Server configuration</u>
+| Attributes | Type | Description |
+|---|---|---| 
+|launch_at_startup | Boolean | Start rest server on startup database.|
+
+
+### <u>Web Service configuration</u>
+| Attributes | Type | Description |
+|---|---|---| 
+|enabled | Boolean | Enable Web Service.|
+|name | String | Web Service name ex : A_WebService.|
+|name_space | String | Web Service namespace ex : http://www.4d.com/namespace/default .|
+
+
+## Member Functions
 
 ### build()
 
@@ -99,7 +175,10 @@ $settings.lastDataPathLookup:="ByAppPath"
 $componentsFolder:=Folder(fk documents folder).folder("4D v20.0/4D.app/Contents/Components")
 $components:=[]
 $components.push($componentsFolder.file("4D WritePro Interface.4dbase/4D WritePro Interface.4DZ"))
-$settings.compilerOptions:={components: $components}
+
+$compilationTarget:=(Is macOS) ? [Compilation for x86; Compilation for ARM] : [Compilation for x86]
+
+$settings.compilerOptions:={components: $components ; targets: $compilationTarget}
 
 // Define the 4D Server path
 $settings.sourceAppFolder:=Folder(fk documents folder).folder("4D v20.0/4D Server.app")
