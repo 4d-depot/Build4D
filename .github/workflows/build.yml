@@ -54,7 +54,7 @@ jobs:
           version: ${{env.TOOL4D_VERSION}}
           actions: "build,pack"
           build: ${{env.TOOL4D_BUILDNUMBER}}
-          #token: ${{ secrets.DLTK }}
+          token: ${{ secrets.TOOL4D_DL_TOKEN }}
           ignore-warnings: true
 
       - name: 🚚  Copy ${{ github.event.repository.name }}.4dbase to ${{ github.event.repository.name }}_UnitTests/Components directory
@@ -69,7 +69,7 @@ jobs:
           version: ${{env.TOOL4D_VERSION}}
           build: ${{env.TOOL4D_BUILDNUMBER}}
           actions: "build"
-          #token: ${{ secrets.DLTK }}
+          token: ${{ secrets.TOOL4D_DL_TOKEN }}
 
       - name: 🧪 Run Unit Tests
         uses: ./.github/actions/tool4d-action
