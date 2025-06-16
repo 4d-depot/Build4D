@@ -47,7 +47,7 @@ jobs:
           path: .github/actions/tool4d-action
         
       - name: 🏗️  Build ${{ github.event.repository.name }}
-        uses: .github/actions/build4d-action
+        uses: ./.github/actions/build4d-action
         with:
           project: ${{ github.workspace }}/${{ github.event.repository.name }}/Project/${{ github.event.repository.name }}.4DProject
           product-line: ${{env.TOOL4D_PRODUCT_LINE}}
@@ -62,7 +62,7 @@ jobs:
           cp -r ${{ github.event.repository.name }}/build/ ${{ github.event.repository.name }}_UnitTests/Components
 
       - name: 🏗️ Build ${{ github.event.repository.name }}_UnitTests
-        uses: .github/actions/build4d-action
+        uses: ./.github/actions/build4d-action
         with:
           project: ${{ github.workspace }}/${{ github.event.repository.name }}_UnitTests/Project/${{ github.event.repository.name }}_UnitTests.4DProject
           product-line: ${{env.TOOL4D_PRODUCT_LINE}}
@@ -72,7 +72,7 @@ jobs:
           token: ${{ secrets.DLTK }}
 
       - name: 🧪 Run Unit Tests
-        uses: .github/actions/tool4d-action
+        uses: ./.github/actions/tool4d-action
         with:
           project: ${{ github.event.repository.name }}_UnitTests/Project/${{ github.event.repository.name }}_UnitTests.4DProject
           product-line: ${{env.TOOL4D_PRODUCT_LINE}}
