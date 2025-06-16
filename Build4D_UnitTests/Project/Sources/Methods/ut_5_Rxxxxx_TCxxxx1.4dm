@@ -14,8 +14,8 @@ logGitHubActions(Current method name)
 $settings:=New object()
 $settings.formulaForLogs:=Formula(logGitHubActions($1))
 $settings.destinationFolder:="./Test/"
-$settings.license:=Storage.settings.licenseServer
-$settings.xmlKeyLicense:=Storage.settings.xmlKeyLicense
+//$settings.license:=Storage.settings.licenseServer
+//$settings.xmlKeyLicense:=Storage.settings.xmlKeyLicense
 $settings.sourceAppFolder:=(Is macOS) ? Folder(Storage.settings.macServer) : Folder(Storage.settings.winServer)
 $settings.buildName:="myApp"
 $settings.publishName:="myServer"  // utilité ? demander à moussa ?

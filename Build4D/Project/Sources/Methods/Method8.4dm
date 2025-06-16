@@ -32,10 +32,11 @@ $settings.signApplication.macCertificate:="Developer ID Application: CEDRIC GARE
 
 
 // Define the embedded app path path
-$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Volume Desktop.app")
+//$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Volume Desktop.app")
+$settings.sourceAppFolder:=Folder(Application file; fk platform path).parent.folder("4D Server.app")
 
 // Launch the build
-$build:=cs.Standalone.new($settings)
+$build:=cs.Server.new($settings)
 $success:=$build.build()
 
 If ($success)

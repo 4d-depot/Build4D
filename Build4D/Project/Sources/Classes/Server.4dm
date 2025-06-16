@@ -50,21 +50,33 @@ Class constructor($customSettings : Object)
 		End if 
 		
 		//Checking license
-		If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
+		
+		If (This._hasLicenses())
+			
 			This._log(New object(\
 				"function"; "License file checking"; \
-				"message"; "License file is not defined"; \
-				"severity"; Information message))
-		Else 
-			If (Not(This.settings.license.exists))
-				//This._validInstance:=False
-				This._log(New object(\
-					"function"; "License file checking"; \
-					"message"; "License file doesn't exist"; \
-					"severity"; Error message; \
-					"path"; This.settings.license.path))
-			End if 
+				"message"; "License file exist"; \
+				"severity"; Information message; \
+				"Licenses"; This.settings.license.name+" "+This.settings.xmlKeyLicense.name))
+			
+			
 		End if 
+		
+		//If ((This.settings.license=Null) || (Not(OB Instance of(This.settings.license; 4D.File))))
+		//This._log(New object(\
+			"function"; "License file checking"; \
+			"message"; "License file is not defined"; \
+			"severity"; Information message))
+		//Else 
+		//If (Not(This.settings.license.exists))
+		////This._validInstance:=False
+		//This._log(New object(\
+			"function"; "License file checking"; \
+			"message"; "License file doesn't exist"; \
+			"severity"; Error message; \
+			"path"; This.settings.license.path))
+		//End if 
+		//End if 
 		
 		
 		//Checking source app
@@ -344,6 +356,8 @@ $status        Boolean       out          True if licenses are associated in the
 ....................................................................................
 	
 */
+	
+	
 	
 Function _hasLicenses : Boolean
 	
