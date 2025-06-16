@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ windows-lates,macos-latest]
+        os: [ windows-latest,macos-latest]
     runs-on: ${{ matrix.os }}
   
     steps:
@@ -37,17 +37,17 @@ jobs:
         with: 
           repository: 4d/build4d-action@main
           token: ${{ secrets.GH_4D_ACTION_TOKEN }}
-          path: .github/actions/
+          path: .github/actions/build4d-action
 
       - name: Checkout tool4d-action
         uses:  actions/checkout@v4
         with: 
           repository: 4d/tool4d-action@main
           token: ${{ secrets.GH_4D_ACTION_TOKEN }}
-          path: .github/actions/
+          path: .github/actions/tool4d-action
         
       - name: 🏗️  Build ${{ github.event.repository.name }}
-        uses: .github/actions/4d/build4d-action
+        uses: .github/actions/build4d-action
         with:
           project: ${{ github.workspace }}/${{ github.event.repository.name }}/Project/${{ github.event.repository.name }}.4DProject
           product-line: ${{env.TOOL4D_PRODUCT_LINE}}
@@ -62,7 +62,7 @@ jobs:
           cp -r ${{ github.event.repository.name }}/build/ ${{ github.event.repository.name }}_UnitTests/Components
 
       - name: 🏗️ Build ${{ github.event.repository.name }}_UnitTests
-        uses: .github/actions/4d/build4d-action
+        uses: .github/actions/build4d-action
         with:
           project: ${{ github.workspace }}/${{ github.event.repository.name }}_UnitTests/Project/${{ github.event.repository.name }}_UnitTests.4DProject
           product-line: ${{env.TOOL4D_PRODUCT_LINE}}
@@ -72,7 +72,7 @@ jobs:
           token: ${{ secrets.DLTK }}
 
       - name: 🧪 Run Unit Tests
-        uses: .github/actions/4d/tool4d-action
+        uses: .github/actions/tool4d-action
         with:
           project: ${{ github.event.repository.name }}_UnitTests/Project/${{ github.event.repository.name }}_UnitTests.4DProject
           product-line: ${{env.TOOL4D_PRODUCT_LINE}}
