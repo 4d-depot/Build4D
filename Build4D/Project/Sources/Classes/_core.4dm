@@ -583,8 +583,8 @@ Function _includePaths($pathsObj : Collection) : Boolean
 				return False
 			Else 
 				If ((Value type($pathObj.source)=Is text) || (OB Instance of($pathObj.source; 4D.Folder)) || (OB Instance of($pathObj.source; 4D.File)))
-					//$sourcePath:=This._resolvePath($pathObj.source; This._currentProjectPackage)
-					$sourcePath:=This._resolvePath($pathObj.source; This._projectPackage)
+					$sourcePath:=This._resolvePath($pathObj.source; This._currentProjectPackage)
+					//$sourcePath:=This._resolvePath($pathObj.source; This._projectPackage)
 				Else 
 					This._log(New object(\
 						"function"; "Paths include"; \
