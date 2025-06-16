@@ -35,14 +35,14 @@ jobs:
       - name: Checkout build4d-action
         uses:  actions/checkout@v4
         with: 
-          repository: 4d/build4d-action@main
+          repository: 4d/build4d-action
           token: ${{ secrets.GH_4D_ACTION_TOKEN }}
           path: .github/actions/build4d-action
 
       - name: Checkout tool4d-action
         uses:  actions/checkout@v4
         with: 
-          repository: 4d/tool4d-action@main
+          repository: 4d/tool4d-action
           token: ${{ secrets.GH_4D_ACTION_TOKEN }}
           path: .github/actions/tool4d-action
         
@@ -69,7 +69,7 @@ jobs:
           version: ${{env.TOOL4D_VERSION}}
           build: ${{env.TOOL4D_BUILDNUMBER}}
           actions: "build"
-          token: ${{ secrets.DLTK }}
+          #token: ${{ secrets.DLTK }}
 
       - name: 🧪 Run Unit Tests
         uses: ./.github/actions/tool4d-action
