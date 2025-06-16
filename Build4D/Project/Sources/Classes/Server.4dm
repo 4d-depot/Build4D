@@ -486,7 +486,6 @@ Function _fix_settings : Boolean
 				
 				If ([8002].indexOf(This.phpPort)<0)
 					DOM SET XML ATTRIBUTE($element; "port_number"; This.phpPort)
-					
 				End if 
 				
 				var $general : Text
@@ -496,7 +495,6 @@ Function _fix_settings : Boolean
 				If (This._is_xml_reference($general))
 				Else 
 					$general:=DOM Create XML element($xml; "com.4d/general")
-					
 					
 				End if 
 				
@@ -750,7 +748,6 @@ Function _fix_settings : Boolean
 							DOM SET XML ATTRIBUTE($rest; "launch_at_startup"; This.settings.listeners.rest.launch_at_startup)
 						End if 
 						
-						
 					End if 
 					
 					
@@ -927,7 +924,7 @@ Function build() : Boolean
 		
 		If (OB Instance of(This.settings.macOSClientArchive; 4D.File))  //#2062
 			
-			This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
+			This.settings.macOSClientArchive.copyTo($Upgrade4DClient)
 			
 			$hasClients:=True
 			
@@ -935,7 +932,7 @@ Function build() : Boolean
 		
 		If (OB Instance of(This.settings.windowsClientArchive; 4D.File))  //#2063
 			
-			This.settings.windowsClientArchive.moveTo($Upgrade4DClient)
+			This.settings.windowsClientArchive.copyTo($Upgrade4DClient)
 			
 			$hasClients:=True
 			

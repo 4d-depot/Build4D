@@ -80,6 +80,8 @@ Class constructor($target : Text; $customSettings : Object)
 				"message"; "Project file doesn't exist, instanciated object is unusable."; \
 				"severity"; Error message))
 		End if 
+	Else 
+		
 	End if 
 	
 	This._projectPackage:=This._projectFile.parent.parent
