@@ -1,4 +1,7 @@
+# Important
 
+This branch is the 20-R8 of 4D.
+Choose the appropriate branch for your version of 4D.
 
 # Build4D
 
