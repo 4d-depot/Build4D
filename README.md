@@ -1,4 +1,7 @@
-Important -> Stable version select 4D 20.x branch
+# Important
+
+This branch is the 20-R9 of 4D.
+Choose the appropriate branch for your version of 4D.
 
 
 # Build4D
