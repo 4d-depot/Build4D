@@ -769,6 +769,7 @@ Function _create4DZ() : Boolean
 		$zipStructure:=New object
 		$zipStructure.files:=New collection($structureFolder.folder("Project"))
 		$zipStructure.encryption:=(This.settings.obfuscated) ? -1 : ZIP Encryption none
+		
 		$return:=ZIP Create archive($zipStructure; $structureFolder.file(This.settings.buildName+".4DZ"))
 		
 		If ($return.success)
@@ -1510,3 +1511,76 @@ Function _is_xml_reference($reference : Text) : Boolean
 		return False
 		
 	End try
+	
+	
+	
+	
+	
+Function _file_system_path_to_object($path : Text) : Object
+	var $formula : 4D.Function
+	var $cmd : Text
+	var $result : Object
+	
+	
+	Try
+		
+		$cmd:="Path to object:C1547(\""+$path+"\")"
+		
+		$formula:=Formula from string($cmd; sk execute in host database)
+		
+		// test path type file or folder
+		$result:=$formula.call()
+		
+		
+		// evaluate the plateformPath
+		If ($result.isFolder)
+			$cmd:="Folder:C1567(\""+Object to path($result)+"\").platformPath"
+			$formula:=Formula from string($cmd; sk execute in host database)
+			$result.platformPath:=$formula.call()
+		Else 
+			$cmd:="File:C1566(\""+Object to path($result)+"\").platformPath"
+			$formula:=Formula from string($cmd; sk execute in host database)
+			$result.platformPath:=$formula.call()
+		End if 
+		
+		
+		//convert the full path to object
+		$cmd:="Path to object:C1547(\""+$result.platformPath+"\")"
+		$formula:=Formula from string($cmd; sk execute in host database)
+		$result:=$formula.call()
+		
+		
+		//append the full platform path
+		$result.platformPath:=Object to path($result)
+		
+		$result.isFile:=Not($result.isFolder)
+		
+		//associate file or folder instance
+		//correct posix path
+		//correct parent folder
+		If ($result.isFolder)
+			$result.folder:=Folder($result.platformPath; fk platform path)
+			$result.path:=$result.folder.path
+			$result.parentFolder:=$result.folder.parent
+		Else 
+			$result.file:=File($result.platformPath; fk platform path)
+			$result.path:=$result.file.path
+			$result.parentFolder:=$result.file.parent
+		End if 
+		
+	Catch
+		
+		$result.errors:=Last errors
+		
+	End try
+	
+	$result:=$result || {isFolder: False; isFile: False}
+	
+	return $result
+	
+	
+	
+	
+	
+	
+	

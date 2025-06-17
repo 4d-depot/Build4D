@@ -923,22 +923,17 @@ Function build() : Boolean
 		
 		// ACI0105675 update
 		
-		var $formula : 4D.Function
-		var $cmd : Text
+		var $archive : Object
 		
-		Case of 
-				
-			: (Value type(This.settings.macOSClientArchive)=Is text) && (Position(Folder separator; This.settings.macOSClientArchive)>0) && (Test path name(This.settings.macOSClientArchive)=Is a document)
-				This.settings.macOSClientArchive:=File(This.settings.macOSClientArchive; fk platform path)
-				
-			: (Value type(This.settings.macOSClientArchive)=Is text) && (Position("/"; This.settings.macOSClientArchive)=1)
-				$cmd:="File:C1566(\""+This.settings.macOSClientArchive+"\").platformPath"
-				$formula:=Formula from string($cmd; sk execute in host database)
-				This.settings.macOSClientArchive:=File($formula.call(); fk platform path)
-				
-		End case 
 		
-		If (OB Instance of(This.settings.macOSClientArchive; 4D.File) && (This.settings.macOSClientArchive.exists))  //#2062
+		If (Value type(This.settings.macOSClientArchive)=Is text)
+			
+			$archive:=This._file_system_path_to_object(This.settings.macOSClientArchive)
+			This.settings.macOSClientArchive:=$archive.file
+			
+		End if 
+		
+		If (OB Instance of(This.settings.macOSClientArchive; 4D.File) && This.settings.macOSClientArchive.exists)  //#2062
 			
 			This.settings.macOSClientArchive.copyTo($Upgrade4DClient)
 			
@@ -948,20 +943,17 @@ Function build() : Boolean
 		
 		// ACI0105675 update
 		
-		Case of 
-				
-			: (Value type(This.settings.windowsClientArchive)=Is text) && (Position(Folder separator; This.settings.windowsClientArchive)>0) && (Test path name(This.settings.windowsClientArchive)=Is a document)
-				This.settings.windowsClientArchive:=File(This.settings.windowsClientArchive; fk platform path)
-				
-			: (Value type(This.settings.windowsClientArchive)=Is text) && (Position("/"; This.settings.windowsClientArchive)=1)
-				$cmd:="File:C1566(\""+This.settings.windowsClientArchive+"\").platformPath"
-				$formula:=Formula from string($cmd; sk execute in host database)
-				This.settings.windowsClientArchive:=File($formula.call(); fk platform path)
-				
-		End case 
+		
+		If (Value type(This.settings.windowsClientArchive)=Is text)
+			
+			$archive:=This._file_system_path_to_object(This.settings.windowsClientArchive)
+			This.settings.windowsClientArchive:=$archive.file
+			
+		End if 
 		
 		
-		If (OB Instance of(This.settings.windowsClientArchive; 4D.File) && (This.settings.windowsClientArchive.exists))  //#2063
+		
+		If (OB Instance of(This.settings.windowsClientArchive; 4D.File) && This.settings.windowsClientArchive.exists)  //#2063
 			
 			This.settings.windowsClientArchive.copyTo($Upgrade4DClient)
 			
