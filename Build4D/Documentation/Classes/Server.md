@@ -54,8 +54,8 @@ $customSettings is an object that contains the following parameters:
 |deletePaths[] | Collection of Folder, File, or Strings | Collection of paths to folders and files to be deleted (relative to the built project/absolute/filesystem strings).|
 |excludeModules| Collection of Strings | Collection of module names to exclude from final application. The module names can be found in the "BuildappOptionalModules.json" file in the resources of the 4D application.|
 |macCompiledProject| Folder or String | Specifies the path to the folder containing the structure compiled on macOS for silicon and Intel.|
-|macOSClientArchive| Folder or String | Specifies the path of the .4darchive macOS file to be integrated into the built server application.|
-|windowsClientArchive| Folder or String | Specifies the path of the .4darchive Windows file to be integrated into the built server application.|
+|macOSClientArchive| File or String | Specifies the path (4D.File, platform path, posix path) of the .4darchive macOS file to be integrated into the built server application.|
+|windowsClientArchive| File or String | Specifies the path (4D.File, platform path, posix path) of the .4darchive Windows file to be integrated into the built server application.|
 |<b>license</b>| File or String | 4D OEM Server license file (relative to the built project/absolute/filesystem) or following constant : <u>License Automatic mode</u>, <u>License Evaluation mode</u>.|
 |xmlKeyLicense| File or String | 4D OEM XML Keys license file (relative to the built project/absolute/filesystem).|
 |<b><u>signApplication</u></b>| Object | Object containing the contents of the application signing.|
