@@ -564,6 +564,23 @@ Function build() : Boolean
 		
 		$Upgrade4DClient.create()
 		
+		// ACI0105675 update
+		
+		var $formula : 4D.Function
+		var $cmd : Text
+		
+		Case of 
+				
+			: (Value type(This.settings.macOSClientArchive)=Is text) && (Position(Folder separator; This.settings.macOSClientArchive)>0) && (Test path name(This.settings.macOSClientArchive)=Is a document)
+				This.settings.macOSClientArchive:=File(This.settings.macOSClientArchive; fk platform path)
+				
+			: (Value type(This.settings.macOSClientArchive)=Is text) && (Position("/"; This.settings.macOSClientArchive)=1)
+				$cmd:="File:C1566(\""+This.settings.macOSClientArchive+"\").platformPath"
+				$formula:=Formula from string($cmd; sk execute in host database)
+				This.settings.macOSClientArchive:=File($formula.call(); fk platform path)
+				
+		End case 
+		
 		If (OB Instance of(This.settings.macOSClientArchive; 4D.File))  //#2062
 			
 			This.settings.macOSClientArchive.moveTo($Upgrade4DClient)
@@ -571,6 +588,18 @@ Function build() : Boolean
 			$hasClients:=True
 			
 		End if 
+		
+		Case of 
+				
+			: (Value type(This.settings.windowsClientArchive)=Is text) && (Position(Folder separator; This.settings.windowsClientArchive)>0) && (Test path name(This.settings.windowsClientArchive)=Is a document)
+				This.settings.windowsClientArchive:=File(This.settings.windowsClientArchive; fk platform path)
+				
+			: (Value type(This.settings.windowsClientArchive)=Is text) && (Position("/"; This.settings.windowsClientArchive)=1)
+				$cmd:="File:C1566(\""+This.settings.windowsClientArchive+"\").platformPath"
+				$formula:=Formula from string($cmd; sk execute in host database)
+				This.settings.windowsClientArchive:=File($formula.call(); fk platform path)
+				
+		End case 
 		
 		If (OB Instance of(This.settings.windowsClientArchive; 4D.File))  //#2063
 			
