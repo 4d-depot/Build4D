@@ -1,3 +1,8 @@
+# Important
+
+This branch is the 20-R7 of 4D.
+Choose the appropriate branch for your version of 4D.
+
 # Build4D
 
 Welcome to Build4D! This 4D project allows you to compile, build, and sign:
