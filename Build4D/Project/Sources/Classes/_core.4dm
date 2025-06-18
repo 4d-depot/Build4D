@@ -1134,10 +1134,13 @@ Function _generateLicense($appType : Integer) : Boolean
 		: ((Value type(This.settings.license)=Is text) && (This.settings.license=License Automatic mode))
 			
 			Case of 
+					
 				: ($appType=4D Desktop)
 					$status:=Create deployment license(This.settings.destinationFolder)
+					//$status:=Create deployment license(This.settings.destinationFolder; 4D Desktop)
 					
 				: ($appType=4D Server)
+					//$status:=Create deployment license(This.settings.destinationFolder; 4D Server)
 					$status:=Create deployment license(This.settings.destinationFolder; *)
 					
 				Else 
