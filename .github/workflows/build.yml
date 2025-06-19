@@ -10,8 +10,8 @@ on:
     paths-ignore: ['**.md', '.vscode/**','docs/**','pictures/**']
 
 env:
-  TOOL4D_PRODUCT_LINE: '20Rx'
-  TOOL4D_VERSION: '20R8'
+  TOOL4D_PRODUCT_LINE: 'vcs'
+  TOOL4D_VERSION: 'vcs'
   TOOL4D_BUILDNUMBER : 'official'
 
 jobs:
@@ -20,7 +20,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ windows-latest,macos-latest]
+         os: [ windows-latest,macos-latest]
+
     runs-on: ${{ matrix.os }}
   
     steps:
